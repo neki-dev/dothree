@@ -48,20 +48,19 @@ body {
 }
 .error a {
 	border: none;
-	background: url('../images/icons/home.png') left 0 no-repeat;
 	color: #444;
 	opacity: 0.7;
 	display: inline-block;
 	text-decoration: none;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 14px;
 	-moz-transition: all 0.3s linear;
 	-webkit-transition: all 0.3s linear;
 	-o-transition: all 0.3s linear;
 	-ms-transition: all 0.3s linear;
 	transition: all 0.3s linear;
-	padding-left: 37px;
 	line-height: 25px;
+	text-transform: uppercase;
 	margin-bottom: 100px;
 }
 .error a:hover {

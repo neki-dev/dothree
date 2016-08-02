@@ -7,3 +7,5 @@ SquareInCube - логическая онлайн игра. В целом она 
 Победителем считается тот, кто первым выставит горизонтально, вертикально или диагонально три своих блока.
 
 ![screenshot of sample](http://s8.hostingkartinok.com/uploads/images/2016/08/c980abc4f9043c962795c27890a17aa0.jpg)
+
+Copyright (c) 2014 squareInCube, Inc. (Essle Jaxcate developed) http://squareincube.herokuapp.com | http://essle.ru

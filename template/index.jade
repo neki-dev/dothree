@@ -1,0 +1,50 @@
+doctype html
+html(lang='ru')
+	head
+		meta(charset='utf-8')
+		meta(name='viewport' content='width=device-width, height=device-height') 
+		meta(name='description' content='SquareInCube - логическая онлайн игра')
+		title SquareInCube
+		script(type='text/javascript' src='/javascripts/jquery.js')
+		script(type='text/javascript' src='/javascripts/index.js')
+		link(rel='stylesheet' href='/stylesheets/index.css')
+		link(rel='shortcut icon' href='/favicon.ico')
+	body
+		div(class='wrapper')
+			div(id='logotype')
+			div(id='content')
+				div(class='tab' id='tab-play')
+					h3 Создать новую игру
+					form(method='post' action='' id='createGame')
+						div(class='overflow')
+							input(type='text' name='name' placeholder='Название игры' maxlength='32')
+							input(type='text' value='3 игрока' disabled id='counterValue')
+							div(class='counterBox')
+								div(id='plus')
+								div(id='minus')
+							button ок
+					h3 Найти существующую
+					form(method='post' action='' id='searchGame')
+						input(type='text' name='name' placeholder='Название игры' maxlength='32')
+						button искать
+					h4 Последние 10 игр
+					div(id='gamelist') ...
+				div(class='tab' id='tab-main')
+					div(id='playButton') Начать игру
+					h3 Правила игры
+					div(class='text desc')
+						i SquareInCube 
+						| - логическая онлайн игра. В целом она похожа на смесь игр 'тетрис' и 'крестики-нолики'.
+						br
+						br
+						| В игре участвует от двух до четырех игроков. У каждого свой цвет блоков. Игроки по очереди ставят свой блок в игровом мире. Блоки нельзя ставить в воздух, а только на основание, блоки игроков и блоки мира. 
+						br
+						| Победителем считается тот, кто первым выставит горизонтально, вертикально или диагонально три своих блока.
+					h3 Разработка
+					div(class='text')
+						a(href='https://vk.com/essle' rel='noindex' target='_blank')
+							img(src='images/icons/vk.png' alt='')
+							b Галадий Никита
+						span ×
+						a(href='https://essle.ru' rel='noindex' target='_blank')
+							i www.essle.ru

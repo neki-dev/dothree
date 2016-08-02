@@ -1,0 +1,247 @@
+* {
+	outline: none;
+	margin: 0;
+	border: none;
+	padding: 0;
+}
+
+body {
+	background: #eee;
+	font: 12px 'Lucida Grande', 'Arial', 'Tahoma', 'Verdana', 'Sans-serif';
+	color: #444;
+}
+
+a {
+	display: inline-block;
+	color: #A63A2E;
+	border-bottom: 1px dotted transparent;
+	text-decoration: none;
+}
+a:hover {
+	border-color: #A63A2E;
+}
+
+.overflow {
+	overflow: hidden;
+}
+
+.wrapper {
+	width: 400px;
+	margin: 100px auto;
+}
+
+#logotype {
+	background: url('../images/logotype.png') no-repeat;
+	width: 160px;
+	height: 60px;
+	margin: 0 auto;
+}
+#logotype:hover {
+	cursor: pointer;
+}
+
+#playButton {
+	background: #34495e url('../images/icons/play.png') 80px center no-repeat;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	margin: 50px 0 30px 0;
+	text-transform: uppercase;
+	color: #fff;
+	font-size: 20px;
+	padding: 17px 0 15px 0;
+	border-bottom: 6px solid #111;
+	font-weight: bold;
+	text-align: center;
+}
+#playButton.animate {
+	-moz-transition: all 0.3s linear;
+	-webkit-transition: all 0.3s linear;
+	-o-transition: all 0.3s linear;
+	-ms-transition: all 0.3s linear;
+	transition: all 0.3s linear;
+}
+#playButton:hover {
+	cursor: pointer;
+	background-color: #e74c3c;
+	border-color: #c0392b;
+}
+
+#content {
+	overflow: hidden;
+	width: 300px;
+	margin: 0 auto;
+}
+#content .tab {
+	display: none;
+}
+#content .tab h4 {
+	margin-bottom: 10px;
+}
+
+h3 {
+	display: block;
+	font-size: 20px;
+}
+
+#tab-play {
+
+}
+#tab-play h3:first-child {
+	margin-top: 50px;
+}
+#tab-play h3 {
+	font-size: 16px;
+	margin: 25px 0 10px 0;
+}
+
+.desc {
+	text-align: justify;
+}
+.text {
+	margin: 10px 0 20px 0;
+	overflow: hidden;
+}
+.text span {
+	float: left;
+	margin: 2px;
+}
+.text a {
+	overflow: hidden;
+	float: left;
+}
+.text a img {
+	float: left;
+}
+.text a b,
+.text a i {
+	float: left;
+	margin: 1px 5px;
+}
+
+form {
+	overflow: hidden;
+}
+form input,
+form button {
+	font: 12px 'Lucida Grande', 'Arial', 'Tahoma', 'Verdana', 'Sans-serif';
+	height: 31px;
+	line-height: 31px;
+	float: left;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	font-weight: bold;
+}
+form input {
+	background: #fff;
+	border: 1px solid #ccc;
+	color: #777;
+	width: 126px;
+	padding: 0 12px;
+}
+form button {
+	margin-left: 5px;
+	background: #aaa;
+	color: #fff;
+	-moz-transition: all 0.3s linear;
+	-webkit-transition: all 0.3s linear;
+	-o-transition: all 0.3s linear;
+	-ms-transition: all 0.3s linear;
+	transition: all 0.3s linear;
+	height: 33px;
+	width: 37px;
+	text-align: center;
+}
+form button:hover {
+	background: #e74c3c;
+	cursor: pointer;
+}
+form .error {
+	margin-top: 10px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	padding: 8px 12px 8px 42px;
+	background: #EBD1D1 url('../images/icons/error.png') 10px center no-repeat;
+	color: #c0392b;
+	font-weight: bold;
+}
+
+form #counterValue {
+	width: 55px;
+	margin-left: 4px;
+}
+form .counterBox {
+	float: left;
+	border: 1px solid #ccc;
+	border-left: none;
+	width: 23px;
+	height: 31px;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-bottomright: 3px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	margin-left: -3px;
+	overflow: hidden;
+}
+form .counterBox div {
+	height: 15px;
+	width: 20px;
+	margin-left: 3px;
+	opacity: 0.6;
+}
+form .counterBox div:hover {
+	cursor: pointer;
+	opacity: 1;
+}
+form .counterBox div#plus {
+	border-bottom: 1px solid #ccc;
+	background: url('../images/plus.png');
+}
+form .counterBox div#minus {
+	background: url('../images/minus.png');
+}
+
+form#searchGame {
+	margin-bottom: 20px;
+}
+form#searchGame input {
+	width: 203px;
+}
+form#searchGame button {
+	width: 66px;
+}
+
+#gamelist {
+	overflow: hidden;
+}
+#gamelist .game {
+	background: #fff;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	padding: 8px 10px;
+	margin-bottom: 3px;
+	overflow: hidden;
+	border-bottom: 2px solid #e0e0e0;
+	color: #777;
+}
+#gamelist .game:hover {
+	cursor: pointer;
+	background: #fafafa;
+}
+#gamelist .game span.name {
+	float: left;
+	font-weight: bold;
+}
+#gamelist .game span.players {
+	float: right;
+}
+#gamelist .game span.date {
+	float: right;
+	color: #aaa;
+	margin-left: 10px;
+}

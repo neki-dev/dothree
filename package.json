@@ -1,0 +1,21 @@
+{
+	"name": "SquareInCube",
+	"version": "1.0.2",
+	"description": "Online logic game",
+	"author": "Essle Jaxcate <essle.55@yandex.ru> (http://essle.ru/)",
+	"main": "index.js",
+	"engines": {
+		"node": "0.10.x",
+		"npm": "1.4.x"
+	},
+	"scripts": {
+		"start": "node index.js"
+	},
+	"dependencies": {
+		"express": "*",
+		"jade": "*",
+		"socket.io": "*",
+		"http": "*",
+		"body-parser": "*"
+	}
+}

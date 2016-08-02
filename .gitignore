@@ -1,4 +1,6 @@
 .CHANGDO
+/node_modules
 *.psd
 *.eps
 *.js.source
+install.bat

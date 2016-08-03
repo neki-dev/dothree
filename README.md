@@ -1,5 +1,5 @@
 # squareInCube
-### `Ссылка на игру` - http://squareincube.herokuapp.com
+### `Ссылка на игру` - http://sic.essle.ru
 
 SquareInCube - логическая онлайн игра. В целом она похожа на смесь игр 'тетрис' и 'крестики-нолики'.
 
@@ -8,4 +8,4 @@ SquareInCube - логическая онлайн игра. В целом она 
 
 ![screenshot of sample](http://s8.hostingkartinok.com/uploads/images/2016/08/c980abc4f9043c962795c27890a17aa0.jpg)
 
-Copyright (c) 2014 squareInCube, Inc. (Essle Jaxcate developed) http://squareincube.herokuapp.com | http://essle.ru
+Copyright (c) 2014 squareInCube, Inc. (Essle Jaxcate developed) http://sic.essle.ru

@@ -68,7 +68,7 @@ $(function() {
 			playerSlot = data.slot;
 			getStep = data.game.step;
 
-			OBJECT.title.html('SquareInCube # ' + data.game.name);
+			OBJECT.title.html('squareInCube # ' + data.game.name);
 
 			OBJECT.main.html('\
 				<div class="worldBody">\

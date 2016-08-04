@@ -118,6 +118,12 @@ h3 {
 	float: left;
 	margin: 1px 5px;
 }
+.text a.github {
+	margin-left: 21px;
+}
+.text a.github b {
+	margin: 1px 0;
+}
 
 form {
 	overflow: hidden;

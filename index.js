@@ -216,8 +216,6 @@ var PLAYER = {
 
 	send: function(player, key, data) {
 
-		console.log(player);
-
 		player.emit('event:' + key, data);
 
 	}
@@ -345,12 +343,19 @@ var EVENT = {
 
 			echo('all players disconnected from game `' + GAME.DATA[data.game].id + '`');
 
-			GAME.DATA[data.game].ctimer = setInterval(function() {
+			/* TODO
+			**
+			** Drop server when page is refreshed the last player in game
+			*/
+
+			/*GAME.DATA[data.game].ctimer = setInterval(function() {
 				if(GAME.playersCount(data.game) === 0) {
 					clearInterval(GAME.DATA[data.game].ctimer);
 					GAME.destroy(data.game);
 				}
-			}, 5000);
+			}, 5000);*/
+
+			GAME.destroy(data.game);
 			
 		} else {
 

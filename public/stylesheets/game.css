@@ -68,82 +68,16 @@ body {
 }
 
 .worldBody {
-	display: inline-block;
-	vertical-align: middle;
-	height: 546px;
-	padding: 50px;
-	width: 840px;
-}
-.worldBodySizer {
-	display: inline-block;
-	vertical-align: middle;
-    height: 100%;
-    width: 0;
+	margin: 0 auto;
+	overflow: hidden;
+	padding: 50px 0;
 }
 
 #world {
-	height: 480px;
-	width: 100%;
-	overflow: hidden;
-}
-#world .object {
-	position: relative;
-	width: 56px;
-	height: 56px;
-	float: left;
-	border: 2px solid #eee;
+	background: #eee;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	-moz-border-radius: 5px;
-}
-#world .object.chance {
-	background: url('../images/chance.png') center center no-repeat;
-}
-#world .object.chance:hover {
-	cursor: pointer;
-}
-#world .object.chance:hover::before,
-#world .object.win::before {
-	position: absolute;
-	content: ' ';
-	-webkit-border-radius: 50%;
-	border-radius: 50%;
-	-moz-border-radius: 50%;
-	width: 20px;
-	height: 20px;
-	left: 50%;
-	top: 50%;
-	margin: -10px 0 0 -10px;
-}
-#world .object.chance:hover::before {
-	background: #cfcfcf;
-}
-#world .object.win::before {
-	background: #fff;
-	-webkit-animation: winner 1.0s infinite linear;
-	animation: winner 1.0s infinite linear;
-}
-@-webkit-keyframes winner {
-	0%,
-	100% {
-		opacity: 0;
-		filter: alpha(opacity=0);
-	}
-	50% {
-		opacity: 1;
-		filter: alpha(opacity=100);
-	}
-}
-@keyframes winner {
-	0%,
-	100% {
-		opacity: 0;
-		filter: alpha(opacity=0);
-	}
-	50% {
-		opacity: 1;
-		filter: alpha(opacity=100);
-	}
 }
 
 #chat {
@@ -153,12 +87,12 @@ body {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	background: #fafafa;
-	margin-top: 5px;
+	margin: 5px 50px 0 50px;
 }
 #chat .messages {
 	float: left;
 	height: 85px;
-	width: 582px;
+	width: 523px;
 	margin: 7px 7px 7px 10px;
 	overflow-y: scroll;
 }
@@ -182,7 +116,7 @@ body {
 #chat .messages .message span {
 	float: left;
 	word-wrap: break-word;
-	width: 540px;
+	width: 480px;
 	margin-left: 5px;
 }
 #chat .tools {
@@ -220,12 +154,12 @@ body {
 }
 
 #data {
-	margin-top: 20px;
 	height: 46px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	background: #fff;
+	margin: 10px 50px 0 50px;
 }
 #data .mark {
 	float: left;
@@ -341,33 +275,10 @@ body {
 	float: right;
 	margin-top: 9px;
 	color: #fff;
+	text-align: left;
 }
 #awaiting .modal span.text b {
 	text-transform: uppercase;
 	font-size: 24px;
 	display: block;
-}
-
-.player-red {
-	background-color: #c0392b;
-}
-.player-green {
-	background-color: #27ae60;
-}
-.player-blue {
-	background-color: #2980b9;
-}
-.player-purple {
-	background-color: #8e44ad;
-}
-#world .object.object-air {
-}
-#world .object.object-high {
-	background-color: #555;
-}
-#world .object.object-medium {
-	background-color: #999;
-}
-#world .object.object-easy {
-	background-color: #ccc;
 }

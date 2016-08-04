@@ -1,13 +1,23 @@
 $(function() {
 
-	var CONST_PLAYER_SHIFT = 101,
-		CONST_OBJECT_SHIFT = 100;
-
 	var socket = io.connect(),
 		playerSlot = undefined,
 		gameToggle = true,
 		gameFinished = false,
-		getStep = 1;
+		getStep = 1,
+		activePlace = undefined,
+		localWorld = [],
+		imageCache = {};
+
+	var canvasInit,
+		canvas;
+
+	var settings = {};
+
+	var CLASSES = {
+		players: [ '#DE212E', '#85C918', '#0780B0', '#BF5EB2' ],
+		objects: [ '#eeeeee', '#444444', '#777777', '#aaaaaa' ]
+	};
 
 	/*
 	**	Objects
@@ -50,6 +60,11 @@ $(function() {
 				return;
 			}
 
+			settings = data.settings;
+			settings.worldSize = data.game.worldSize;
+			settings.mapSize = data.game.mapSize;
+			settings.boxSize = data.game.boxSize;
+
 			playerSlot = data.slot;
 			getStep = data.game.step;
 
@@ -57,7 +72,7 @@ $(function() {
 
 			OBJECT.main.html('\
 				<div class="worldBody">\
-					<div id="world"></div>\
+					<canvas id="world"></canvas>\
 					<div id="data">\
 						<div class="mark">\
 							<span>Игроки</span>\
@@ -65,15 +80,15 @@ $(function() {
 						</div>\
 						<div class="mark">\
 							<span>Вы</span>\
-							<div class="point ' + getObjectClass(data.slot + CONST_OBJECT_SHIFT) + '"></div>\
+							<div class="point" style="background:' + getObjectClass(-data.slot) + '"></div>\
 						</div>\
 						<div class="mark">\
 							<span>Ходит</span>\
-							<div class="point ' + getObjectClass(data.game.step + CONST_OBJECT_SHIFT) + '" id="markStep"></div>\
+							<div class="point" style="background:' + getObjectClass(-data.game.step) + '" id="markStep"></div>\
 						</div>\
 						<div class="mark">\
 							<span>Таймаут хода</span>\
-							<span id="timeout">01:30</span>\
+							<span id="timeout">' + getTimeoutFromSeconds(settings.timeout) + '</span>\
 						</div>\
 						<div class="tools">\
 							<a href="" id="chatToggle">ЧАТ</a>\
@@ -89,28 +104,32 @@ $(function() {
 						</div>\
 					</div>\
 				</div>\
-				<div class="worldBodySizer"></div>\
 			');
 
-			OBJECT.insert([
-				'#world', '#data', '#markStep', '#playersList', '#timeout', '#chatToggle', '#chat'
-			]);
-
-			for(var i = 0; i < data.game.world.length; ++i) {
-				OBJECT.world.append('\
-					<div class="object ' + getObjectClass(data.game.world[i]) + getChance(data, i) + '"></div>\
-				');
-			}
+			canvasInit = document.getElementById('world');
+			canvasInit.width = settings.worldSize.x;
+			canvasInit.height = settings.worldSize.y;
+			canvas = canvasInit.getContext('2d');
 
 			OBJECT.insert([
-				'.object'
+				'#world', '#data', '#markStep', '#playersList', '#timeout', '#chatToggle', '#chat', '.worldBody'
 			]);
 
-			OBJECT.object.on('click', onPlayerAction);
+			OBJECT.worldBody.css({
+				width: settings.worldSize.x + 100
+			})
 
+			localWorld = data.game.world;
+			renderWorld(data.game.world);
+			
 			OBJECT.chat.find('button').on('click', onChatSend);
 			OBJECT.chatToggle.on('click', onChatToggle);
 			OBJECT.chat.find('textarea').keydown(onChatKeyPress);
+			
+			OBJECT.world
+			.on('click', onPlayerAction)
+			.on('mouseleave', onPlayerLeaveMap)
+			.on('mousemove', onPlayerHover);
 
 			OBJECT.loading.remove();
 
@@ -118,15 +137,10 @@ $(function() {
 
 		update: function(data) {
 
-			OBJECT.object.eq(data.place).attr('class', 'object ' + getObjectClass(data.slot + CONST_OBJECT_SHIFT));
+			localWorld = data.world;
+			renderWorld(data.world);
 
-			if(data.place - data.size.x >= 0) {
-				if(data.world[data.place - data.size.x] == 1) {
-					OBJECT.object.eq(data.place-data.size.x).addClass('chance');
-				}
-			}
-
-			updateTimeoutWithStep(data.time, data.step);
+			updateTimeoutWithStep(settings.timeout, data.step);
 
 		},
 
@@ -144,13 +158,8 @@ $(function() {
 
 			OBJECT.markStep.parent().remove();
 			OBJECT.timeout.parent().remove();
-			OBJECT.object.removeClass('chance');
 
 			gameFinished = true;
-
-			for(var i = 0; i < 3; ++i) {
-				OBJECT.object.eq(data.boxes[i]).addClass('win');
-			}
 
 			OBJECT.data.append('\
 				<div class="mark">\
@@ -203,7 +212,7 @@ $(function() {
 
 			messages.append('\
 				<div class="message">\
-					<div class="autor ' + getObjectClass(data.slot + CONST_OBJECT_SHIFT) + '"></div>\
+					<div class="autor" style="background:' + getObjectClass(-data.slot) + '"></div>\
 					<span>' + data.message + '</span>\
 				</div>\
 			');
@@ -248,22 +257,37 @@ $(function() {
 
 	});
 	
-	function onPlayerAction() {		
+	function onPlayerAction(e) {		
 
-		if(!gameToggle || gameFinished) {
-			return;
-		}
-
-		var object = $(this);
-		
-		if(!object.hasClass('chance')) {
+		if(!gameToggle || gameFinished || getStep != playerSlot) {
 			return;
 		}
 
 		socket.emit('action', {
-			place: object.index(),
+			place: { 
+				x: Math.floor(e.offsetX / settings.boxSize), 
+				y: Math.floor(e.offsetY / settings.boxSize)
+			},
 			slot: playerSlot
 		});
+
+	}
+	
+	function onPlayerHover(e) {		
+
+		if(!gameToggle || gameFinished || getStep != playerSlot) {
+			return;
+		}
+
+		activePlace = [ Math.floor(e.offsetX / settings.boxSize), Math.floor(e.offsetY / settings.boxSize) ];
+		renderWorld(localWorld);
+
+	}
+
+	function onPlayerLeaveMap() {
+
+		activePlace = undefined;
+		renderWorld(localWorld);
 
 	}
 
@@ -312,14 +336,53 @@ $(function() {
 	**	Functions
 	*/
 
+	function renderWorld(world) {
+
+		var imageData;
+
+		canvas.clearRect(0, 0, settings.worldSize.x, settings.worldSize.y);
+
+		for(var i = 0; i < settings.mapSize.y; ++i) {
+			for(var k = 0; k < settings.mapSize.x; ++k) {
+
+				canvas.beginPath();
+
+				canvas.fillStyle = getObjectClass(world[i][k]);
+				canvas.fillRect(k * settings.boxSize + 2, i * settings.boxSize + 2, settings.boxSize - 4, settings.boxSize - 4);
+
+				if(world[i][k] < -1000) {
+					canvas.fillStyle = '#fff';
+					canvas.arc(k * settings.boxSize + settings.boxSize / 2, i * settings.boxSize + settings.boxSize / 2, settings.boxSize / 6, 0, 2 * Math.PI);
+					canvas.fill();
+				}
+
+				if(world[i][k] != 1 || (i + 1 < settings.mapSize.y && world[i + 1][k] == 1)) {
+					continue;
+				}
+
+				canvas.fillStyle = '#ddd';
+
+				if(activePlace) {
+					if(activePlace[0] == k && activePlace[1] == i) {
+						canvas.fillStyle = getObjectClass(-playerSlot);
+					}
+				}
+
+				canvas.arc(k * settings.boxSize + settings.boxSize / 2, i * settings.boxSize + settings.boxSize / 2, settings.boxSize / 8, 0, 2 * Math.PI);
+				canvas.fill();
+
+			}
+		}
+
+	}
+
 	function updateTimeoutWithStep(time, step) {
 
-		var s = time % 60;
-		OBJECT.timeout.html('0' + Math.floor(time/60) + ':' + ((s < 10) ? '0' + s : s));
+		OBJECT.timeout.html(getTimeoutFromSeconds(time));
 
-		if(getStep != step){
+		if(getStep != step) {
 			
-			OBJECT.markStep.attr('class', 'point ' + getObjectClass(step + CONST_OBJECT_SHIFT));			
+			OBJECT.markStep.css('background', getObjectClass(-step));			
 
 			if(playerSlot == step) {
 				playSound('step');
@@ -331,38 +394,21 @@ $(function() {
 
 	}
 
-	function getObjectClass(id) {
+	function getTimeoutFromSeconds(seconds) {
 
-		if(id <= CONST_OBJECT_SHIFT) {
-
-			var classes = [
-				'*', 'air', '*', 'high', 'medium', 'easy'
-			];
-
-			return 'object-' + classes[id];
-
-		} else {
-
-			var classes = [
-				'*', 'red', 'green', 'blue', 'purple'
-			];
-
-			return 'player-' + classes[id - CONST_OBJECT_SHIFT];
-		}
+		return '0' + Math.floor(seconds / 60) + ':' + ((seconds % 60 < 10) ? '0' + seconds % 60 : seconds % 60)
 
 	}
 
-	function getChance(data, index) {
+	function getObjectClass(id) {
 
-		if(data.game.world[index] == 1) {
-			if(index + data.size.x > data.game.world.length) {
-				return ' chance';
-			} else if(data.game.world[index + data.size.x] != 1) {
-				return ' chance';
-			}
+		if(id < 0 && id > -1000) { // player
+			return CLASSES.players[-id - 1];
+		} else if(id < -1000) { // win player
+			return CLASSES.players[-id - 1 - 1000];
+		} else { // object
+			return CLASSES.objects[id - 1];
 		}
-
-		return '';
 
 	}
 
@@ -374,7 +420,7 @@ $(function() {
 
 				gameToggle = false;
 
-				OBJECT.body.prepend('\
+				OBJECT.main.append('\
 					<div id="awaiting">\
 						<div class="modal">\
 							<div class="loader"></div>\
@@ -417,7 +463,7 @@ $(function() {
 		for(var i = 0; i < data.maxPlayers; ++i) {
 			OBJECT.playersList.append(
 				data.players[i] ?
-				'<div class="point ' + getObjectClass(i + CONST_PLAYER_SHIFT) + '"></div>' :
+				'<div class="point" style="background:' + getObjectClass(-(i + 1)) + '"></div>' :
 				'<div class="pointEmpty"></div>'
 			);
 		}

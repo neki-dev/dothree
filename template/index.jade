@@ -4,7 +4,7 @@ html(lang='ru')
 		meta(charset='utf-8')
 		meta(name='viewport' content='width=device-width, height=device-height') 
 		meta(name='description' content='SquareInCube - логическая онлайн игра')
-		title SquareInCube
+		title squareInCube
 		script(type='text/javascript' src='/javascripts/jquery.js')
 		script(type='text/javascript' src='/javascripts/index.js')
 		link(rel='stylesheet' href='/stylesheets/index.css')
@@ -17,12 +17,27 @@ html(lang='ru')
 					h3 Создать новую игру
 					form(method='post' action='' id='createGame')
 						div(class='overflow')
-							input(type='text' name='name' placeholder='Название игры' maxlength='32')
-							input(type='text' value='3 игрока' disabled id='counterValue')
-							div(class='counterBox')
-								div(id='plus')
-								div(id='minus')
-							button ок
+							div(class='setline')
+								input(type='text' name='name' placeholder='Название игры' maxlength='32')
+							div(class='setline')
+								span Количество игроков
+								input(type='text' name='players' value='3' disabled class='counterValue' data-count='players')
+								div(class='counterBox' data-count='players')
+									div(id='plus' data-count-max='4')
+									div(id='minus' data-count-min='2')
+							div(class='setline')
+								span Размер карты
+								input(type='text' name='mapsize' value='2' disabled class='counterValue' data-count='mapsize')
+								div(class='counterBox' data-count='mapsize')
+									div(id='plus' data-count-max='3')
+									div(id='minus' data-count-min='1')
+							div(class='setline')
+								span Частота блоков
+								input(type='text' name='generate' value='20' disabled class='counterValue' data-count='generate')
+								div(class='counterBox' data-count='generate')
+									div(id='plus' data-count-max='30')
+									div(id='minus' data-count-min='3')
+							button создать игру
 					h3 Найти существующую
 					form(method='post' action='' id='searchGame')
 						input(type='text' name='name' placeholder='Название игры' maxlength='32')

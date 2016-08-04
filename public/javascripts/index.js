@@ -4,7 +4,6 @@ window.onload = function() {
 		playButton: $('#playButton'),
 		contentItem: $('#content').children('.tab'),
 		counterBox: $('.counterBox'),
-		counterValue: $('#counterValue'),
 		gamelist: $('#gamelist'),
 		createForm: $('form#createGame'),
 		searchForm: $('form#searchGame'),
@@ -16,8 +15,7 @@ window.onload = function() {
 		}
 	};
 
-	var maxPlayers = 3,
-		updateList;
+	var updateList;
 
 	/*
 	**	Menu
@@ -63,8 +61,10 @@ window.onload = function() {
 
 		$.post('/create', {
 
-			maxPlayers: maxPlayers,
-			name: OBJECT.createForm.find('input[name=name]').val()
+			players: OBJECT.createForm.find('input[name=players]').val(),
+			name: OBJECT.createForm.find('input[name=name]').val(),
+			generate: OBJECT.createForm.find('input[name=generate]').val(),
+			mapsize: OBJECT.createForm.find('input[name=mapsize]').val()
 
 		}).done(function(data) {
 			if(data.error) {
@@ -75,11 +75,10 @@ window.onload = function() {
 					OBJECT.createForm.append('\
 						<div class="error">' + data.error + '</div>\
 					');
-					OBJECT.error = createForm.find('.error');
+					OBJECT.error = OBJECT.createForm.find('.error');
 				}
 				
-			}
-			else {
+			} else {
 				window.location.href = '/game/' + data.game;
 			}
 		});
@@ -89,21 +88,31 @@ window.onload = function() {
 	});
 
 	/*
-	**	Player count
+	**	Game settings counters
 	*/
 
 	OBJECT.counterBox.children('#plus').click(function() {
-		if(maxPlayers < 4) {
-			maxPlayers++;
-			OBJECT.counterValue.val(maxPlayers + ' игрока');
+
+		var self = $(this),
+			input = $('.counterValue[data-count="' + self.parent().attr('data-count') + '"]'),
+			value = parseInt(input.val());
+
+		if(value < self.attr('data-count-max')) {
+			input.val(value + 1);
 		}
+
 	});
 
 	OBJECT.counterBox.children('#minus').click(function() {
-		if(maxPlayers > 2) {
-			maxPlayers--;
-			OBJECT.counterValue.val(maxPlayers + ' игрока');
+
+		var self = $(this),
+			input = $('.counterValue[data-count="' + self.parent().attr('data-count') + '"]'),
+			value = parseInt(input.val());
+
+		if(value > self.attr('data-count-min')) {
+			input.val(value - 1);
 		}
+
 	});
 
 	/*

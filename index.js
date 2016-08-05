@@ -45,7 +45,7 @@ io.sockets.on('connection', function(socket) {
 			socket.id
 	};
 
-	if(socket.slot == EVENT.joinPlayer(socket, data)) {
+	if(socket.slot = EVENT.joinPlayer(socket, data)) {
 
 		socket.on('disconnect', function() {
 			EVENT.leavePlayer(socket, data);

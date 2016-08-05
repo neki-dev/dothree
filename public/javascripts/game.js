@@ -242,12 +242,6 @@ $(function() {
 	/*
 	**	Actions
 	*/
-
-	OBJECT.global.keydown(function(e) {
-
-		return !(e.key === 'F5' || e.keyCode == 116 || ((e.key === 'r' || e.key === 'R' || e.keyCode == 82) && e.ctrlKey));
-		
-	});
 	
 	function onPlayerAction(e) {		
 
@@ -324,8 +318,6 @@ $(function() {
 	*/
 
 	function renderWorld(world) {
-
-		var imageData;
 
 		canvas.clearRect(0, 0, settings.worldSize.x, settings.worldSize.y);
 

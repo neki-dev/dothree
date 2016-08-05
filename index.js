@@ -45,22 +45,20 @@ io.sockets.on('connection', function(socket) {
 			socket.id
 	};
 
-	if(socket.slot = EVENT.joinPlayer(socket, data)) {
+	if(socket.slot != EVENT.joinPlayer(socket, data)) return;
 
-		socket.on('disconnect', function() {
-			EVENT.leavePlayer(socket, data);
-		})
-		.on('action', function(eventData) {
-			EVENT.actionPlayer(data, eventData);
-		})
-		.on('chat', function(eventData) {
-			EVENT.chatSend(data, eventData);
-		})
-		.on('timeout', function() {
-			EVENT.timeout(data);
-		});
-
-	}
+	socket.on('disconnect', function() {
+		EVENT.leavePlayer(socket, data);
+	})
+	.on('action', function(eventData) {
+		EVENT.actionPlayer(data, eventData);
+	})
+	.on('chat', function(eventData) {
+		EVENT.chatSend(data, eventData);
+	})
+	.on('timeout', function() {
+		EVENT.timeout(data);
+	});
 
 });
 
@@ -139,12 +137,8 @@ var GAME = {
 	id: function(id) {
 
 		for(var i = 0; i < this.DATA.length; ++i) {
-			if(!this.DATA[i]) {
-				continue;
-			}
-			if(this.DATA[i].id == id) {
-				return parseInt(i);
-			}
+			if(!this.DATA[i]) continue;
+			if(this.DATA[i].id == id) return parseInt(i);
 		}
 
 		return undefined;
@@ -156,9 +150,8 @@ var GAME = {
 		var count = 0;
 
 		for(var i = 0; i < this.DATA[game].maxPlayers; ++i) {
-			if(this.DATA[game].players[i]) {
-				count++;
-			}
+			if(!this.DATA[game].players[i]) continue;
+			count++;
 		}
 
 		return count;
@@ -185,10 +178,9 @@ var PLAYER = {
 		socket.join(game);
 
 		for(var i = 0; i < GAME.DATA[game].maxPlayers; ++i) {
-			if(!GAME.DATA[game].players[i]) {
-				GAME.DATA[game].players[i] = id;
-				return i+1;
-			}
+			if(GAME.DATA[game].players[i]) continue;
+			GAME.DATA[game].players[i] = id;
+			return i + 1;
 		}
 
 		return undefined;
@@ -201,9 +193,8 @@ var PLAYER = {
 		socket.leave(game);
 
 		for(var i = 0; i < GAME.DATA[game].maxPlayers; ++i) {
-			if(GAME.DATA[game].players[i] == id) {
-				delete GAME.DATA[game].players[i];
-			}
+			if(GAME.DATA[game].players[i] != id) continue;
+			delete GAME.DATA[game].players[i];
 		}
 
 	},
@@ -230,25 +221,18 @@ var EVENT = {
 
 	actionPlayer: function(data, eventData) {
 
-		// check current count players
-		if(GAME.playersCount(data.game) < GAME.DATA[data.game].maxPlayers) {
-			return;
-		}
-
-		// check player step
-		if(GAME.DATA[data.game].step != eventData.slot) {
-			return;
-		}
+		if(
+			// check current count players
+			GAME.playersCount(data.game) < GAME.DATA[data.game].maxPlayers ||
+			// check player step
+			GAME.DATA[data.game].step != eventData.slot ||
+			// check map place (second)
+			GAME.DATA[data.game].world[eventData.place.y][eventData.place.x] != 1 ||
+			eventData.place.y + 1 < GAME.DATA[data.game].world.length
+		) return;
 
 		// check map place
-		if(GAME.DATA[data.game].world[eventData.place.y][eventData.place.x] != 1) {
-			return;
-		}
-		if(eventData.place.y + 1 < GAME.DATA[data.game].world.length) {
-			if(GAME.DATA[data.game].world[eventData.place.y + 1][eventData.place.x] == 1) {
-				return;
-			}
-		}
+		if(GAME.DATA[data.game].world[eventData.place.y + 1][eventData.place.x] == 1) return;
 
 		// reset timeout
 		GAME.DATA[data.game].timeout = settings.timeout;
@@ -290,19 +274,19 @@ var EVENT = {
 
 		if(data.game == undefined) {
 			PLAYER.send(socket, 'error', 'Указанная игра не найдена');
-			return false;
+			return undefined;
 		}
 
 		var getPlayers = GAME.playersCount(data.game);
 
 		if(getPlayers == GAME.DATA[data.game].maxPlayers) {
 			PLAYER.send(socket, 'error', 'Указанная игра уже запущена');
-			return false;
+			return undefined;
 		}
 
 		if(PLAYER.has(data.game, data.id)) {
 			PLAYER.send(socket, 'error', 'Вы уже играете');
-			return false;
+			return undefined;
 		}
 
 		// add player
@@ -386,9 +370,9 @@ var EVENT = {
 
 function echo(message) {
 
-	if(settings.log) {
-		console.log(message);
-	}
+	if(!settings.log) return;
+	
+	console.log(message);
 
 }
 
@@ -414,11 +398,7 @@ function generateWorld(mapSize, generateIndex) {
 	for(var i = 0; i < mapSize.y; ++i) {
 		world[i] = [];
 		for(var k = 0; k < mapSize.x; ++k) {
-			if(parseInt(Math.random() * generateIndex) != 0) {
-				world[i][k] = 1;
-			} else {
-				world[i][k] = parseInt(Math.random() * 4) + 1;
-			}
+			world[i][k] = (parseInt(Math.random() * generateIndex) != 0) ? 1 : parseInt(Math.random() * 4) + 1;
 		}
 	}
 
@@ -449,9 +429,8 @@ function getWinnerData(mapSize, world, place) {
 		[ [ place.x - 1, place.y ], [ place.x - 2, place.y ] ],
 		[ [ place.x - 1, place.y ], [ place.x + 1, place.y ] ]
 	]);
-	if(j) {
-		return j;
-	}
+	
+	if(j) return j;
 
 	// vertical
 
@@ -460,9 +439,8 @@ function getWinnerData(mapSize, world, place) {
 		[ [ place.x, place.y - 1 ], [ place.x, place.y - 2 ] ],
 		[ [ place.x, place.y - 1 ], [ place.x, place.y + 1 ] ]
 	]);
-	if(j) {
-		return j;
-	}
+	
+	if(j) return j;
 
 	// diagonal \
 
@@ -471,9 +449,8 @@ function getWinnerData(mapSize, world, place) {
 		[ [ place.x - 1, place.y - 1 ], [ place.x + 1, place.y + 1 ] ],
 		[ [ place.x + 1, place.y + 1 ], [ place.x + 2, place.y + 2 ] ]
 	]);
-	if(j) {
-		return j;
-	}
+	
+	if(j) return j;
 
 	// diagonal /
 
@@ -482,11 +459,10 @@ function getWinnerData(mapSize, world, place) {
 		[ [ place.x + 1, place.y - 1 ], [ place.x - 1, place.y + 1 ] ],
 		[ [ place.x - 1, place.y + 1 ], [ place.x - 2, place.y + 2 ] ]
 	]);
-	if(j) {
-		return j;
-	}
+	
+	if(j) return j;
 
-	return null;
+	return undefined;
 
 }
 
@@ -504,25 +480,19 @@ function checkPatentBoxes(mapSize, world, place, check) {
 			if(
 				check[k][i][0] < 0 || check[k][i][1] < 0 || check[k][i][0] >= mapSize.x || check[k][i][1] >= mapSize.y ||
 				check[k][i + 1][0] < 0 || check[k][i + 1][1] < 0 || check[k][i + 1][0] >= mapSize.x || check[k][i + 1][1] >= mapSize.y
-			) {
-				break;
-			}
+			) break;
 
-			if(world[check[k][i][1]][check[k][i][0]] != world[check[k][i + 1][1]][check[k][i + 1][0]]) {
-				break;
-			}
+			if(world[check[k][i][1]][check[k][i][0]] != world[check[k][i + 1][1]][check[k][i + 1][0]]) break;
 
 			buff = true;
 
 		}
 
-		if(buff) {
-			return check[k];
-		}
+		if(buff) return check[k];
 
 	}
 
-	return null;
+	return undefined;
 
 }
 
@@ -606,24 +576,16 @@ app.post('/load', function(req, res) {
 
 	for(; game >= 0; --game) {
 
-		if(!GAME.DATA[game]) {
-			continue;
-		}
+		if(!GAME.DATA[game])continue;
 
-		if(GAME.DATA[game].step === 0) {
-			continue;
-		}
+		if(GAME.DATA[game].step === 0) 	continue;
 
 		var getPlayers = GAME.playersCount(game);
 
-		if(getPlayers == GAME.DATA[game].maxPlayers) {
-			continue;
-		}
+		if(getPlayers == GAME.DATA[game].maxPlayers) continue;
 
 		if(req.body.name) {
-			if(GAME.DATA[game].name.toUpperCase().indexOf(req.body.name.toUpperCase()) == -1) {
-				continue;
-			}
+			if(GAME.DATA[game].name.toUpperCase().indexOf(req.body.name.toUpperCase()) == -1) continue;
 		}
 
 		list.push({
@@ -648,26 +610,15 @@ setInterval(function() {
 
 	for(var game = 0; game < GAME.DATA.length; ++game) {
 
-		if(!GAME.DATA[game]) {
-			continue;
-		}
+		if(!GAME.DATA[game]) continue;
 
-		if(GAME.DATA[game].step === 0) {
-			continue;
-		}
-
-		if(GAME.playersCount(game) < GAME.DATA[game].maxPlayers) {
-			continue;
-		}
+		if(GAME.DATA[game].step === 0 || GAME.playersCount(game) < GAME.DATA[game].maxPlayers) continue;
 
 		if(GAME.DATA[game].timeout == 1) {
 
 			GAME.DATA[game].timeout = settings.timeout;
-
-			GAME.DATA[game].step++;
-			if(GAME.DATA[game].step > GAME.DATA[game].maxPlayers) {
-				GAME.DATA[game].step = 1;
-			}
+			
+			GAME.DATA[game].step = (GAME.DATA[game].step == GAME.DATA[game].maxPlayers) ? 1 : GAME.DATA[game].step + 1;
 
 		} else {
 			GAME.DATA[game].timeout--;

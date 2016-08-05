@@ -45,20 +45,22 @@ io.sockets.on('connection', function(socket) {
 			socket.id
 	};
 
-	if(socket.slot != EVENT.joinPlayer(socket, data)) return;
+	if(socket.slot == EVENT.joinPlayer(socket, data)) {
 
-	socket.on('disconnect', function() {
-		EVENT.leavePlayer(socket, data);
-	})
-	.on('action', function(eventData) {
-		EVENT.actionPlayer(data, eventData);
-	})
-	.on('chat', function(eventData) {
-		EVENT.chatSend(data, eventData);
-	})
-	.on('timeout', function() {
-		EVENT.timeout(data);
-	});
+		socket.on('disconnect', function() {
+			EVENT.leavePlayer(socket, data);
+		})
+		.on('action', function(eventData) {
+			EVENT.actionPlayer(data, eventData);
+		})
+		.on('chat', function(eventData) {
+			EVENT.chatSend(data, eventData);
+		})
+		.on('timeout', function() {
+			EVENT.timeout(data);
+		});
+		
+	}
 
 });
 
@@ -239,10 +241,7 @@ var EVENT = {
 
 		// update step
 		GAME.DATA[data.game].world[eventData.place.y][eventData.place.x] = -eventData.slot;
-		GAME.DATA[data.game].step++;
-		if(GAME.DATA[data.game].step > GAME.DATA[data.game].maxPlayers) {
-			GAME.DATA[data.game].step = 1;
-		}
+		GAME.DATA[data.game].step = (GAME.DATA[data.game].step == GAME.DATA[data.game].maxPlayers) ? 1 : GAME.DATA[data.game].step + 1;
 
 		// get winner
 		var winnerData = getWinnerData(GAME.DATA[data.game].mapSize, GAME.DATA[data.game].world, eventData.place);
@@ -576,12 +575,10 @@ app.post('/load', function(req, res) {
 
 	for(; game >= 0; --game) {
 
-		if(!GAME.DATA[game])continue;
-
+		if(!GAME.DATA[game]) continue;
 		if(GAME.DATA[game].step === 0) 	continue;
 
 		var getPlayers = GAME.playersCount(game);
-
 		if(getPlayers == GAME.DATA[game].maxPlayers) continue;
 
 		if(req.body.name) {
@@ -611,7 +608,6 @@ setInterval(function() {
 	for(var game = 0; game < GAME.DATA.length; ++game) {
 
 		if(!GAME.DATA[game]) continue;
-
 		if(GAME.DATA[game].step === 0 || GAME.playersCount(game) < GAME.DATA[game].maxPlayers) continue;
 
 		if(GAME.DATA[game].timeout == 1) {

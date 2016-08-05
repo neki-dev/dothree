@@ -7,12 +7,10 @@ $(function() {
 		getStep = 1,
 		activePlace = undefined,
 		localWorld = [],
-		imageCache = {};
+		settings = {};
 
 	var canvasInit,
 		canvas;
-
-	var settings = {};
 
 	var CLASSES = {
 		players: [ '#DE212E', '#85C918', '#0780B0', '#BF5EB2' ],
@@ -146,11 +144,11 @@ $(function() {
 
 		timeout: function(data) {
 
-			if(playerSlot == data.step && data.time <= 10) {
-				playSound('timeout');
-			}
-
 			updateTimeoutWithStep(data.time, data.step);
+
+			if(playerSlot != data.step || data.time > 10) return;
+			
+			playSound('timeout');
 
 		},
 
@@ -171,9 +169,7 @@ $(function() {
 
 		connect: function(data) {
 
-			if(gameFinished) {
-				return;
-			}
+			if(gameFinished) return;
 
 			updatePlayersList(data);
 			awaitingToggle(data);
@@ -182,9 +178,7 @@ $(function() {
 
 		disconnect: function(data) {
 
-			if(gameFinished) {
-				return;
-			}
+			if(gameFinished) return;
 
 			updatePlayersList(data);
 			awaitingToggle(data);
@@ -251,17 +245,13 @@ $(function() {
 
 	OBJECT.global.keydown(function(e) {
 
-		if(e.key === 'F5' || e.keyCode == 116 || ((e.key === 'r' || e.key === 'R' || e.keyCode == 82) && e.ctrlKey)) {
-			return false;
-		}
-
+		return !(e.key === 'F5' || e.keyCode == 116 || ((e.key === 'r' || e.key === 'R' || e.keyCode == 82) && e.ctrlKey));
+		
 	});
 	
 	function onPlayerAction(e) {		
 
-		if(!gameToggle || gameFinished || getStep != playerSlot) {
-			return;
-		}
+		if(!gameToggle || gameFinished || getStep != playerSlot) return;
 
 		socket.emit('action', {
 			place: { 
@@ -275,9 +265,7 @@ $(function() {
 	
 	function onPlayerHover(e) {		
 
-		if(!gameToggle || gameFinished || getStep != playerSlot) {
-			return;
-		}
+		if(!gameToggle || gameFinished || getStep != playerSlot) return;
 
 		activePlace = [ Math.floor(e.offsetX / settings.boxSize), Math.floor(e.offsetY / settings.boxSize) ];
 		renderWorld(localWorld);
@@ -297,10 +285,11 @@ $(function() {
 
 	function onChatKeyPress(e) {
 		
-		if(e.keyCode == '13') {
-			onChatSend();
-			return false;
-		}
+		if(e.keyCode != 13) return true;
+		
+		onChatSend();
+		
+		return false;
 
 	}
 
@@ -317,9 +306,7 @@ $(function() {
 		var textarea = OBJECT.chat.find('textarea'),
 			value = textarea.val();
 
-		if(!value.length) {
-			return false;
-		}
+		if(!value.length) return false;
 		
 		socket.emit('chat', {
 			slot: playerSlot,
@@ -380,17 +367,15 @@ $(function() {
 
 		OBJECT.timeout.html(getTimeoutFromSeconds(time));
 
-		if(getStep != step) {
+		if(getStep == step) return;
 			
-			OBJECT.markStep.css('background', getObjectClass(-step));			
-
-			if(playerSlot == step) {
-				playSound('step');
-			}
-
-			getStep = step;
-
-		}
+		OBJECT.markStep.css('background', getObjectClass(-step));
+		
+		getStep = step;
+		
+		if(playerSlot == step) return;
+		
+		playSound('step');
 
 	}
 
@@ -440,17 +425,13 @@ $(function() {
 				OBJECT.awaitingCount.html(data.getPlayers);
 			}
 
-		} else {
+		} else if(!gameToggle) {
 
-			if(!gameToggle) {
+			gameToggle = true;
 
-				gameToggle = true;
+			OBJECT.awaiting.remove();
 
-				OBJECT.awaiting.remove();
-
-				playSound('start');
-
-			}
+			playSound('start');
 
 		}
 

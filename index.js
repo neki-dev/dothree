@@ -59,11 +59,10 @@ io.sockets.on('connection', function(socket) {
 		.on('timeout', function() {
 			EVENT.timeout(data);
 		});
-		
+
 	}
 
 });
-
 /*
 **	Game functions
 */
@@ -229,12 +228,13 @@ var EVENT = {
 			// check player step
 			GAME.DATA[data.game].step != eventData.slot ||
 			// check map place (second)
-			GAME.DATA[data.game].world[eventData.place.y][eventData.place.x] != 1 ||
-			eventData.place.y + 1 < GAME.DATA[data.game].world.length
+			GAME.DATA[data.game].world[eventData.place.y][eventData.place.x] != 1
 		) return;
 
 		// check map place
-		if(GAME.DATA[data.game].world[eventData.place.y + 1][eventData.place.x] == 1) return;
+		if(eventData.place.y + 1 < GAME.DATA[data.game].world.length) {
+			if(GAME.DATA[data.game].world[eventData.place.y + 1][eventData.place.x] == 1) return;
+		}
 
 		// reset timeout
 		GAME.DATA[data.game].timeout = settings.timeout;

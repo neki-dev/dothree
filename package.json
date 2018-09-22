@@ -5,7 +5,7 @@
 	"author": "Essle Jaxcate <me@essle.ru>",
 	"main": "index.js",
 	"engines": {
-		"node": "0.10.x",
+		"node": "8.x.x",
 		"npm": "5.5.x"
 	},
 	"scripts": {

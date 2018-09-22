@@ -3,4 +3,4 @@
 *.psd
 *.eps
 *.js.source
-install.bat
+/package-lock.json

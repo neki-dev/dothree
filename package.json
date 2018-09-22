@@ -1,21 +1,21 @@
 {
-	"name": "SquareInCube",
+	"name": "Threedo",
 	"version": "2.0.1",
 	"description": "Online logic game",
-	"author": "Essle Jaxcate <essle.55@yandex.ru> (http://essle.ru/)",
+	"author": "Essle Jaxcate <me@essle.ru>",
 	"main": "index.js",
 	"engines": {
 		"node": "0.10.x",
-		"npm": "1.4.x"
+		"npm": "5.5.x"
 	},
 	"scripts": {
-		"start": "node index.js"
+		"start": "node --harmony index.js"
 	},
 	"dependencies": {
-		"express": "*",
-		"jade": "*",
-		"socket.io": "*",
-		"http": "*",
-		"body-parser": "*"
+		"body-parser": "^1.18.3",
+		"express": "^4.16.3",
+		"http": "0.0.0",
+		"jade": "^1.11.0",
+		"socket.io": "^2.1.1"
 	}
 }

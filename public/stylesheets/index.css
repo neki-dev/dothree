@@ -1,13 +1,6 @@
-* {
-	outline: none;
-	margin: 0;
-	border: none;
-	padding: 0;
-}
-
 body {
-	background: #eee;
-	font: 12px 'Lucida Grande', 'Arial', 'Tahoma', 'Verdana', 'Sans-serif';
+	background: #fff;
+	font: 13px 'Rubik', 'Lucida Grande', 'Arial', 'Tahoma', 'Verdana', 'Sans-serif';
 	color: #444;
 }
 
@@ -32,8 +25,8 @@ a:hover {
 
 #logotype {
 	background: url('../images/logotype.png') no-repeat;
-	width: 160px;
-	height: 60px;
+	width: 357px;
+	height: 67px;
 	margin: 0 auto;
 }
 #logotype:hover {
@@ -41,18 +34,17 @@ a:hover {
 }
 
 #playButton {
-	background: #34495e;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
-	margin: 50px 0 30px 0;
+	margin: 30px 0;
 	text-transform: uppercase;
-	color: #fff;
-	font-size: 20px;
-	padding: 17px 0 15px 0;
-	border-bottom: 6px solid #252E36;
-	font-weight: bold;
+	color: #fc5602;
+	font-size: 16px;
+	padding: 20px 0;
 	text-align: center;
+	letter-spacing: 2px;
+	border: 1px solid #fc5602;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 #playButton.animate {
 	-moz-transition: all 0.3s linear;
@@ -63,13 +55,18 @@ a:hover {
 }
 #playButton:hover {
 	cursor: pointer;
-	background-color: #e74c3c;
-	border-color: #c0392b;
+	border-color: #222;
+	color: #222;
+}
+
+.github-item {
+	display: inline-block;
+	margin-right: 15px;
 }
 
 #content {
 	overflow: hidden;
-	width: 300px;
+	width: 357px;
 	margin: 0 auto;
 }
 #content .tab {
@@ -130,29 +127,30 @@ form {
 }
 form input,
 form button {
-	font: 12px 'Lucida Grande', 'Arial', 'Tahoma', 'Verdana', 'Sans-serif';
-	height: 31px;
+	font: inherit;
 	letter-spacing: 0.2px;
-	line-height: 34px;
+	line-height: 40px;
+	box-sizing: border-box;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 form input {
 	background: #fff;
 	color: #777;
-	width: 274px;
-	padding: 0 12px;
+	border: 1px solid #ddd;
+	width: 357px;
+	padding: 0 20px;
 }
 form button {
 	background: #aaa;
 	color: #fff;
-	-moz-transition: all 0.3s linear;
-	-webkit-transition: all 0.3s linear;
-	-o-transition: all 0.3s linear;
-	-ms-transition: all 0.3s linear;
-	transition: all 0.3s linear;
-	width: 106px;
 	text-transform: uppercase;
-	font-size: 10px;
-	text-align: center;
+	border: none;
+	padding: 1px 20px;
+	width: auto;
+	margin-top: 10px;
+	font-size: 11px;
 }
 form button:hover {
 	background: #e74c3c;
@@ -170,19 +168,22 @@ form .error {
 }
 
 form .setline {
+	border: 1px solid #ddd;
 	overflow: hidden;
-	margin-bottom: 3px;
+	margin-top: 6px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 form .setline span {
-	font-size: 10px;
+	font-size: 11px;
 	text-transform: uppercase;
 	float: left;
-	width: 208px;
+	width: 270px;
 	border-right: none;
 	background: #f5f5f5;
-	height: 31px;
-	line-height: 31px;
-	padding-left: 12px;
+	line-height: 40px;
+	padding-left: 20px;
 	color: #999;
 	position: relative;
 }
@@ -190,23 +191,24 @@ form .setline span::after {
 	position: absolute;
 	content: ' ';
 	border-style: solid;
-	border-width: 16px 10px 16px 0;
+	border-width: 20px 10px 20px 0;
 	border-color: transparent #fff transparent transparent;
 	right: 0;
 }
 form .counterValue {
 	width: 32px;
-	float: left;
+	float: right;
+	border: none;
+	padding: 0;
 }
 form .counterBox {
-	width: 23px;
-	height: 31px;
+	height: 40px;
 	overflow: hidden;
-	float: left;
+	float: right;
 	border-left: 1px solid #ddd;
 }
 form .counterBox div {
-	height: 15px;
+	height: 20px;
 	width: 20px;
 	opacity: 0.6;
 }
@@ -216,23 +218,22 @@ form .counterBox div:hover {
 }
 form .counterBox div#plus {
 	border-bottom: 1px solid #ccc;
-	background: url('../images/plus.png');
+	background: url('../images/plus.png') center center no-repeat;
 }
 form .counterBox div#minus {
-	background: url('../images/minus.png');
+	background: url('../images/minus.png') center center no-repeat;
 }
 
 form#searchGame {
 	margin-bottom: 20px;
 }
 form#searchGame input {
-	width: 203px;
+	width: 270px;
 	float: left;
 }
 form#searchGame button {
-	width: 66px;
-	float: left;
-	margin-left: 4px;
+	float: right;
+	margin-top: 0;
 }
 
 #gamelist {

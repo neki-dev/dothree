@@ -29,7 +29,7 @@ echo('# server started on port ' + (process.env.PORT || settings.port));
 **	Validate settings
 */
 
-settings.timeout = settings.timeout > 300 ? 300 : settings.timeout;
+settings.timeout = Math.min(settings.timeout, 300);
 
 /*
 **	Register events
@@ -87,7 +87,6 @@ var GAME = {
 				y: 450
 			};
 
-		// current sizes: [5] 6 9 [10] [15]
 		mapSize = {
 			x: data.mapSize * 10,
 			y: data.mapSize * 5
@@ -97,7 +96,7 @@ var GAME = {
 
 		this.DATA.push(data = {
 			name: data.name,
-			id: data.id || generateID(),
+			id: data.id || (Math.random().toString(36).substr(2, 9)),
 			maxPlayers: data.maxPlayers,
 			players: [],
 			world: generateWorld(mapSize, data.generateIndex),
@@ -354,8 +353,15 @@ var EVENT = {
 
 	chatSend: function(data, eventData) {
 
-		// validate chat message
-		eventData.message = eventData.message.escape();
+		var tagsToReplace = {
+			'&': '&amp;',
+			'<': '&lt;',
+			'>': '&gt;'
+		};
+
+		eventData.message = eventData.message.replace(/[&<>]/g, function(tag) {
+			return tagsToReplace[tag] || tag;
+		});
 
 		GAME.send(data.game, 'chat', eventData);	
 
@@ -375,21 +381,6 @@ function echo(message) {
 
 }
 
-function generateID() {
-
-	var	symbols = 'abcdefghijklmnopqrstuvwxyz1234567890',
-		id = '',
-		ch = '';
-
-	for(var i = 0; i < settings.lenID; ++i) {
-		ch = symbols[parseInt(Math.random() * (symbols.length))];
-		id += parseInt(Math.random() * 2) ? ch : ch.toUpperCase();
-	}
-
-	return (GAME.id(id) == undefined) ? id : generateID();
-
-}
-
 function generateWorld(mapSize, generateIndex) {
 
 	var world = [];
@@ -405,107 +396,51 @@ function generateWorld(mapSize, generateIndex) {
 
 }
 
-function deleteArrayValue(array, value) {
-
-	var index = array.indexOf(value);
-
-	if(index != -1) {
-		array.splice(index, 1);
-	}
-
-	return array;
-
-}
-
 function getWinnerData(mapSize, world, place) {
 
-	var j = null;
+	var ways = [
+		// horizontal
+		[[  1,  0 ],[  2,  0 ]],
+		[[ -1,  0 ],[ -2,  0 ]],
+		[[ -1,  0 ],[  1,  0 ]],
+		// vertical
+		[[  0,  1 ],[  0,  2 ]],
+		[[  0, -1 ],[  0, -2 ]],
+		[[  0, -1 ],[  0,  1 ]],
+		// diagonal \
+		[[ -1, -1 ],[ -2, -2 ]],
+		[[ -1, -1 ],[  1,  1 ]],
+		[[  1,  1 ],[  2,  2 ]],
+		// diagonal /
+		[[  1, -1 ],[  2, -2 ]],
+		[[  1, -1 ],[ -1,  1 ]],
+		[[ -1,  1 ],[ -2,  2 ]]
+	];
 
-	// horizontal
-
-	j = checkPatentBoxes(mapSize, world, place, [
-		[ [ place.x + 1, place.y ], [ place.x + 2, place.y ] ],
-		[ [ place.x - 1, place.y ], [ place.x - 2, place.y ] ],
-		[ [ place.x - 1, place.y ], [ place.x + 1, place.y ] ]
-	]);
-	
-	if(j) return j;
-
-	// vertical
-
-	j = checkPatentBoxes(mapSize, world, place, [
-		[ [ place.x, place.y + 1 ], [ place.x, place.y + 2 ] ],
-		[ [ place.x, place.y - 1 ], [ place.x, place.y - 2 ] ],
-		[ [ place.x, place.y - 1 ], [ place.x, place.y + 1 ] ]
-	]);
-	
-	if(j) return j;
-
-	// diagonal \
-
-	j = checkPatentBoxes(mapSize, world, place, [
-		[ [ place.x - 1, place.y - 1 ], [ place.x - 2, place.y - 2 ] ],
-		[ [ place.x - 1, place.y - 1 ], [ place.x + 1, place.y + 1 ] ],
-		[ [ place.x + 1, place.y + 1 ], [ place.x + 2, place.y + 2 ] ]
-	]);
-	
-	if(j) return j;
-
-	// diagonal /
-
-	j = checkPatentBoxes(mapSize, world, place, [
-		[ [ place.x + 1, place.y - 1 ], [ place.x + 2, place.y - 2 ] ],
-		[ [ place.x + 1, place.y - 1 ], [ place.x - 1, place.y + 1 ] ],
-		[ [ place.x - 1, place.y + 1 ], [ place.x - 2, place.y + 2 ] ]
-	]);
-	
-	if(j) return j;
-
-	return undefined;
-
-}
-
-function checkPatentBoxes(mapSize, world, place, check) {
-
-	for(var k = 0; k < check.length; ++k) {
-
-		check[k].push([ place.x, place.y ]);
-		var buff;
-
-		for(var i = 0; i < 2; ++i) {
-
-			buff = false;
-
+	for(var n = 0; n < ways.length; ++n) {
+		ways[n].push([ place.x, place.y ]);
+		var buffer;
+		for(var m = 0; m < ways[n].length; ++m) {
+			buffer = false;
+			var _i = ways[n][m    ][0], 
+				_k = ways[n][m    ][1], 
+				_j = ways[n][m + 1][0],
+				_l = ways[n][m + 1][1];
 			if(
-				check[k][i][0] < 0 || check[k][i][1] < 0 || check[k][i][0] >= mapSize.x || check[k][i][1] >= mapSize.y ||
-				check[k][i + 1][0] < 0 || check[k][i + 1][1] < 0 || check[k][i + 1][0] >= mapSize.x || check[k][i + 1][1] >= mapSize.y
-			) break;
-
-			if(world[check[k][i][1]][check[k][i][0]] != world[check[k][i + 1][1]][check[k][i + 1][0]]) break;
-
-			buff = true;
-
+				(_i < 0 || _k < 0 || _i >= mapSize.x || _k >= mapSize.y) || 
+				(_j < 0 || _l < 0 || _j >= mapSize.x || _l >= mapSize.y) ||
+				world[_i][_k] ~= world[_j][_l]
+			) {
+				break
+			}
+			buffer = true;
 		}
-
-		if(buff) return check[k];
-
+		if(buffer) {
+			return check[k];
+		}
 	}
 
 	return undefined;
-
-}
-
-String.prototype.escape = function() {
-
-	var tagsToReplace = {
-		'&': '&amp;',
-		'<': '&lt;',
-		'>': '&gt;'
-	};
-
-	return this.replace(/[&<>]/g, function(tag) {
-		return tagsToReplace[tag] || tag;
-	});
 
 }
 

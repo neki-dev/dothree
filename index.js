@@ -78,21 +78,15 @@ var GAME = {
 				h: date.getHours(),
 				m: date.getMinutes(),
 				s: date.getSeconds()
-			};
-
-		var mapSize = {
 			},
 			worldSize = {
 				x: 900,
 				y: 450
+			},
+			mapSize = {
+				x: data.mapSize * 10,
+				y: data.mapSize * 5
 			};
-
-		mapSize = {
-			x: data.mapSize * 10,
-			y: data.mapSize * 5
-		};
-
-		var boxSize = Math.ceil(worldSize.x / mapSize.x);
 
 		this.DATA.push(data = {
 			name: data.name,
@@ -103,7 +97,7 @@ var GAME = {
 			sessions: [],
 			generateIndex: data.generateIndex,
 			mapSize: mapSize,
-			boxSize: boxSize,
+			boxSize: Math.ceil(worldSize.x / mapSize.x),
 			worldSize: worldSize,
 			step: 1,
 			timeout: settings.timeout,
@@ -418,25 +412,25 @@ function getWinnerData(mapSize, world, place) {
 	];
 
 	for(var n = 0; n < ways.length; ++n) {
-		ways[n].push([ place.x, place.y ]);
+		ways[n].push([ 0, 0 ]);
 		var buffer;
-		for(var m = 0; m < ways[n].length; ++m) {
+		for(var m = 0; m < ways[n].length - 1; ++m) {
 			buffer = false;
-			var _i = ways[n][m    ][0], 
-				_k = ways[n][m    ][1], 
-				_j = ways[n][m + 1][0],
-				_l = ways[n][m + 1][1];
+			var _i = place.x + ways[n][m    ][0], 
+				_k = place.y + ways[n][m    ][1], 
+				_j = place.x + ways[n][m + 1][0],
+				_l = place.y + ways[n][m + 1][1];
 			if(
 				(_i < 0 || _k < 0 || _i >= mapSize.x || _k >= mapSize.y) || 
 				(_j < 0 || _l < 0 || _j >= mapSize.x || _l >= mapSize.y) ||
-				world[_i][_k] ~= world[_j][_l]
+				world[_k][_i] != world[_l][_j]
 			) {
-				break
+				break;
 			}
 			buffer = true;
 		}
 		if(buffer) {
-			return check[k];
+			return ways[n];
 		}
 	}
 

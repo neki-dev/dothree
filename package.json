@@ -1,6 +1,6 @@
 {
 	"name": "Threedo",
-	"version": "2.0.1",
+	"version": "2.1.0",
 	"description": "Online logic game",
 	"author": "Essle Jaxcate <me@essle.ru>",
 	"main": "index.js",
@@ -15,7 +15,6 @@
 		"body-parser": "^1.18.3",
 		"express": "^4.16.3",
 		"http": "0.0.0",
-		"jade": "^1.11.0",
 		"socket.io": "^2.1.1"
 	}
 }

@@ -155,7 +155,7 @@ window.onload = function() {
 
 	function insertGameList(list) {
 
-		if(list) {
+		if(list.length > 0) {
 
 			OBJECT.gamelist.html('');
 
@@ -176,8 +176,6 @@ window.onload = function() {
 			});
 
 		} else {
-
-			//OBJECT.searchForm.remove();
 
 			OBJECT.gamelist.html('\
 				<i>Не найдено ни одной игры...</i>\

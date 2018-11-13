@@ -1,1 +1,0 @@
-start cmd.exe /K npm update

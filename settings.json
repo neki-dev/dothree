@@ -1,7 +1,0 @@
-{
-    "log": true,
-	"onceIP": false,
-	"lenID": 6,
-	"timeout": 60,
-	"port": 3000
-}

@@ -66,7 +66,7 @@ $(function() {
 			playerSlot = data.slot;
 			getStep = data.game.step;
 
-			OBJECT.title.html('squareInCube # ' + data.game.name);
+			OBJECT.title.html('Threedo # ' + data.game.name);
 
 			OBJECT.main.html('\
 				<div class="worldBody">\
@@ -152,7 +152,7 @@ $(function() {
 
 		},
 
-		win: function(data) {
+		win: function(slot) {
 
 			OBJECT.markStep.parent().remove();
 			OBJECT.timeout.parent().remove();
@@ -161,7 +161,7 @@ $(function() {
 
 			OBJECT.data.append('\
 				<div class="mark">\
-					<span class="win">' + ((data.slot == playerSlot) ? "Вы победили" : "Вы проиграли") + '</span>\
+					<span class="win">' + ((slot == playerSlot) ? "Вы победили" : "Вы проиграли") + '</span>\
 				</div>\
 			');
 

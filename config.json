@@ -1,5 +1,5 @@
 {
-	"timeout": 60,
-	"port": 3000,
-	"once_ip": false
+	"PORT": 3000,
+	"AUTO_DROP": true,
+	"IP_ONCE": false
 }

@@ -1,6 +1,5 @@
-.CHANGDO
-/node_modules
-*.psd
-*.eps
-*.js.source
-/package-lock.json
+.git
+.idea
+node_modules/
+client/dist/
+package-lock.json

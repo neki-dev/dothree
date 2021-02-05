@@ -19,7 +19,7 @@
 	"scripts": {
 		"watch": "webpack --mode development --watch",
 		"build": "webpack --mode production",
-		"serve": "node index.js"
+		"start": "node index.js"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.12.10",

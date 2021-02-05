@@ -40,8 +40,8 @@ export default () => {
                 )
             }
             <div className="footer">
-                <GitHubButton href="https://github.com/essle/threedo" data-color-scheme="no-preference: dark; light: dark; dark: dark;" 
-                    data-size="large" data-show-count="true" aria-label="Star essle/threedo on GitHub" data-icon="octicon-star" >Star</GitHubButton>
+                <GitHubButton href="https://github.com/essle/dothree" data-color-scheme="no-preference: dark; light: dark; dark: dark;"
+                    data-size="large" data-show-count="true" aria-label="Star essle/dothree on GitHub" data-icon="octicon-star" >Star</GitHubButton>
                 <GitHubButton href="https://github.com/essle" data-color-scheme="no-preference: dark; light: dark; dark: dark;" 
                     data-size="large" data-show-count="true" aria-label="Follow @essle on GitHub">Follow</GitHubButton>
             </div>

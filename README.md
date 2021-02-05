@@ -1,5 +1,5 @@
-# Threedo
-##### http://threedo.essle.ru
+# Dothree
+##### http://dothree.essle.ru
 
 Логическая онлайн игра, похожая на смесь тетриса и крестики-ноликов.
 

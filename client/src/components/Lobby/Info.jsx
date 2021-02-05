@@ -42,7 +42,7 @@ const Info = ({socket, players}) => {
         if (!current || !data) {
             return;
         }
-        const titleIdle = `Threedo #${uuid}`;
+        const titleIdle = `Dothree #${uuid}`;
         const titleActive = 'Ваш ход!';
         let interval;
         if (data.step === current.slot && players.length === options.maxPlayers) {

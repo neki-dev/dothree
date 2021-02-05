@@ -1,92 +1,97 @@
 .world {
-  flex: 1;
   user-select: none;
   display: flex;
+  overflow-y: auto;
+  background: rgba(#323a45, 0.8);
+  padding: 10px;
+  flex-direction: column;
 
-  .lines {
-    background: rgba(#323a45, 0.8);
-    padding: 10px;
+  .line {
+    display: flex;
 
-    .line {
-      display: flex;
+    .entity {
+      position: relative;
+      margin: 1px;
+      border-radius: 8%;
+      flex: 1;
 
-      .entity {
-        width: 2.6vw;
-        height: 2.6vw;
-        position: relative;
-        margin: 1px;
-        border-radius: 8%;
+      &::before {
+        content: '';
+        width: 100%;
+        padding-top: 100%;
+        float: left;
+      }
 
-        &.empty {
-          background: rgba(#fff, 0.04);
+      &.empty {
+        background: rgba(#fff, 0.04);
+      }
+
+      &.block {
+        background: linear-gradient(135deg, rgba(41,52,64,1) 0%, rgba(10,19,29,1) 100%);
+      }
+
+      &.bonus {
+        background: #131314 center center no-repeat;
+        background-size: 50%;
+
+        &.replacer {
+          background-image: url('./icons/replacer.svg');
         }
 
-        &.block {
-          background: linear-gradient(135deg, rgba(41,52,64,1) 0%, rgba(10,19,29,1) 100%);
+        &.spawn {
+          background-image: url('./icons/spawn.svg');
         }
 
-        &.bonus {
-          background: #131314 center center no-repeat;
-          background-size: 50%;
+        &.laser {
+          background-image: url('./icons/laser.svg');
+        }
+      }
 
-          &.replacer {
-            background-image: url('./icons/replacer.svg');
-          }
+      &.win::after {
+        position: absolute;
+        content: '';
+        width: 20%;
+        height: 20%;
+        left: 50%;
+        top: 50%;
+        margin: -10% 0 0 -10%;
+        border-radius: 50%;
+        background-color: #fff;
+      }
 
-          &.spawn {
-            background-image: url('./icons/spawn.svg');
-          }
+      &.allow {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-          &.laser {
-            background-image: url('./icons/laser.svg');
-          }
+        &:hover {
+          cursor: pointer;
         }
 
-        &.win::after {
+        .pointer {
           position: absolute;
-          content: '';
-          width: 20%;
-          height: 20%;
-          left: 50%;
-          top: 50%;
-          margin: -10% 0 0 -10%;
-          border-radius: 50%;
-          background-color: #fff;
+          width: 0;
+          height: 0;
+          transition: all 0.2s ease-out;
+
+          &:after {
+            position: absolute;
+            content: '';
+            width: 6px;
+            height: 6px;
+            left: 50%;
+            top: 50%;
+            margin: -3px 0 0 -3px;
+            border-radius: 50%;
+            background-color: rgba(#fff, 0.2);
+          }
         }
 
-        &.allow {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          &:hover {
-            cursor: pointer;
-          }
-
-          .pointer {
-            width: 0;
-            height: 0;
-            transition: all 0.2s ease-out;
-
-            &:after {
-              position: absolute;
-              content: '';
-              width: 6px;
-              height: 6px;
-              left: 50%;
-              top: 50%;
-              margin: -3px 0 0 -3px;
-              border-radius: 50%;
-              background-color: rgba(#fff, 0.2);
-            }
-          }
-
-          &:hover .pointer {
-            background-color: rgba(#fff, 0.06);
-            width: 100%;
-            height: 100%;
-            border-radius: 8%;
-          }
+        &:hover .pointer {
+          background-color: rgba(#fff, 0.06);
+          width: 100%;
+          height: 100%;
+          border-radius: 8%;
         }
       }
     }

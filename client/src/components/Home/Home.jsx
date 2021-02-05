@@ -19,16 +19,14 @@ export default () => {
     // ---
 
     return (
-        <div className="container-home">
+        <div className="container container-home">
             <div className="logotype" onClick={() => setSection('lobbies')}>
                 <div className="blocks">
                     <div className={randomClass()} />
                     <div className={randomClass()} />
                     <div className={randomClass()} />
                 </div>
-                <div className="text">
-                    <span>three</span>do
-                </div>
+                <div className="text">dothree</div>
             </div>
             {(section === 'editor')
                 ? <Editor socket={socket} onClose={() => setSection('lobbies')} />

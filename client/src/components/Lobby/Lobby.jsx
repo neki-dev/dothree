@@ -24,7 +24,7 @@ export default () => {
     // ---
 
     return (
-        <div className="container-lobby">
+        <div className="container container-lobby">
             {error
                 ? (
                     <div className="error">

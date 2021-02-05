@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
+import React, {useState, useEffect, useCallback, useMemo, useRef} from 'react';
 import PropTypes from 'prop-types';
 import Entity from './Entity';
 
@@ -8,6 +8,8 @@ const World = ({socket, players}) => {
 
     const [world, setWorld] = useState(null);
     const [step, setStep] = useState(null);
+
+    const refWorld = useRef(null);
 
     const current = useMemo(() => {
         return players.find((player) => (player.id === socket.id));
@@ -27,6 +29,13 @@ const World = ({socket, players}) => {
         socket.on('lobby:UpdateWorld', setWorld);
     }, []);
 
+    useEffect(() => {
+        if (!refWorld.current) {
+            return;
+        }
+        refWorld.current.scrollTop = refWorld.current.clientHeight;
+    }, [refWorld.current]);
+
     // ---
 
     if (!world) {
@@ -34,23 +43,20 @@ const World = ({socket, players}) => {
     }
 
     return (
-        <div className="world">
-            <div className="lines">
-                {world.map((line, y) => (
-                    <div key={y} className="line">
-                        {line.map((entity, x) => (
-                            <Entity key={`${x}-${y}`} value={entity} world={world} x={x} y={y} isPutting={current && current.slot === step} onPut={putEntity} />
-                        ))}
-                    </div>
-                ))}
-            </div>
+        <div className="world" ref={refWorld}>
+            {world.map((line, y) => (
+                <div key={y} className="line">
+                    {line.map((entity, x) => (
+                        <Entity key={`${x}-${y}`} value={entity} world={world} x={x} y={y} isPutting={current && current.slot === step} onPut={putEntity} />
+                    ))}
+                </div>
+            ))}
         </div>
     );
 
 };
 
 World.propTypes = {
-    socket: PropTypes.object.isRequired,
     players: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         slot: PropTypes.number.isRequired,

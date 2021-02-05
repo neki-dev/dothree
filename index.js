@@ -8,7 +8,7 @@ const PATH_TO_INDEX = path.join(__dirname, 'client', 'index.html');
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'client')));
-app.use((req, res) => res.sendFile(PATH_TO_INDEX));
+app.get(['/', '/game/:uuid'], (req, res) => res.sendFile(PATH_TO_INDEX));
 
 const port = process.env.PORT || CONFIG.PORT;
 const server = http.Server(app);

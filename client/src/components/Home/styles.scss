@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 .container-home {
-  display: flex;
-  flex-direction: column;
-  padding: 100px 0;
+  padding: 100px;
+  align-items: center;
+  justify-content: center;
 
   .logotype {
     margin-bottom: 50px;

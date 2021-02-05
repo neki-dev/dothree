@@ -11,12 +11,13 @@
 }
 
 html,
-body {
+body,
+#app {
   min-height: 100vh;
+  max-height: 100vh;
 }
 
 body {
-  display: flex;
   font: 13px 'Nunito', sans-serif;
   background: #0f141a;
   color: #fff;
@@ -24,7 +25,11 @@ body {
 
 #app {
   display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+
+  .container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
 }

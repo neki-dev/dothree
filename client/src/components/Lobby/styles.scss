@@ -1,10 +1,4 @@
 .container-lobby {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-
   .error {
     display: flex;
     flex: 1;
@@ -102,9 +96,9 @@
   .game-wrapper {
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 5px 40px rgba(#000, 0.1);
+    max-height: 100vh;
+    justify-content: center;
+    flex: 1;
 
     .info {
       background: #19222D;
@@ -160,7 +154,7 @@
           }
 
           .player:not(:last-child),
-          .empty:not(:last-child), {
+          .empty:not(:last-child) {
             margin-right: 5px;
           }
 

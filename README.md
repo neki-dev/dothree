@@ -1,4 +1,4 @@
-## DOTHREE # [PLAY ONLINE](http://dothree.essle.ru)
+## DOTHREE # [PLAY ONLINE](http://dothree.herokuapp.com)
 
 Логическая онлайн игра, похожая на смесь тетриса и крестиков-ноликов.
 

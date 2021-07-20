@@ -2,5 +2,5 @@
 .idea
 node_modules/
 package-lock.json
-./app/server.js
-./app/dist/
+/app/server.js
+/app/dist/*

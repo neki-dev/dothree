@@ -43,7 +43,7 @@ class Core {
 
     addLobby(lobby: Lobby): void {
         this.lobbies.push(lobby);
-        this.updateLobbies();
+        this.updateClientLobbies();
     }
 
     removeLobby(lobby: Lobby): void {
@@ -53,7 +53,7 @@ class Core {
             return;
         }
         this.lobbies.splice(index, 1);
-        this.updateLobbies();
+        this.updateClientLobbies();
     }
 
     getLastLobbies(limit: number = 5): Array<LastLobby> {
@@ -70,7 +70,7 @@ class Core {
         }));
     }
 
-    updateLobbies(): void {
+    updateClientLobbies(): void {
         const lobbies = this.getLastLobbies();
         this.send('UpdateLobbies', lobbies);
     }

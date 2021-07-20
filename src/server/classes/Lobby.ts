@@ -144,7 +144,7 @@ class Lobby {
 			slot: player.slot,
 		}));
 		this.send('UpdatePlayers', players);
-		this.core.updateLobbies();
+		this.core.updateClientLobbies();
 	}
 
 	private updateClientMeta(): void {

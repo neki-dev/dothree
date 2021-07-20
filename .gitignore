@@ -1,5 +1,6 @@
 .git
 .idea
 node_modules/
-client/dist/
 package-lock.json
+./app/server.js
+./app/dist/

@@ -20,7 +20,7 @@ const Editor = ({socket, onClose}) => {
             ...options,
             [input.name]: Number(input.value),
         }));
-    });
+    }, []);
 
     const createLobby = useCallback((e) => {
         socket.emit('player:CreateLobby', options);
@@ -61,6 +61,7 @@ Editor.defaultProps = {
 };
 
 Editor.propTypes = {
+    socket: PropTypes.object.isRequired,
     onClose: PropTypes.func,
 };
 

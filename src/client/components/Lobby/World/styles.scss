@@ -1,10 +1,12 @@
 .world {
   user-select: none;
   display: flex;
-  overflow-y: auto;
   background: rgba(#323a45, 0.8);
-  padding: 10px;
+  padding: 10px (10px + 14px) 10px 10px;
   flex-direction: column;
+  box-shadow: (-17px - 14px) 0 0 #1E232A inset;
+  overflow-y: scroll;
+  // margin-right: -17px; // hide scrollbar
 
   .line {
     display: flex;
@@ -27,7 +29,7 @@
       }
 
       &.block {
-        background: linear-gradient(135deg, rgba(41,52,64,1) 0%, rgba(10,19,29,1) 100%);
+        background: linear-gradient(135deg, rgba(41, 52, 64, 1) 0%, rgba(10, 19, 29, 1) 100%);
       }
 
       &.bonus {
@@ -95,5 +97,37 @@
         }
       }
     }
+  }
+}
+
+
+.game-wrapper {
+  .scrollarea .scrollbar-container {
+    opacity: 1;
+    background: #1E232A;
+  }
+
+  .scrollarea .scrollbar-container.vertical {
+    width: 10px;
+    height: 100%;
+    right: 0;
+    top: 0
+  }
+
+  .scrollarea .scrollbar-container.vertical .scrollbar {
+    width: 10px;
+    height: 20px;
+    background: #000;
+    margin: 0;
+  }
+
+  .scrollarea .scrollbar-container.active,
+  .scrollarea .scrollbar-container:hover {
+    background: orange;
+    opacity: 1 !important;
+  }
+
+  .scrollarea:hover .scrollbar-container {
+    opacity: 1;
   }
 }

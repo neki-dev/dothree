@@ -1,5 +1,6 @@
 {
+	"IP_ONCE": false,
 	"PORT": 3000,
-	"AUTO_DROP": true,
-	"IP_ONCE": false
+	"LOBBY_IDLE_TIMEOUT": 10,
+	"RESTART_TIMEOUT": 5
 }

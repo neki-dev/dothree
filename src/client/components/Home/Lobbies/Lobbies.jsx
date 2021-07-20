@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import dayjs from 'dayjs';
+import PropTypes from 'prop-types';
 
 import './styles.scss';
 
-export default ({socket}) => {
+const Lobbies = ({socket}) => {
 
     const [lobbies, setLobbies] = useState([]);
 
@@ -35,3 +36,9 @@ export default ({socket}) => {
         : null;
 
 };
+
+Lobbies.propTypes = {
+    socket: PropTypes.object.isRequired,
+};
+
+export default Lobbies;

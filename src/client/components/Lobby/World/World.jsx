@@ -4,6 +4,9 @@ import Entity from './Entity';
 
 import './styles.scss';
 
+// import SimpleBar from 'simplebar-react';
+// import 'simplebar/dist/simplebar.min.css';
+
 const World = ({socket, players}) => {
 
     const [world, setWorld] = useState(null);
@@ -19,11 +22,12 @@ const World = ({socket, players}) => {
         socket.emit('player:PutEntity', [x, y]);
     }, [world]);
 
+    // TODO: Sync renders
     useEffect(() => {
         socket.on('player:JoinLobby', (data) => {
             setWorld(data.world);
         });
-        socket.on('lobby:UpdateTick', (data) => {
+        socket.on('lobby:UpdateMeta', (data) => {
             setStep(data.step);
         });
         socket.on('lobby:UpdateWorld', setWorld);
@@ -33,7 +37,15 @@ const World = ({socket, players}) => {
         if (!refWorld.current) {
             return;
         }
+        const onScroll = (e) => {
+            console.log('a', e.target.scrollTop);
+            console.log('b', e.target.clientHeight, e.target.scrollHeight);
+        };
         refWorld.current.scrollTop = refWorld.current.clientHeight;
+        refWorld.current.addEventListener('scroll', onScroll);
+        return () => {
+            refWorld.current.removeEventListener('scroll', onScroll);
+        };
     }, [refWorld.current]);
 
     // ---
@@ -57,6 +69,7 @@ const World = ({socket, players}) => {
 };
 
 World.propTypes = {
+    socket: PropTypes.object.isRequired,
     players: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         slot: PropTypes.number.isRequired,

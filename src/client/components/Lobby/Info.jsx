@@ -35,7 +35,7 @@ const Info = ({socket, players}) => {
                 timeout: data.timeout,
             });
         });
-        socket.on('lobby:UpdateTick', setData);
+        socket.on('lobby:UpdateMeta', setData);
     }, []);
 
     useEffect(() => {
@@ -97,7 +97,7 @@ const Info = ({socket, players}) => {
                 <div className="block">
                     <div className="label" />
                     <div className="value">
-                        <div className="restart">Рестарт игры через 3 секунды...</div>
+                        <div className="restart">Рестарт игры через 5 секунд...</div>
                     </div>
                 </div>
             )}

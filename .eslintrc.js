@@ -22,7 +22,7 @@ module.exports = {
         'react/jsx-no-duplicate-props': 'error',
         'react/jsx-tag-spacing': 'warn',
         'react/require-default-props': 'warn',
-        'react/prop-types': ['warn', {'ignore': ['children', 'socket']}],
+        'react/prop-types': ['warn', {'ignore': ['children']}],
         'prefer-template': 'warn',
         'comma-dangle': ['warn', {
             'arrays': 'always-multiline',
@@ -40,7 +40,6 @@ module.exports = {
         'no-multiple-empty-lines': 'warn',
         // 'class-methods-use-this': 'warn',
         'padded-blocks': ['warn', {'classes': 'always'}],
-        'object-curly-spacing': ['warn', 'never'],
         'array-bracket-spacing': ['warn', 'never'],
         'semi': 'error',
         'semi-spacing': ['warn', {'before': false, 'after': true}],
@@ -53,5 +52,15 @@ module.exports = {
         'space-before-blocks': ['warn', 'always'],
         'keyword-spacing': ['warn', {'before': true, 'after': true}],
         'arrow-spacing': ['warn', {'before': true, 'after': true}],
+        'no-cond-assign': 'warn',
+        'no-constant-condition': 'warn',
+        // 'no-extra-parens': ['warn', 'all', {
+        //     'ignoreJSX': 'multi-line',
+        //     'enforceForArrowConditionals': false,
+        // }],
+        'no-inner-declarations': ['error', 'functions'],
+        'no-unexpected-multiline': 'warn',
+        'object-shorthand': 'error',
+        'object-curly-spacing': ['warn', 'never'],
     },
 };

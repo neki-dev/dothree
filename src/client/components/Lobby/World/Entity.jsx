@@ -1,6 +1,5 @@
 import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
-import utils from '@lib/utils';
 
 import './styles.scss';
 
@@ -8,7 +7,7 @@ const Entity = ({value, world, x, y, isPutting, onPut}) => {
 
     const isAllow = useMemo(() => {
         const [type] = value.split('-');
-        return (isPutting && ['empty', 'bonus'].includes(type) && utils.mainstay(world, x, y));
+        return (isPutting && ['empty', 'bonus'].includes(type) && canBePlaced(world, x, y));
     }, [world, isPutting]);
 
     // ---
@@ -19,6 +18,15 @@ const Entity = ({value, world, x, y, isPutting, onPut}) => {
         </div>
     );
 
+};
+
+const canBePlaced = (map, x, y) => {
+    if (y + 1 === map.length) {
+        return true;
+    } else {
+        const [type] = map[y + 1][x].split('-');
+        return ['player', 'block'].includes(type);
+    }
 };
 
 Entity.defaultProps = {

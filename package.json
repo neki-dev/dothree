@@ -2,7 +2,11 @@
   "name": "dothree",
   "description": "Online logic game",
   "version": "1.1.0",
-  "keywords": ["game", "logic", "online"],
+  "keywords": [
+    "game",
+    "logic",
+    "online"
+  ],
   "author": {
     "name": "Essle Jaxcate",
     "email": "me@essle.ru",

@@ -1,16 +1,17 @@
 import React, {useState, useCallback} from 'react';
-import Lobbies from './Lobbies';
 import GitHubButton from 'react-github-btn';
-import useSocket from '../../hooks/useSocket';
+import {Socket} from 'socket.io-client';
+import useSocket from '~hook/useSocket';
 import Editor from './Editor';
+import Lobbies from './Lobbies';
 
 import './styles.scss';
 
-export default () => {
+export default function Home() {
 
-    const socket = useSocket('/home');
+    const socket: Socket = useSocket('/home');
 
-    const [section, setSection] = useState('lobbies');
+    const [section, setSection] = useState<string>('lobbies');
 
     const randomClass = useCallback(() => {
         return `player slot${Math.floor(1 + Math.random() * 5)}`;
@@ -28,15 +29,14 @@ export default () => {
                 </div>
                 <div className="text">dothree</div>
             </div>
-            {(section === 'editor')
-                ? <Editor socket={socket} onClose={() => setSection('lobbies')} />
-                : (
-                    <>
-                        <div className="toggle-section" onClick={() => setSection('editor')}>Создать новую игру</div>
-                        <Lobbies socket={socket} />
-                    </>
-                )
-            }
+            {(section === 'editor') ? (
+                <Editor socket={socket} onClose={() => setSection('lobbies')} />
+            ) : (
+                <>
+                    <div className="toggle-section" onClick={() => setSection('editor')}>Создать новую игру</div>
+                    <Lobbies socket={socket} />
+                </>
+            )}
             <div className="footer">
                 <GitHubButton href="https://github.com/essle/dothree" data-color-scheme="no-preference: dark; light: dark; dark: dark;"
                     data-size="large" data-show-count="true" aria-label="Star essle/dothree on GitHub" data-icon="octicon-star" >Star</GitHubButton>
@@ -46,4 +46,4 @@ export default () => {
         </div>
     );
 
-};
+}

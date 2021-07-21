@@ -3,8 +3,9 @@ import Core from './classes/Core';
 import Player from './classes/Player';
 import Lobby from './classes/Lobby';
 
-import type Location from '~t/Location';
-import LobbyOptions from '~t/LobbyOptions';
+import type WorldLocation from '~type/WorldLocation';
+import LobbyOptions from '~type/LobbyOptions';
+import LobbyInfo from '~type/LobbyInfo';
 
 export default {
     boot(io: Server): void {
@@ -13,7 +14,7 @@ export default {
         core.initialize();
 
         core.namespace('/home').on('connection', (socket: Socket) => {
-            const lobbies = core.getLastLobbies();
+            const lobbies: LobbyInfo[] = core.getLastLobbies();
             socket.emit('player:UpdateLobbies', lobbies);
             socket.on('player:CreateLobby', (data: LobbyOptions) => {
                 const lobby = new Lobby(core, data);
@@ -26,8 +27,8 @@ export default {
             if (!socket.handshake.query.uuid) {
                 return;
             }
-            const player = new Player(socket);
-            const lobby = core.getLobby(<string>socket.handshake.query.uuid);
+            const player: Player = new Player(socket);
+            const lobby: Lobby = core.getLobby(<string>socket.handshake.query.uuid);
             if (!lobby) {
                 return player.send('Error', 'Указанная игра не найдена');
             }
@@ -35,7 +36,7 @@ export default {
             socket.on('disconnect', () => {
                 lobby.leavePlayer(player);
             });
-            socket.on('player:PutEntity', (location: Location) => {
+            socket.on('player:PutEntity', (location: WorldLocation) => {
                 lobby.putEntity(player, location);
             });
         });

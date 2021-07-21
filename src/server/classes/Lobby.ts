@@ -3,24 +3,24 @@ import Core from './Core';
 import Player from './Player';
 import World from './World';
 
-import type Location from '~t/Location';
-import LobbyOptions from '~t/LobbyOptions';
+import type WorldLocation from '~type/WorldLocation';
+import LobbyInfo from '~type/LobbyInfo';
+import LobbyOptions from '~type/LobbyOptions';
 
-const CONFIG = require('./../../../config.json');
+import CONFIG from '~root/config.json';
 
 class Lobby {
 
 	public readonly uuid: string;
 	public options: LobbyOptions;
 	public players: Array<Player>;
-	public readonly date: Date;
+	private readonly date: Date;
+	private readonly core: Core;
 	private readonly world: World;
+	private idleTick: number;
+	private reseting?: NodeJS.Timeout | null;
 	private step?: number;
 	private timeout: number;
-	private finished: boolean;
-	private timeoutReset?: any;
-	private readonly core: Core;
-	private idleTick: number;
 
 	constructor(core: Core, options: LobbyOptions = {}) {
 
@@ -37,8 +37,7 @@ class Lobby {
 		this.step = null;
 		this.timeout = 0;
 		this.date = new Date();
-		this.finished = false;
-		this.timeoutReset = null;
+		this.reseting = null;
 		this.core = core;
 		this.idleTick = 0;
 
@@ -51,8 +50,8 @@ class Lobby {
 
 	destroy(): void {
 		this.core.removeLobby(this);
-		if (this.timeoutReset !== null) {
-			clearTimeout(this.timeoutReset);
+		if (this.reseting !== null) {
+			clearTimeout(this.reseting);
 		}
 		console.log(`Lobby #${this.uuid} destroyed`);
 	}
@@ -68,12 +67,13 @@ class Lobby {
 		}
 	}
 
-	getFreeSlot(): number | undefined {
+	getFreeSlot(): number | null {
 		for (let i = 0; i < this.options.maxPlayers; i++) {
 			if (this.players.every((player) => (player.slot !== i))) {
 				return i;
 			}
 		}
+		return null;
 	}
 
 	joinPlayer(player: Player): void {
@@ -108,13 +108,13 @@ class Lobby {
 		this.players.splice(index, 1);
 		this.updateClientPlayers();
 		player.leave(this.uuid);
-		if (this.finished) {
+		if (this.reseting) {
 			this.reset();
 		}
 		console.log(`Player #${player.id} leaved from lobby #${this.uuid}`);
 	}
 
-	putEntity(player: Player, location: Location) {
+	putEntity(player: Player, location: WorldLocation): void {
 
 		if (this.step !== player.slot) {
 			return;
@@ -136,6 +136,25 @@ class Lobby {
 		this.updateClientMeta();
 		this.updateClientWorld();
 
+	}
+
+	getInfo(): LobbyInfo {
+		return {
+			uuid: this.uuid,
+			date: this.date,
+			players: {
+				online: this.players.length,
+				max: this.options.maxPlayers,
+			},
+		};
+	}
+
+	isStarted(): boolean {
+		return (this.step !== null);
+	}
+
+	isFulled(): boolean {
+		return (this.players.length === this.options.maxPlayers);
 	}
 
 	private updateClientPlayers(): void {
@@ -173,20 +192,11 @@ class Lobby {
 		this.updateClientMeta();
 	}
 
-	private isStarted(): boolean {
-		return (this.step !== null);
-	}
-
-	private isFulled(): boolean {
-		return (this.players.length === this.options.maxPlayers);
-	}
-
 	private reset(): void {
-		if (this.timeoutReset !== null) {
-			clearTimeout(this.timeoutReset);
-			this.timeoutReset = null;
+		if (this.reseting) {
+			clearTimeout(this.reseting);
+			this.reseting = null;
 		}
-		this.finished = false;
 		this.world.generate();
 		this.updateClientWorld();
 		if (this.isFulled()) {
@@ -195,9 +205,8 @@ class Lobby {
 	}
 
 	private finish(): void {
-		this.finished = true;
 		this.step = null;
-		this.timeoutReset = setTimeout(() => {
+		this.reseting = setTimeout(() => {
 			this.reset();
 		}, CONFIG.RESTART_TIMEOUT * 1000);
 	}

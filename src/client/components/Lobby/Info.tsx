@@ -1,20 +1,28 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import PropTypes from 'prop-types';
 import {useParams} from 'react-router-dom';
+import {Socket} from 'socket.io-client';
 import dayjs from 'dayjs';
+
+import LobbyOptions from '~type/LobbyOptions';
+import PlayerInfo from '~type/PlayerInfo';
 
 import './styles.scss';
 
-const Info = ({socket, players}) => {
+interface ComponentProps {
+    socket: Socket;
+    players: Array<PlayerInfo>;
+}
 
-    const {uuid} = useParams();
+export default function Info({socket, players}: ComponentProps) {
+
+    const {uuid}: {[key: string]: string} = useParams();
 
     const [data, setData] = useState(null);
-    const [options, setOptions] = useState({});
+    const [options, setOptions] = useState<LobbyOptions>({});
 
     const date = useMemo(() => dayjs().hour(0).minute(0), []);
 
-    const slots = useMemo(() => {
+    const slots: Array<PlayerInfo | null> = useMemo(() => {
         const res = [];
         for (let i = 0; i < options.maxPlayers; i++) {
             const player = players.find((player) => (player.slot === i));
@@ -23,7 +31,7 @@ const Info = ({socket, players}) => {
         return res;
     }, [players, options.maxPlayers]);
 
-    const current = useMemo(() => {
+    const current: PlayerInfo = useMemo(() => {
         return players.find((player) => (player.id === socket.id));
     }, [players]);
 
@@ -44,7 +52,7 @@ const Info = ({socket, players}) => {
         }
         const titleIdle = `Dothree #${uuid}`;
         const titleActive = 'Ваш ход!';
-        let interval;
+        let interval: NodeJS.Timer;
         if (data.step === current.slot && players.length === options.maxPlayers) {
             document.title = titleActive;
             interval = setInterval(() => {
@@ -72,13 +80,13 @@ const Info = ({socket, players}) => {
                 <div className="label">Игроки</div>
                 <div className="value">
                     {slots.map((player, slot) => (
-                        player
-                            ? (
-                                <div key={slot} className={`player slot${slot + 1}`}>
-                                    {(current && current.slot === slot) && <span>Вы</span>}
-                                </div>
-                            )
-                            : <div key={slot} className="empty" />
+                        player ? (
+                            <div key={slot} className={`player slot${slot + 1}`}>
+                                {(current && current.slot === slot) && <span>Вы</span>}
+                            </div>
+                        ) : (
+                            <div key={slot} className="empty" />
+                        )
                     ))}
                 </div>
             </div>
@@ -104,14 +112,4 @@ const Info = ({socket, players}) => {
         </div>
     );
 
-};
-
-Info.propTypes = {
-    socket: PropTypes.object.isRequired,
-    players: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        slot: PropTypes.number.isRequired,
-    })).isRequired,
-};
-
-export default Info;
+}

@@ -15,19 +15,23 @@ module.exports = {
         entrypoints: true,
     },
     externals: [nodeExternals()],
-    entry: './src/server/index.ts',
+    entry: path.join(__dirname, 'src', 'server', 'index.ts'),
     resolve: {
-        extensions: ['.ts', '.js'],
+        extensions: ['.js', '.ts'],
+        alias: {
+            ['~root']: __dirname,
+            ['~type']: path.join(__dirname, 'src', 'types'),
+        },
     },
     output: {
         filename: 'server.js',
-        path: path.resolve(__dirname, 'app'),
+        path: path.join(__dirname, 'app'),
     },
     module: {
         rules: [{
-            test: /\.tsx?$/,
+            test: /\.ts$/,
             use: 'ts-loader',
-            exclude: /node_modules/,
+            include: path.join(__dirname, 'src', 'server'),
         }],
     },
     devtool: false,

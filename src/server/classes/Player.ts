@@ -1,6 +1,6 @@
 import {Socket} from 'socket.io';
 
-const CONFIG = require('./../../../config.json');
+import CONFIG from '~root/config.json';
 
 class Player {
 
@@ -10,7 +10,7 @@ class Player {
 
     constructor(socket: Socket) {
         this.socket = socket;
-        this.id = CONFIG.IP_ONCE ? socket.request.connection.remoteAddress : socket.id;
+        this.id = CONFIG.IP_ONCE ? socket.handshake.address : socket.id;
         this.slot = null;
     }
 

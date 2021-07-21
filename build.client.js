@@ -19,14 +19,15 @@ module.exports = {
     },
     entry: [
         'babel-polyfill',
-        path.join(__dirname, 'src', 'client', 'index.jsx'),
+        path.join(__dirname, 'src', 'client', 'index.tsx'),
     ],
     resolve: {
-        extensions: ['.js', '.jsx'],
-        modules: [
-            path.join(__dirname, 'node_modules'),
-            path.join(__dirname, 'client', 'src'),
-        ],
+        extensions: ['.js', '.ts', '.tsx'],
+        alias: {
+            ['~root']: __dirname,
+            ['~type']: path.join(__dirname, 'src', 'types'),
+            ['~hook']: path.join(__dirname, 'src', 'client', 'hooks'),
+        },
     },
     output: {
         path: path.join(__dirname, 'app', 'dist'),
@@ -39,70 +40,67 @@ module.exports = {
         new webpack.NoEmitOnErrorsPlugin(),
     ],
     module: {
-        rules: [
-            {
-                test: /\.jsx$/,
-                include: [
-                    path.join(__dirname, 'node_modules'),
-                    path.join(__dirname, 'src', 'client'),
-                ],
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env', '@babel/preset-react'],
-                    },
-                },
-            },
-            {
-                test: /\.s?css$/,
-                include: [
-                    path.join(__dirname, 'node_modules'),
-                    path.join(__dirname, 'src', 'client'),
-                ],
-                use: [
-                    {
-                        loader: ExtractPlugin.loader,
-                    },
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            sourceMap: false,
-                        },
-                    },
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    AutoprefixerPlugin(),
-                                    CSSNanoPlugin({preset: 'default'}),
-                                ],
-                            },
-                            sourceMap: false,
-                        },
-                    },
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            sourceMap: false,
-                        },
-                    },
-                ],
-            },
-            {
-                test: /\.(gif|svg|jpg|jpeg|png|ttf|woff|wav|mp3)$/,
-                include: [
-                    path.join(__dirname, 'node_modules'),
-                    path.join(__dirname, 'src', 'client'),
-                ],
-                loader: 'file-loader',
+        rules: [{
+            test: /\.ts$/,
+            use: 'ts-loader',
+            include: path.join(__dirname, 'src', 'client'),
+        }, {
+            test: /\.tsx$/,
+            use: [{
+                loader: 'babel-loader',
                 options: {
-                    outputPath: '../dist/assets',
-                    name: '[name].[ext]',
-                    publicPath: '/dist/assets',
+                    presets: [
+                        '@babel/preset-env',
+                        '@babel/preset-react',
+                        '@babel/preset-typescript',
+                    ],
                 },
+            }, {
+                loader: 'ts-loader',
+            }],
+            include: path.join(__dirname, 'src', 'client'),
+        }, {
+            test: /\.scss$/,
+            use: [
+                {
+                    loader: ExtractPlugin.loader,
+                },
+                {
+                    loader: 'css-loader',
+                    options: {
+                        sourceMap: false,
+                    },
+                },
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        postcssOptions: {
+                            plugins: [
+                                AutoprefixerPlugin(),
+                                CSSNanoPlugin({preset: 'default'}),
+                            ],
+                        },
+                        sourceMap: false,
+                    },
+                },
+                {
+                    loader: 'sass-loader',
+                    options: {
+                        sourceMap: false,
+                    },
+                },
+            ],
+            include: path.join(__dirname, 'src', 'client'),
+        }, {
+            test: /\.(svg|png|ttf|woff|wav)$/,
+            loader: 'file-loader',
+            options: {
+                outputPath: '../dist/assets',
+                name: '[name].[ext]',
+                publicPath: '/dist/assets',
             },
-        ],
+            include: path.join(__dirname, 'src', 'client'),
+        }],
     },
     devtool: false,
     optimization: {

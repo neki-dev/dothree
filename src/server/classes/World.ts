@@ -1,7 +1,8 @@
 import utils from '../utils';
 
-import type Location from '~t/Location';
-import LobbyOptions from '~t/LobbyOptions';
+import type WorldLocation from '~type/WorldLocation';
+import type WorldMap from '~type/WorldMap';
+import LobbyOptions from '~type/LobbyOptions';
 
 const MAP_SIZE = [25, 12];
 const MAP_ENTITY = {
@@ -18,7 +19,7 @@ const ENTITY_BONUS = {
 
 class World {
 
-	readonly map: Array<Array<string>> = [];
+	readonly map: WorldMap = [];
 	private readonly options: LobbyOptions;
 
 	constructor(options: LobbyOptions) {
@@ -44,11 +45,11 @@ class World {
 		}
 	}
 
-	place(slot: number, location: Location): Array<Location> {
+	place(slot: number, location: WorldLocation): Array<WorldLocation> {
 		if (!this.canBePlaced(location)) {
 			return;
 		}
-		let locations: Array<Location> = [location];
+		let locations: Array<WorldLocation> = [location];
 		const types: Array<string> = this.getEntity(location).split('-');
 		if (types[0] === MAP_ENTITY.BONUS) {
 			const additional = this.useBonus(slot, location, types[1]);
@@ -62,7 +63,7 @@ class World {
 		return locations;
 	}
 
-	checkWinning(locations: Array<Location>): boolean {
+	checkWinning(locations: Array<WorldLocation>): boolean {
 		for (const location of locations) {
 			const results = this.getWinningLocations(location);
 			if (results) {
@@ -76,11 +77,11 @@ class World {
 		return false;
 	}
 
-	useBonus(slot: number, location: Location, type: string): Array<Location> {
-		let additional: Array<Location> = [];
+	useBonus(slot: number, location: WorldLocation, type: string): Array<WorldLocation> {
+		let additional: Array<WorldLocation> = [];
 		switch (type) {
 			case ENTITY_BONUS.REPLACER: {
-				const puttedEntities: Array<Location> = [];
+				const puttedEntities: Array<WorldLocation> = [];
 				this.eachMap((entity: string, x: number, y: number) => {
 					const [type, targetSlot]: Array<string> = entity.split('-');
 					if (type === MAP_ENTITY.PLAYER && Number(targetSlot.replace('slot', '')) - 1 !== slot) {
@@ -93,7 +94,7 @@ class World {
 				break;
 			}
 			case ENTITY_BONUS.SPAWN: {
-				const emptyEntities: Array<Location> = [];
+				const emptyEntities: Array<WorldLocation> = [];
 				this.eachMap((entity: string, x: number, y: number) => {
 					if (entity === MAP_ENTITY.EMPTY && this.canBePlaced([x, y])) {
 						emptyEntities.push([x, y]);
@@ -115,7 +116,7 @@ class World {
 		return additional;
 	}
 
-	private canBePlaced(location: Location): boolean {
+	private canBePlaced(location: WorldLocation): boolean {
 		if (location[1] + 1 === this.map.length) {
 			return true;
 		} else {
@@ -129,19 +130,19 @@ class World {
 		}
 	}
 
-	private setEntity(location: Location, type: string): void {
+	private setEntity(location: WorldLocation, type: string): void {
 		if (this.locationIsValid(location)) {
 			this.map[location[1]][location[0]] = type;
 		}
 	}
 
-	private getEntity(location: Location): string | undefined {
+	private getEntity(location: WorldLocation): string | undefined {
 		if (this.locationIsValid(location)) {
 			return this.map[location[1]][location[0]];
 		}
 	}
 
-	private locationIsValid(location: Location): boolean {
+	private locationIsValid(location: WorldLocation): boolean {
 		return location.every((p, i) => (p >= 0 && p < MAP_SIZE[i]));
 	}
 
@@ -153,12 +154,12 @@ class World {
 		}
 	}
 
-	private getWinningLocations(from: Location): Array<Location> {
+	private getWinningLocations(from: WorldLocation): Array<WorldLocation> {
 		for (const line of [[-1, 0], [-1, -1], [0, -1], [1, -1]]) {
 			for (let side = 0; side > -this.options.targetLength; side--) {
-				const locations: Array<Location> = [];
+				const locations: Array<WorldLocation> = [];
 				for (let step = side; step <= (side + this.options.targetLength - 1); step++) {
-					const point = <Location>from.map((f, i) => (f - line[i] * step));
+					const point = <WorldLocation>from.map((f, i) => (f - line[i] * step));
 					if (point.every((c, i) => (c >= 0 && c < MAP_SIZE[i]))) {
 						locations.push(point);
 					}

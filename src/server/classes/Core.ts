@@ -1,15 +1,7 @@
 import {Namespace, Server} from 'socket.io';
-
 import Lobby from './Lobby';
 
-interface LastLobby {
-    uuid: string,
-    date: Date,
-    players: {
-        online: number,
-        max: number,
-    },
-}
+import LobbyInfo from '~type/LobbyInfo';
 
 class Core {
 
@@ -56,22 +48,15 @@ class Core {
         this.updateClientLobbies();
     }
 
-    getLastLobbies(limit: number = 5): Array<LastLobby> {
-        const freeLobbies = this.lobbies.filter((lobby) => (lobby.players.length < lobby.options.maxPlayers)).sort((a: Lobby, b: Lobby) => (
-            (a.date.getTime() - b.date.getTime())
-        ));
-        return freeLobbies.slice(0, limit).map((lobby: Lobby) => ({
-            uuid: lobby.uuid,
-            date: lobby.date,
-            players: {
-                online: lobby.players.length,
-                max: lobby.options.maxPlayers,
-            },
-        }));
+    getLastLobbies(limit: number = 5): Array<LobbyInfo> {
+        const freeLobbies = this.lobbies.filter((lobby) => !lobby.isFulled());
+        return freeLobbies.reverse()
+            .slice(0, limit)
+            .map((lobby: Lobby) => lobby.getInfo());
     }
 
     updateClientLobbies(): void {
-        const lobbies = this.getLastLobbies();
+        const lobbies: Array<LobbyInfo> = this.getLastLobbies();
         this.send('UpdateLobbies', lobbies);
     }
 

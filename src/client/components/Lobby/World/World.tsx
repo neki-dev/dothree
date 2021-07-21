@@ -1,20 +1,28 @@
 import React, {useState, useEffect, useCallback, useMemo, useRef} from 'react';
-import PropTypes from 'prop-types';
+import {Socket} from 'socket.io-client';
 import Entity from './Entity';
+
+import WorldMap from '~type/WorldMap';
+import PlayerInfo from '~type/PlayerInfo';
 
 import './styles.scss';
 
 // import SimpleBar from 'simplebar-react';
 // import 'simplebar/dist/simplebar.min.css';
 
-const World = ({socket, players}) => {
+interface ComponentProps {
+    socket: Socket;
+    players: Array<PlayerInfo>;
+}
 
-    const [world, setWorld] = useState(null);
-    const [step, setStep] = useState(null);
+export default function World({socket, players}: ComponentProps) {
 
-    const refWorld = useRef(null);
+    const [world, setWorld] = useState<WorldMap>(null);
+    const [step, setStep] = useState<number>(null);
 
-    const current = useMemo(() => {
+    const refWorld = useRef<HTMLDivElement>(null);
+
+    const current: PlayerInfo = useMemo(() => {
         return players.find((player) => (player.id === socket.id));
     }, [players]);
 
@@ -37,7 +45,7 @@ const World = ({socket, players}) => {
         if (!refWorld.current) {
             return;
         }
-        const onScroll = (e) => {
+        const onScroll = (e: any) => {
             console.log('a', e.target.scrollTop);
             console.log('b', e.target.clientHeight, e.target.scrollHeight);
         };
@@ -56,9 +64,9 @@ const World = ({socket, players}) => {
 
     return (
         <div className="world" ref={refWorld}>
-            {world.map((line, y) => (
+            {world.map((line, y: number) => (
                 <div key={y} className="line">
-                    {line.map((entity, x) => (
+                    {line.map((entity, x: number) => (
                         <Entity key={`${x}-${y}`} value={entity} world={world} x={x} y={y} isPutting={current && current.slot === step} onPut={putEntity} />
                     ))}
                 </div>
@@ -66,14 +74,4 @@ const World = ({socket, players}) => {
         </div>
     );
 
-};
-
-World.propTypes = {
-    socket: PropTypes.object.isRequired,
-    players: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        slot: PropTypes.number.isRequired,
-    })).isRequired,
-};
-
-export default World;
+}

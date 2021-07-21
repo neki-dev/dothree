@@ -9,8 +9,11 @@
     "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     "paths": {
-      "~t/*": ["src/server/types/*"]
+      "~root/*": ["*"],
+      "~type/*": ["src/types/*"],
+      "~hook/*": ["src/client/hooks/*"]
     }
   }
 }

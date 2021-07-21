@@ -7,12 +7,9 @@ import PlayerInfo from '~type/PlayerInfo';
 
 import './styles.scss';
 
-// import SimpleBar from 'simplebar-react';
-// import 'simplebar/dist/simplebar.min.css';
-
 interface ComponentProps {
     socket: Socket;
-    players: Array<PlayerInfo>;
+    players: PlayerInfo[];
 }
 
 export default function World({socket, players}: ComponentProps) {
@@ -30,15 +27,14 @@ export default function World({socket, players}: ComponentProps) {
         socket.emit('player:PutEntity', [x, y]);
     }, [world]);
 
-    // TODO: Sync renders
     useEffect(() => {
         socket.on('player:JoinLobby', (data) => {
-            setWorld(data.world);
+            setWorld(data.map);
         });
-        socket.on('lobby:UpdateMeta', (data) => {
+        socket.on('lobby:UpdateSession', (data) => {
             setStep(data.step);
+            setWorld(data.map);
         });
-        socket.on('lobby:UpdateWorld', setWorld);
     }, []);
 
     useEffect(() => {

@@ -4,8 +4,10 @@ import Player from './Player';
 import World from './World';
 
 import type WorldLocation from '~type/WorldLocation';
-import LobbyInfo from '~type/LobbyInfo';
 import LobbyOptions from '~type/LobbyOptions';
+import LobbyInfo from '~type/LobbyInfo';
+import LobbySession from '~type/LobbySession';
+import PlayerInfo from '~type/PlayerInfo';
 
 import CONFIG from '~root/config.json';
 
@@ -13,7 +15,7 @@ class Lobby {
 
 	public readonly uuid: string;
 	public options: LobbyOptions;
-	public players: Array<Player>;
+	public players: Player[];
 	private readonly date: Date;
 	private readonly core: Core;
 	private readonly world: World;
@@ -22,7 +24,7 @@ class Lobby {
 	private step?: number;
 	private timeout: number;
 
-	constructor(core: Core, options: LobbyOptions = {}) {
+	constructor(core: Core, options: LobbyOptions) {
 
 		this.options = utils.validate(options, {
 			maxPlayers: {default: 3, min: 2, max: 5},
@@ -87,9 +89,9 @@ class Lobby {
 		}
 		player.join(this.uuid, slot);
 		player.send('JoinLobby', {
-			world: this.world.map,
 			step: this.step,
 			timeout: this.timeout,
+			map: this.world.map,
 			options: this.options,
 		});
 		this.players.push(player);
@@ -115,27 +117,20 @@ class Lobby {
 	}
 
 	putEntity(player: Player, location: WorldLocation): void {
-
 		if (this.step !== player.slot) {
 			return;
 		}
-
 		const result = this.world.place(player.slot, location);
-		if (!result) {
-			return;
+		if (result) {
+			const isWinning = this.world.checkWinning(result);
+			if (isWinning) {
+				this.send('PlayerWin', player.id);
+				this.finish();
+			} else {
+				this.moveStepToNextPlayer();
+			}
+			this.updateClientSession();
 		}
-
-		const isWinning = this.world.checkWinning(result);
-		if (isWinning) {
-			this.send('PlayerWin', player.id);
-			this.finish();
-		} else {
-			this.moveStepToNextPlayer();
-		}
-
-		this.updateClientMeta();
-		this.updateClientWorld();
-
 	}
 
 	getInfo(): LobbyInfo {
@@ -158,7 +153,7 @@ class Lobby {
 	}
 
 	private updateClientPlayers(): void {
-		const players = this.players.map((player) => ({
+		const players: PlayerInfo[] = this.players.map((player) => ({
 			id: player.id,
 			slot: player.slot,
 		}));
@@ -166,15 +161,13 @@ class Lobby {
 		this.core.updateClientLobbies();
 	}
 
-	private updateClientMeta(): void {
-		this.send('UpdateMeta', {
+	private updateClientSession(): void {
+		const session: LobbySession = {
 			step: this.step,
 			timeout: this.timeout,
-		});
-	}
-
-	private updateClientWorld(): void {
-		this.send('UpdateWorld', this.world.map);
+			map: this.world.map,
+		};
+		this.send('UpdateSession', session);
 	}
 
 	private moveStepToNextPlayer(): void {
@@ -189,7 +182,7 @@ class Lobby {
 	private start(): void {
 		this.timeout = this.options.timeout;
 		this.step = Math.floor(Math.random() * this.options.maxPlayers);
-		this.updateClientMeta();
+		this.updateClientSession();
 	}
 
 	private reset(): void {
@@ -198,7 +191,7 @@ class Lobby {
 			this.reseting = null;
 		}
 		this.world.generate();
-		this.updateClientWorld();
+		this.updateClientSession();
 		if (this.isFulled()) {
 			this.start();
 		}
@@ -228,7 +221,7 @@ class Lobby {
 			if (this.timeout === 0) {
 				this.moveStepToNextPlayer();
 			}
-			this.updateClientMeta();
+			this.updateClientSession();
 		}
 	}
 

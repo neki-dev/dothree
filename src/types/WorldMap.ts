@@ -1,2 +1,2 @@
-type WorldMap = Array<Array<string>>;
+type WorldMap = string[][];
 export default WorldMap;

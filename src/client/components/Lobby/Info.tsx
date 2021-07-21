@@ -4,23 +4,26 @@ import {Socket} from 'socket.io-client';
 import dayjs from 'dayjs';
 
 import LobbyOptions from '~type/LobbyOptions';
+import LobbySession from '~type/LobbySession';
 import PlayerInfo from '~type/PlayerInfo';
 
 import './styles.scss';
 
 interface ComponentProps {
-    socket: Socket;
-    players: Array<PlayerInfo>;
+    socket: Socket
+    players: PlayerInfo[]
 }
 
 export default function Info({socket, players}: ComponentProps) {
 
-    const {uuid}: {[key: string]: string} = useParams();
+    const {uuid} = useParams<{uuid: string}>();
 
-    const [data, setData] = useState(null);
+    const [session, setSession] = useState<LobbySession>(null);
     const [options, setOptions] = useState<LobbyOptions>({});
 
-    const date = useMemo(() => dayjs().hour(0).minute(0), []);
+    const date = useMemo(() => {
+        return dayjs().hour(0).minute(0);
+    }, []);
 
     const slots: Array<PlayerInfo | null> = useMemo(() => {
         const res = [];
@@ -38,22 +41,22 @@ export default function Info({socket, players}: ComponentProps) {
     useEffect(() => {
         socket.on('player:JoinLobby', (data) => {
             setOptions(data.options);
-            setData({
+            setSession({
                 step: data.step,
                 timeout: data.timeout,
             });
         });
-        socket.on('lobby:UpdateMeta', setData);
+        socket.on('lobby:UpdateSession', setSession);
     }, []);
 
     useEffect(() => {
-        if (!current || !data) {
+        if (!current || !session) {
             return;
         }
         const titleIdle = `Dothree #${uuid}`;
         const titleActive = 'Ваш ход!';
         let interval: NodeJS.Timer;
-        if (data.step === current.slot && players.length === options.maxPlayers) {
+        if (session.step === current.slot && players.length === options.maxPlayers) {
             document.title = titleActive;
             interval = setInterval(() => {
                 document.title = (document.title === titleActive) ? titleIdle : titleActive;
@@ -66,11 +69,11 @@ export default function Info({socket, players}: ComponentProps) {
                 clearInterval(interval);
             }
         };
-    }, [(data && data.step), (current && current.slot), players.length]);
+    }, [(session && session.step), (current && current.slot), players.length]);
 
     // ---
 
-    if (!data) {
+    if (!session) {
         return null;
     }
 
@@ -90,18 +93,18 @@ export default function Info({socket, players}: ComponentProps) {
                     ))}
                 </div>
             </div>
-            {(data.step !== null) && (
+            {(session.step !== null) && (
                 <div className="block">
                     <div className="label">Ход</div>
                     <div className="value">
-                        <div className={`player slot${data.step + 1}`} />
-                        <div className={`timeout ${(data.timeout <= Math.round(options.timeout / 3) && current && current.slot === data.step) ? 'danger' : ''}`}>
-                            {date.second(data.timeout).format('mm:ss')}
+                        <div className={`player slot${session.step + 1}`} />
+                        <div className={`timeout ${(session.timeout <= Math.round(options.timeout / 3) && current && current.slot === session.step) ? 'danger' : ''}`}>
+                            {date.second(session.timeout).format('mm:ss')}
                         </div>
                     </div>
                 </div>
             )}
-            {(players.length === options.maxPlayers && data.step === null) && (
+            {(players.length === options.maxPlayers && session.step === null) && (
                 <div className="block">
                     <div className="label" />
                     <div className="value">

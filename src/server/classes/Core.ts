@@ -6,7 +6,7 @@ import LobbyInfo from '~type/LobbyInfo';
 class Core {
 
     private readonly io: Server;
-    private readonly lobbies: Array<Lobby>;
+    private readonly lobbies: Lobby[];
 
     constructor(io: Server) {
         this.io = io;
@@ -39,7 +39,7 @@ class Core {
     }
 
     removeLobby(lobby: Lobby): void {
-        const index = this.lobbies.findIndex((l) => (l.uuid === lobby.uuid));
+        const index: number = this.lobbies.findIndex((l) => (l.uuid === lobby.uuid));
         if (index === -1) {
             console.warn(`Lobby #${lobby.uuid} is not found`);
             return;
@@ -48,15 +48,15 @@ class Core {
         this.updateClientLobbies();
     }
 
-    getLastLobbies(limit: number = 5): Array<LobbyInfo> {
-        const freeLobbies = this.lobbies.filter((lobby) => !lobby.isFulled());
-        return freeLobbies.reverse()
+    getLastLobbies(limit: number = 5): LobbyInfo[] {
+        return this.lobbies.filter((lobby) => !lobby.isFulled())
+            .reverse()
             .slice(0, limit)
             .map((lobby: Lobby) => lobby.getInfo());
     }
 
     updateClientLobbies(): void {
-        const lobbies: Array<LobbyInfo> = this.getLastLobbies();
+        const lobbies: LobbyInfo[] = this.getLastLobbies();
         this.send('UpdateLobbies', lobbies);
     }
 

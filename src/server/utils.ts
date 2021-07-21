@@ -12,7 +12,7 @@ export default {
         return (Math.floor(1 + Math.random() * 100) <= v);
     },
 
-    randomize: (v: Array<any>): any => {
+    randomize: (v: any[]): any => {
         return v[Math.floor(Math.random() * v.length)];
     },
 

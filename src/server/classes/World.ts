@@ -45,12 +45,12 @@ class World {
 		}
 	}
 
-	place(slot: number, location: WorldLocation): Array<WorldLocation> {
+	place(slot: number, location: WorldLocation): WorldLocation[] {
 		if (!this.canBePlaced(location)) {
 			return;
 		}
-		let locations: Array<WorldLocation> = [location];
-		const types: Array<string> = this.getEntity(location).split('-');
+		let locations: WorldLocation[] = [location];
+		const types: string[] = this.getEntity(location).split('-');
 		if (types[0] === MAP_ENTITY.BONUS) {
 			const additional = this.useBonus(slot, location, types[1]);
 			locations = locations.concat(additional);
@@ -63,7 +63,7 @@ class World {
 		return locations;
 	}
 
-	checkWinning(locations: Array<WorldLocation>): boolean {
+	checkWinning(locations: WorldLocation[]): boolean {
 		for (const location of locations) {
 			const results = this.getWinningLocations(location);
 			if (results) {
@@ -77,13 +77,13 @@ class World {
 		return false;
 	}
 
-	useBonus(slot: number, location: WorldLocation, type: string): Array<WorldLocation> {
-		let additional: Array<WorldLocation> = [];
+	useBonus(slot: number, location: WorldLocation, type: string): WorldLocation[] {
+		let additional: WorldLocation[] = [];
 		switch (type) {
 			case ENTITY_BONUS.REPLACER: {
-				const puttedEntities: Array<WorldLocation> = [];
+				const puttedEntities: WorldLocation[] = [];
 				this.eachMap((entity: string, x: number, y: number) => {
-					const [type, targetSlot]: Array<string> = entity.split('-');
+					const [type, targetSlot]: string[] = entity.split('-');
 					if (type === MAP_ENTITY.PLAYER && Number(targetSlot.replace('slot', '')) - 1 !== slot) {
 						puttedEntities.push([x, y]);
 					}
@@ -94,7 +94,7 @@ class World {
 				break;
 			}
 			case ENTITY_BONUS.SPAWN: {
-				const emptyEntities: Array<WorldLocation> = [];
+				const emptyEntities: WorldLocation[] = [];
 				this.eachMap((entity: string, x: number, y: number) => {
 					if (entity === MAP_ENTITY.EMPTY && this.canBePlaced([x, y])) {
 						emptyEntities.push([x, y]);
@@ -154,10 +154,10 @@ class World {
 		}
 	}
 
-	private getWinningLocations(from: WorldLocation): Array<WorldLocation> {
+	private getWinningLocations(from: WorldLocation): WorldLocation[] {
 		for (const line of [[-1, 0], [-1, -1], [0, -1], [1, -1]]) {
 			for (let side = 0; side > -this.options.targetLength; side--) {
-				const locations: Array<WorldLocation> = [];
+				const locations: WorldLocation[] = [];
 				for (let step = side; step <= (side + this.options.targetLength - 1); step++) {
 					const point = <WorldLocation>from.map((f, i) => (f - line[i] * step));
 					if (point.every((c, i) => (c >= 0 && c < MAP_SIZE[i]))) {

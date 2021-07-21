@@ -12,12 +12,12 @@ import './styles.scss';
 
 export default function Lobby() {
 
-    const {uuid}: {[key: string]: string} = useParams();
+    const {uuid} = useParams<{uuid: string}>();
     const socket: Socket = useSocket('/lobby', {uuid});
 
     const [error, setError] = useState<string>(null);
     const [options, setOptions] = useState<LobbyOptions>(null);
-    const [players, setPlayers] = useState<Array<PlayerInfo>>([]);
+    const [players, setPlayers] = useState<PlayerInfo[]>([]);
 
     useEffect(() => {
         socket.on('lobby:UpdatePlayers', setPlayers);

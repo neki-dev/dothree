@@ -1,11 +1,10 @@
 import React, {useState, useEffect, useCallback, useMemo, useRef} from 'react';
 import {Socket} from 'socket.io-client';
+import styled from 'styled-components';
 import Entity from './Entity';
 
 import type WorldMap from '~type/WorldMap';
 import PlayerInfo from '~type/PlayerInfo';
-
-import './styles.scss';
 
 interface ComponentProps {
     socket: Socket;
@@ -37,8 +36,8 @@ export default function World({socket, players}: ComponentProps) {
             return;
         }
         const onScroll = (e: any) => {
-            console.log('a', e.target.scrollTop);
-            console.log('b', e.target.clientHeight, e.target.scrollHeight);
+            // console.log('a', e.target.scrollTop);
+            // console.log('b', e.target.clientHeight, e.target.scrollHeight);
         };
         refWorld.current.scrollTop = refWorld.current.clientHeight;
         refWorld.current.addEventListener('scroll', onScroll);
@@ -54,15 +53,29 @@ export default function World({socket, players}: ComponentProps) {
     }
 
     return (
-        <div className="world" ref={refWorld}>
-            {world.map((line, y: number) => (
-                <div key={y} className="line">
-                    {line.map((entity, x: number) => (
+        <Field ref={refWorld}>
+            {world.map((line: string[], y: number) => (
+                <Line key={y}>
+                    {line.map((entity: string, x: number) => (
                         <Entity key={`${x}-${y}`} value={entity} world={world} x={x} y={y} isPutting={current && current.slot === step} onPut={putEntity} />
                     ))}
-                </div>
+                </Line>
             ))}
-        </div>
+        </Field>
     );
 
 }
+
+const Field = styled.div`
+    user-select: none;
+    display: flex;
+    background: rgba(#323a45, 0.8);
+    padding: 10px (10px + 14px) 10px 10px;
+    flex-direction: column;
+    box-shadow: (-17px - 14px) 0 0 #1E232A inset;
+    overflow-y: scroll;
+`;
+
+const Line = styled.div`
+    display: flex;
+`;

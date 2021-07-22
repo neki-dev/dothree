@@ -4,7 +4,7 @@ import type WorldLocation from '~type/WorldLocation';
 import type WorldMap from '~type/WorldMap';
 import LobbyOptions from '~type/LobbyOptions';
 
-const MAP_SIZE = [25, 12];
+const MAP_SIZE = [25, 11];
 const MAP_ENTITY = {
 	EMPTY: 'empty',
 	BLOCK: 'block',

@@ -71,9 +71,9 @@ const Block: any = styled.div<{
   flex: 1;
   ${(p) => {
     if (p.types[0] === 'empty') {
-      return css`background: rgba(255, 255, 255, 0.04)`;
+      return css`background: rgba(255, 255, 255, 0.04);`;
     } else if (p.types[0] === 'block') {
-      return css`background: linear-gradient(135deg, rgba(41, 52, 64, 1) 0%, rgba(10, 19, 29, 1) 100%)`;
+      return css`background: linear-gradient(135deg, rgba(41, 52, 64, 1) 0%, rgba(10, 19, 29, 1) 100%);`;
     } else if (p.types[0] === 'player') {
       switch (Number(p.types[1].replace('slot', '')) - 1) {
         case 0:

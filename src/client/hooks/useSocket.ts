@@ -1,8 +1,8 @@
 import {useMemo} from 'react';
 import io, {Socket} from 'socket.io-client';
 
-export default function useSocket(namespace: string, query: {[key: string]: string} = {}): Socket {
-    return useMemo(() => {
-        return io(namespace, {query});
-    }, []);
+export default function useSocket(namespace: string, query: { [key: string]: string } = {}): Socket {
+		return useMemo(() => {
+				return io(namespace, {query});
+		}, []);
 }

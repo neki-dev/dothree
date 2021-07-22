@@ -57,7 +57,7 @@ class Core {
 
     updateClientLobbies(): void {
         const lobbies: LobbyInfo[] = this.getLastLobbies();
-        this.send('UpdateLobbies', lobbies);
+        this.send('updateLatestLobbies', lobbies);
     }
 
 }

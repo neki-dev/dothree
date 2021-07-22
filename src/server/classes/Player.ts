@@ -1,4 +1,5 @@
 import {Socket} from 'socket.io';
+import Lobby from './Lobby';
 
 import CONFIG from '~root/config.json';
 
@@ -14,18 +15,25 @@ class Player {
         this.slot = null;
     }
 
-    send(key: string, data: any): void {
-        this.socket.emit(`player:${key}`, data);
+    emit(key: string, data: any): void {
+        this.socket.emit(key, data);
     }
 
-    join(room: string, slot: number): void {
-        this.socket.join(room);
+    sendError(message: string): void {
+        this.socket.emit(`lobbyError`, message);
+    }
+
+    joinLobby(lobby: Lobby, slot: number): void {
         this.slot = slot;
+        this.socket.join(lobby.uuid);
+        this.emit('sendOptions', lobby.options);
+        this.emit('updateWorldMap', lobby.getMap());
+        this.emit('updateStep', lobby.step);
     }
 
-    leave(room: string): void {
-        this.socket.leave(room);
+    leaveLobby(lobby: Lobby): void {
         this.slot = null;
+        this.socket.leave(lobby.uuid);
     }
 
 }

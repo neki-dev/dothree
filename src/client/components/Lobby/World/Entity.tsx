@@ -1,6 +1,6 @@
 import React, {useMemo, useCallback} from 'react';
 
-import WorldMap from '~type/WorldMap';
+import type WorldMap from '~type/WorldMap';
 
 import './styles.scss';
 

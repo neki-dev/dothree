@@ -1,10 +1,9 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import {useParams} from 'react-router-dom';
 import {Socket} from 'socket.io-client';
-import dayjs from 'dayjs';
+import Countdown from './Countdown';
 
 import LobbyOptions from '~type/LobbyOptions';
-import LobbySession from '~type/LobbySession';
 import PlayerInfo from '~type/PlayerInfo';
 
 import './styles.scss';
@@ -12,18 +11,14 @@ import './styles.scss';
 interface ComponentProps {
     socket: Socket
     players: PlayerInfo[]
+    options: LobbyOptions
 }
 
-export default function Info({socket, players}: ComponentProps) {
+export default function Info({socket, players, options}: ComponentProps) {
 
     const {uuid} = useParams<{uuid: string}>();
 
-    const [session, setSession] = useState<LobbySession>(null);
-    const [options, setOptions] = useState<LobbyOptions>({});
-
-    const date = useMemo(() => {
-        return dayjs().hour(0).minute(0);
-    }, []);
+    const [step, setStep] = useState<number>(null);
 
     const slots: Array<PlayerInfo | null> = useMemo(() => {
         const res = [];
@@ -39,24 +34,17 @@ export default function Info({socket, players}: ComponentProps) {
     }, [players]);
 
     useEffect(() => {
-        socket.on('player:JoinLobby', (data) => {
-            setOptions(data.options);
-            setSession({
-                step: data.step,
-                timeout: data.timeout,
-            });
-        });
-        socket.on('lobby:UpdateSession', setSession);
+        socket.on('updateStep', setStep);
     }, []);
 
     useEffect(() => {
-        if (!current || !session) {
+        if (!current) {
             return;
         }
         const titleIdle = `Dothree #${uuid}`;
         const titleActive = 'Ваш ход!';
         let interval: NodeJS.Timer;
-        if (session.step === current.slot && players.length === options.maxPlayers) {
+        if (step === current.slot && players.length === options.maxPlayers) {
             document.title = titleActive;
             interval = setInterval(() => {
                 document.title = (document.title === titleActive) ? titleIdle : titleActive;
@@ -69,13 +57,9 @@ export default function Info({socket, players}: ComponentProps) {
                 clearInterval(interval);
             }
         };
-    }, [(session && session.step), (current && current.slot), players.length]);
+    }, [step, (current && current.slot), players.length]);
 
     // ---
-
-    if (!session) {
-        return null;
-    }
 
     return (
         <div className="info">
@@ -93,18 +77,16 @@ export default function Info({socket, players}: ComponentProps) {
                     ))}
                 </div>
             </div>
-            {(session.step !== null) && (
+            {(step !== null) && (
                 <div className="block">
                     <div className="label">Ход</div>
                     <div className="value">
-                        <div className={`player slot${session.step + 1}`} />
-                        <div className={`timeout ${(session.timeout <= Math.round(options.timeout / 3) && current && current.slot === session.step) ? 'danger' : ''}`}>
-                            {date.second(session.timeout).format('mm:ss')}
-                        </div>
+                        <div className={`player slot${step + 1}`} />
+                        <Countdown key={step} value={options.timeout} isCurrent={current && current.slot === step} />
                     </div>
                 </div>
             )}
-            {(players.length === options.maxPlayers && session.step === null) && (
+            {(players.length === options.maxPlayers && step === null) && (
                 <div className="block">
                     <div className="label" />
                     <div className="value">

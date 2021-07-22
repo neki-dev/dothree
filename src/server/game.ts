@@ -15,29 +15,31 @@ export default {
 
         core.namespace('/home').on('connection', (socket: Socket) => {
             const lobbies: LobbyInfo[] = core.getLastLobbies();
-            socket.emit('player:UpdateLobbies', lobbies);
-            socket.on('player:CreateLobby', (data: LobbyOptions) => {
+            socket.emit('updateLatestLobbies', lobbies);
+            socket.on('createLobby', (data: LobbyOptions, callback: Function) => {
                 const lobby = new Lobby(core, data);
                 core.addLobby(lobby);
-                socket.emit('player:InviteLobby', lobby.uuid);
+                callback(lobby.uuid);
             });
         });
 
         core.namespace('/lobby').on('connection', (socket: Socket) => {
-            if (!socket.handshake.query.uuid) {
+            const uuid: string = <string>socket.handshake.query.uuid;
+            if (!uuid) {
                 return;
             }
             const player: Player = new Player(socket);
-            const lobby: Lobby = core.getLobby(<string>socket.handshake.query.uuid);
+            const lobby: Lobby = core.getLobby(uuid);
             if (!lobby) {
-                return player.send('Error', 'Указанная игра не найдена');
+                player.sendError('Указанная игра не найдена');
+                return;
             }
             lobby.joinPlayer(player);
+            socket.on('putEntity', (location: WorldLocation) => {
+                lobby.putEntity(player, location);
+            });
             socket.on('disconnect', () => {
                 lobby.leavePlayer(player);
-            });
-            socket.on('player:PutEntity', (location: WorldLocation) => {
-                lobby.putEntity(player, location);
             });
         });
 

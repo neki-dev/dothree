@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback, useMemo, useRef} from 'react';
 import {Socket} from 'socket.io-client';
 import Entity from './Entity';
 
-import WorldMap from '~type/WorldMap';
+import type WorldMap from '~type/WorldMap';
 import PlayerInfo from '~type/PlayerInfo';
 
 import './styles.scss';
@@ -23,18 +23,13 @@ export default function World({socket, players}: ComponentProps) {
         return players.find((player) => (player.id === socket.id));
     }, [players]);
 
-    const putEntity = useCallback((x, y) => {
-        socket.emit('player:PutEntity', [x, y]);
+    const putEntity = useCallback((x: number, y: number) => {
+        socket.emit('putEntity', [x, y]);
     }, [world]);
 
     useEffect(() => {
-        socket.on('player:JoinLobby', (data) => {
-            setWorld(data.map);
-        });
-        socket.on('lobby:UpdateSession', (data) => {
-            setStep(data.step);
-            setWorld(data.map);
-        });
+        socket.on('updateStep', setStep);
+        socket.on('updateWorldMap', setWorld);
     }, []);
 
     useEffect(() => {

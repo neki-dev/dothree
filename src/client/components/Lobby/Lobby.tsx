@@ -20,11 +20,9 @@ export default function Lobby() {
     const [players, setPlayers] = useState<PlayerInfo[]>([]);
 
     useEffect(() => {
-        socket.on('lobby:UpdatePlayers', setPlayers);
-        socket.on('player:Error', setError);
-        socket.on('player:JoinLobby', (lobby) => {
-            setOptions(lobby.options);
-        });
+        socket.on('lobbyError', setError);
+        socket.on('updatePlayers', setPlayers);
+        socket.on('sendOptions', setOptions);
     }, []);
 
     // ---
@@ -59,7 +57,7 @@ export default function Lobby() {
                     )}
                     <div className="game-wrapper">
                         <World socket={socket} players={players} />
-                        <Info socket={socket} players={players} />
+                        <Info socket={socket} players={players} options={options || {}} />
                     </div>
                 </>
             )}

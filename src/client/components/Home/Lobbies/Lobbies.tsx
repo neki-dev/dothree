@@ -15,7 +15,7 @@ export default function Lobbies({socket}: ComponentProps) {
     const [lobbies, setLobbies] = useState<LobbyInfo[]>([]);
 
     useEffect(() => {
-        socket.on('player:UpdateLobbies', setLobbies);
+        socket.on('updateLatestLobbies', setLobbies);
     }, []);
 
     // ---

@@ -28,18 +28,14 @@ export default function Editor({socket, onClose}: ComponentProps) {
     }, []);
 
     const createLobby = useCallback((e) => {
-        socket.emit('player:CreateLobby', options);
         e.preventDefault();
-    }, [options]);
-
-    useEffect(() => {
-        socket.on('player:InviteLobby', (uuid) => {
+        socket.emit('createLobby', options, (uuid: string) => {
+            window.open(`/game/${uuid}`);
             if (onClose) {
                 onClose();
             }
-            window.open(`/game/${uuid}`);
         });
-    }, [onClose]);
+    }, [options, onClose]);
 
     // ---
 

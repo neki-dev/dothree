@@ -6,23 +6,31 @@ import World from './World';
 import type WorldLocation from '~type/WorldLocation';
 import LobbyOptions from '~type/LobbyOptions';
 import LobbyInfo from '~type/LobbyInfo';
-import LobbySession from '~type/LobbySession';
 import PlayerInfo from '~type/PlayerInfo';
 
 import CONFIG from '~root/config.json';
+import WorldMap from '~type/WorldMap';
 
 class Lobby {
 
 	public readonly uuid: string;
 	public options: LobbyOptions;
-	public players: Player[];
 	private readonly date: Date;
 	private readonly core: Core;
 	private readonly world: World;
-	private idleTick: number;
-	private reseting?: NodeJS.Timeout | null;
-	private step?: number;
-	private timeout: number;
+	private players: Player[] = [];
+	private idleTick: number = 0;
+	private reseting?: NodeJS.Timeout | null = null;
+	private timeout: number = 0;
+
+	private _step: number | null = null;
+	public get step() {
+		return this._step;
+	}
+	public set step(v: number | null) {
+		this._step = v;
+		this.emit('updateStep', v);
+	}
 
 	constructor(core: Core, options: LobbyOptions) {
 
@@ -34,14 +42,9 @@ class Lobby {
 			targetLength: {default: 3, min: 3, max: 4},
 		});
 
-		this.uuid = utils.generate();
-		this.players = [];
-		this.step = null;
-		this.timeout = 0;
-		this.date = new Date();
-		this.reseting = null;
 		this.core = core;
-		this.idleTick = 0;
+		this.uuid = utils.generate();
+		this.date = new Date();
 
 		this.world = new World(this.options);
 		this.world.generate();
@@ -58,8 +61,8 @@ class Lobby {
 		console.log(`Lobby #${this.uuid} destroyed`);
 	}
 
-	send(key: string, data: any): void {
-		this.core.namespace('/lobby').to(this.uuid).emit(`lobby:${key}`, data);
+	emit(key: string, data: any): void {
+		this.core.namespace('/lobby').to(this.uuid).emit(key, data);
 	}
 
 	onGameTick(): void {
@@ -69,31 +72,18 @@ class Lobby {
 		}
 	}
 
-	getFreeSlot(): number | null {
-		for (let i = 0; i < this.options.maxPlayers; i++) {
-			if (this.players.every((player) => (player.slot !== i))) {
-				return i;
-			}
-		}
-		return null;
-	}
-
 	joinPlayer(player: Player): void {
-		const isExists = this.players.some((p) => (p.id === player.id));
+		const isExists: boolean = this.players.some((p) => (p.id === player.id));
 		if (isExists) {
-			return player.send('Error', 'Вы уже находитесь в этой игре');
+			player.sendError('Вы уже находитесь в этой игре');
+			return;
 		}
-		const slot = this.getFreeSlot();
-		if (slot === undefined) {
-			return player.send('Error', 'Указанная игра уже запущена');
+		const slot: number = this.getFreeSlot();
+		if (slot === null) {
+			player.sendError('Указанная игра уже запущена');
+			return;
 		}
-		player.join(this.uuid, slot);
-		player.send('JoinLobby', {
-			step: this.step,
-			timeout: this.timeout,
-			map: this.world.map,
-			options: this.options,
-		});
+		player.joinLobby(this, slot);
 		this.players.push(player);
 		this.updateClientPlayers();
 		if (!this.isStarted() && this.isFulled()) {
@@ -103,13 +93,13 @@ class Lobby {
 	}
 
 	leavePlayer(player: Player): void {
-		const index = this.players.findIndex((p) => (p.id === player.id));
+		const index: number = this.players.findIndex((p) => (p.id === player.id));
 		if (index === -1) {
 			return console.warn(`Player #${player.id} not found in lobby #${this.uuid}`);
 		}
 		this.players.splice(index, 1);
 		this.updateClientPlayers();
-		player.leave(this.uuid);
+		player.leaveLobby(this);
 		if (this.reseting) {
 			this.reset();
 		}
@@ -120,17 +110,20 @@ class Lobby {
 		if (this.step !== player.slot) {
 			return;
 		}
-		const result = this.world.place(player.slot, location);
+		const result: WorldLocation[] = this.world.place(player.slot, location);
 		if (result) {
-			const isWinning = this.world.checkWinning(result);
+			const isWinning: boolean = this.world.checkWinning(result);
 			if (isWinning) {
-				this.send('PlayerWin', player.id);
 				this.finish();
 			} else {
 				this.moveStepToNextPlayer();
 			}
-			this.updateClientSession();
+			this.emit('updateWorldMap', this.world.map);
 		}
+	}
+
+	getMap(): WorldMap {
+		return this.world.map;
 	}
 
 	getInfo(): LobbyInfo {
@@ -152,22 +145,22 @@ class Lobby {
 		return (this.players.length === this.options.maxPlayers);
 	}
 
+	private getFreeSlot(): number | null {
+		for (let i = 0; i < this.options.maxPlayers; i++) {
+			if (this.players.every((player) => (player.slot !== i))) {
+				return i;
+			}
+		}
+		return null;
+	}
+
 	private updateClientPlayers(): void {
 		const players: PlayerInfo[] = this.players.map((player) => ({
 			id: player.id,
 			slot: player.slot,
 		}));
-		this.send('UpdatePlayers', players);
+		this.emit('updatePlayers', players);
 		this.core.updateClientLobbies();
-	}
-
-	private updateClientSession(): void {
-		const session: LobbySession = {
-			step: this.step,
-			timeout: this.timeout,
-			map: this.world.map,
-		};
-		this.send('UpdateSession', session);
 	}
 
 	private moveStepToNextPlayer(): void {
@@ -182,7 +175,6 @@ class Lobby {
 	private start(): void {
 		this.timeout = this.options.timeout;
 		this.step = Math.floor(Math.random() * this.options.maxPlayers);
-		this.updateClientSession();
 	}
 
 	private reset(): void {
@@ -191,17 +183,17 @@ class Lobby {
 			this.reseting = null;
 		}
 		this.world.generate();
-		this.updateClientSession();
+		this.emit('updateWorldMap', this.world.map);
 		if (this.isFulled()) {
 			this.start();
 		}
 	}
 
 	private finish(): void {
-		this.step = null;
 		this.reseting = setTimeout(() => {
 			this.reset();
 		}, CONFIG.RESTART_TIMEOUT * 1000);
+		this.step = null;
 	}
 
 	private handleIdleTimeout(): void {
@@ -221,7 +213,6 @@ class Lobby {
 			if (this.timeout === 0) {
 				this.moveStepToNextPlayer();
 			}
-			this.updateClientSession();
 		}
 	}
 

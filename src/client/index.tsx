@@ -9,11 +9,11 @@ import Lobby from './components/Lobby';
 import Home from './components/Home';
 
 ReactDOM.render(
-		<BrowserRouter>
-				<Switch>
-						<Route exact path="/" component={Home}/>
-						<Route exact path="/game/:uuid" component={Lobby}/>
-				</Switch>
-		</BrowserRouter>,
-		document.getElementById('app')
+    <BrowserRouter>
+        <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route exact path="/game/:uuid" component={Lobby}/>
+        </Switch>
+    </BrowserRouter>,
+    document.getElementById('app')
 );

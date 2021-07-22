@@ -6,37 +6,37 @@ import styled from 'styled-components';
 import LobbyInfo from '~type/LobbyInfo';
 
 interface ComponentProps {
-		socket: Socket;
+    socket: Socket;
 }
 
 export default function Lobbies({socket}: ComponentProps) {
 
-		const [lobbies, setLobbies] = useState<LobbyInfo[]>([]);
+    const [lobbies, setLobbies] = useState<LobbyInfo[]>([]);
 
-		useEffect(() => {
-				socket.on('updateLatestLobbies', setLobbies);
-		}, []);
+    useEffect(() => {
+        socket.on('updateLatestLobbies', setLobbies);
+    }, []);
 
-		// ---
+    // ---
 
-		return (lobbies.length > 0) ? (
-				<>
-						<Title>Или выбрать существующую</Title>
-						<LobbyList>
-								{lobbies.map((lobby) => (
-										<LobbyItem key={lobby.uuid} href={`/game/${lobby.uuid}`} target="_blank">
-												<DataGroup>
-														<LobbyDate>{dayjs(lobby.date).format('HH:mm')}</LobbyDate>
-														<LobbyName>{lobby.uuid}</LobbyName>
-												</DataGroup>
-												<LobbyOnline>
-														<LobbyOnlineValue>{lobby.players.online}</LobbyOnlineValue> / <LobbyOnlineValue>{lobby.players.max}</LobbyOnlineValue>
-												</LobbyOnline>
-										</LobbyItem>
-								))}
-						</LobbyList>
-				</>
-		) : null;
+    return (lobbies.length > 0) ? (
+        <>
+            <Title>Или выбрать существующую</Title>
+            <LobbyList>
+                {lobbies.map((lobby) => (
+                    <LobbyItem key={lobby.uuid} href={`/game/${lobby.uuid}`} target="_blank">
+                        <DataGroup>
+                            <LobbyDate>{dayjs(lobby.date).format('HH:mm')}</LobbyDate>
+                            <LobbyName>{lobby.uuid}</LobbyName>
+                        </DataGroup>
+                        <LobbyOnline>
+                            <LobbyOnlineValue>{lobby.players.online}</LobbyOnlineValue> / <LobbyOnlineValue>{lobby.players.max}</LobbyOnlineValue>
+                        </LobbyOnline>
+                    </LobbyItem>
+                ))}
+            </LobbyList>
+        </>
+    ) : null;
 
 }
 
@@ -61,9 +61,11 @@ const LobbyItem = styled.a`
   align-items: center;
   box-shadow: 0 5px 30px rgba(#000, 0.05);
   transition: all 0.1s ease-out;
+
   &:not(:last-child) {
     margin-bottom: 10px;
   }
+
   &:hover {
     background: #222c38;
   }
@@ -75,6 +77,7 @@ const DataGroup = styled.div`
 `;
 
 import IconPlayers from './icons/players.svg';
+
 const LobbyOnline = styled.span`
   display: inline-block;
   color: #5a6a7d;

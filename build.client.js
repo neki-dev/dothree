@@ -60,7 +60,7 @@ module.exports = {
             }],
             include: path.join(__dirname, 'src', 'client'),
         }, {
-            test: /\.scss$/,
+            test: /\.css$/,
             use: [
                 {
                     loader: ExtractPlugin.loader,
@@ -80,12 +80,6 @@ module.exports = {
                                 CSSNanoPlugin({preset: 'default'}),
                             ],
                         },
-                        sourceMap: false,
-                    },
-                },
-                {
-                    loader: 'sass-loader',
-                    options: {
                         sourceMap: false,
                     },
                 },

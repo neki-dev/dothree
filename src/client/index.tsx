@@ -2,8 +2,8 @@ import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import ReactDOM from 'react-dom';
 
-import './styles/normalize.scss';
-import './styles/main.scss';
+import './styles/normalize.css';
+import './styles/main.css';
 
 import Lobby from './components/Lobby';
 import Home from './components/Home';

@@ -35,7 +35,7 @@ export default function World({socket, players}: ComponentProps) {
         if (!refWorld.current) {
             return;
         }
-        const onScroll = (e: any) => {
+        const onScroll = () => {
             // console.log('a', e.target.scrollTop);
             // console.log('b', e.target.clientHeight, e.target.scrollHeight);
         };

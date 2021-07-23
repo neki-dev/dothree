@@ -1,8 +1,6 @@
 import {createGlobalStyle} from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
     * {
         box-sizing: border-box;
         outline: none;

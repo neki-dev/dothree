@@ -116,6 +116,7 @@ export default class Lobby {
             const isWinning: boolean = this.world.checkWinning(result);
             if (isWinning) {
                 this.finish();
+                this.emit('playerWin', player.id);
             } else {
                 this.moveStepToNextPlayer();
             }

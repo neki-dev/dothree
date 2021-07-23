@@ -8,7 +8,6 @@ const Container = styled.div`
 `;
 
 const Block: any = styled.div`
-    text-transform: uppercase;
     &:not(:last-child) {
         margin-right: 35px;
     }
@@ -16,6 +15,7 @@ const Block: any = styled.div`
 
 Block.Label = styled.div`
     margin-bottom: 10px;
+    text-transform: uppercase;
     font-size: 10px;
     letter-spacing: 1px;
     height: 11px;
@@ -59,6 +59,7 @@ const Player: any = styled.div<{
 `;
 
 Player.SelfLabel = styled.span`
+    text-transform: uppercase;
     color: #fff;
     background: rgba(0, 0, 0, 0.7);
     padding: 2px 3px;
@@ -78,7 +79,16 @@ const EmptySlot = styled.div`
 `;
 
 const RestartMessage = styled.div`
-    font-size: 11px;
+    display: inline-block;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
 `;
 
-export {Container, Block, Player, EmptySlot, RestartMessage};
+const WinMessage = styled.div`
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 15px;
+`;
+
+export {Container, Block, Player, EmptySlot, RestartMessage, WinMessage};

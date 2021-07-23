@@ -2,7 +2,7 @@ import React, {useState, useEffect, useMemo} from 'react';
 import {useParams} from 'react-router-dom';
 import {Socket} from 'socket.io-client';
 import Countdown from './Countdown';
-import {Container, Block, Player, RestartMessage, EmptySlot} from './styled';
+import {Container, Block, Player, RestartMessage, WinMessage, EmptySlot} from './styled';
 
 import LobbyOptions from '~type/LobbyOptions';
 import PlayerInfo from '~type/PlayerInfo';
@@ -15,9 +15,10 @@ interface ComponentProps {
 
 export default function Info({socket, players, options}: ComponentProps) {
 
-    const {uuid} = useParams<{ uuid: string }>();
+    const {uuid} = useParams<{uuid: string}>();
 
     const [step, setStep] = useState<number>(null);
+    const [winner, setWinner] = useState<string>(null);
 
     const slots: Array<PlayerInfo | null> = useMemo(() => {
         const slots: Array<PlayerInfo | null> = [];
@@ -34,6 +35,7 @@ export default function Info({socket, players, options}: ComponentProps) {
 
     useEffect(() => {
         socket.on('updateStep', setStep);
+        socket.on('playerWin', setWinner);
     }, []);
 
     useEffect(() => {
@@ -91,6 +93,7 @@ export default function Info({socket, players, options}: ComponentProps) {
                 <Block>
                     <Block.Label />
                     <Block.Value>
+                        <WinMessage>{(winner === current.id) ? 'Вы выиграли' : 'Вы проиграли'}</WinMessage>
                         <RestartMessage>Рестарт игры через 5 секунд...</RestartMessage>
                     </Block.Value>
                 </Block>

@@ -9,8 +9,8 @@ interface ComponentProps {
 export default function App({children}: ComponentProps) {
     return (
         <>
-            <Normalize/>
-            <GlobalStyle/>
+            <Normalize />
+            <GlobalStyle />
             {children}
         </>
     );

@@ -23,22 +23,22 @@ export default function Home() {
                 <Logotype.Label>dothree</Logotype.Label>
             </Logotype>
             {(section === 'editor') ? (
-                <Editor socket={socket} onClose={() => setSection('lobbies')}/>
+                <Editor socket={socket} onClose={() => setSection('lobbies')} />
             ) : (
                 <>
                     <ButtonCreate onClick={() => setSection('editor')}>Создать новую игру</ButtonCreate>
-                    <Lobbies socket={socket}/>
+                    <Lobbies socket={socket} />
                 </>
             )}
             <Footer>
                 <GitHubButton href="https://github.com/essle/dothree"
-                              data-color-scheme="no-preference: dark; light: dark; dark: dark;"
-                              data-size="large" data-show-count="true" aria-label="Star essle/dothree on GitHub"
-                              data-icon="octicon-star">Star</GitHubButton>
+                    data-color-scheme="no-preference: dark; light: dark; dark: dark;"
+                    data-size="large" data-show-count="true" aria-label="Star essle/dothree on GitHub"
+                    data-icon="octicon-star">Star</GitHubButton>
                 <GitHubButton href="https://github.com/essle"
-                              data-color-scheme="no-preference: dark; light: dark; dark: dark;"
-                              data-size="large" data-show-count="true"
-                              aria-label="Follow @essle on GitHub">Follow</GitHubButton>
+                    data-color-scheme="no-preference: dark; light: dark; dark: dark;"
+                    data-size="large" data-show-count="true"
+                    aria-label="Follow @essle on GitHub">Follow</GitHubButton>
             </Footer>
         </Container>
     );

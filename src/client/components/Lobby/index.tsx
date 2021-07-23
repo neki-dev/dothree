@@ -38,7 +38,7 @@ export default function Lobby() {
                                 <>
                                     <Loading>
                                         {Array(options.maxPlayers).fill(0).map((v, i) => (
-                                            <Loading.Block key={i} slot={i} empty={i + 1 > players.length}/>
+                                            <Loading.Block key={i} slot={i} empty={i + 1 > players.length} />
                                         ))}
                                     </Loading>
                                     <Status>
@@ -53,8 +53,8 @@ export default function Lobby() {
                         </WaitingOverlay>
                     )}
                     <GameScreen>
-                        <World socket={socket} players={players}/>
-                        <Info socket={socket} players={players} options={options || {}}/>
+                        <World socket={socket} players={players} />
+                        <Info socket={socket} players={players} options={options || {}} />
                     </GameScreen>
                 </>
             )}

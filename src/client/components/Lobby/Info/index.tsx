@@ -73,7 +73,7 @@ export default function Info({socket, players, options}: ComponentProps) {
                                 )}
                             </Player>
                         ) : (
-                            <EmptySlot key={slot}/>
+                            <EmptySlot key={slot} />
                         )
                     ))}
                 </Block.Value>
@@ -82,8 +82,8 @@ export default function Info({socket, players, options}: ComponentProps) {
                 <Block>
                     <Block.Label>Ход</Block.Label>
                     <Block.Value>
-                        <Player slot={step}/>
-                        <Countdown key={step} value={options.timeout} isCurrent={current && current.slot === step}/>
+                        <Player slot={step} />
+                        <Countdown key={step} value={options.timeout} isCurrent={current && current.slot === step} />
                     </Block.Value>
                 </Block>
             )}

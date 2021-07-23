@@ -78,7 +78,7 @@ export default class World {
     }
 
     useBonus(slot: number, location: WorldLocation, type: string): WorldLocation[] {
-        let additional: WorldLocation[] = [];
+        const additional: WorldLocation[] = [];
         switch (type) {
             case ENTITY_BONUS.REPLACER: {
                 const puttedEntities: WorldLocation[] = [];

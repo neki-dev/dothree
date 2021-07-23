@@ -9,8 +9,8 @@ ReactDOM.render(
     <BrowserRouter>
         <App>
             <Switch>
-                <Route exact path="/" component={PageHome}/>
-                <Route exact path="/game/:uuid" component={PageLobby}/>
+                <Route exact path="/" component={PageHome} />
+                <Route exact path="/game/:uuid" component={PageLobby} />
             </Switch>
         </App>
     </BrowserRouter>,

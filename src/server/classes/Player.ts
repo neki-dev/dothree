@@ -20,7 +20,7 @@ export default class Player {
     }
 
     sendError(message: string): void {
-        this.socket.emit(`lobbyError`, message);
+        this.socket.emit('lobbyError', message);
     }
 
     joinLobby(lobby: Lobby, slot: number): void {

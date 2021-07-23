@@ -4,5 +4,5 @@ export default interface LobbyInfo {
 	players: {
 		online: number
 		max: number
-	},
+	}
 }

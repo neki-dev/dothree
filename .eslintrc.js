@@ -1,26 +1,19 @@
 module.exports = {
-    'plugins': [
-        'jsx-a11y',
-        'react',
-        'react-hooks',
-    ],
-    'env': {
+    root: true,
+    env: {
         'browser': true,
         'es6': true,
         'node': true,
     },
-    'parserOptions': {
-        'ecmaVersion': 12,
-        'sourceType': 'module',
-        'ecmaFeatures': {
-            'jsx': true,
-        },
-    },
-    'rules': {
-        'react-hooks/rules-of-hooks': 'error',
+    plugins: [
+        'jsx-a11y',
+        'react',
+        '@typescript-eslint',
+    ],
+    parser: '@typescript-eslint/parser',
+    rules: {
         'react/jsx-no-duplicate-props': 'error',
         'react/jsx-tag-spacing': 'warn',
-        'prefer-template': 'warn',
         'comma-dangle': ['warn', {
             'arrays': 'always-multiline',
             'objects': 'always-multiline',
@@ -35,8 +28,8 @@ module.exports = {
         'key-spacing': 'warn',
         'no-multiple-empty-lines': 'warn',
         'padded-blocks': ['warn', {'classes': 'always'}],
+        'object-curly-spacing': ['warn', 'never'],
         'array-bracket-spacing': ['warn', 'never'],
-        'semi': 'error',
         'semi-spacing': ['warn', {'before': false, 'after': true}],
         'prefer-const': 'warn',
         'template-curly-spacing': ['warn', 'never'],
@@ -46,11 +39,5 @@ module.exports = {
         'space-before-blocks': ['warn', 'always'],
         'keyword-spacing': ['warn', {'before': true, 'after': true}],
         'arrow-spacing': ['warn', {'before': true, 'after': true}],
-        'no-cond-assign': 'warn',
-        'no-constant-condition': 'warn',
-        'no-inner-declarations': ['error', 'functions'],
-        'no-unexpected-multiline': 'warn',
-        'object-shorthand': 'error',
-        'object-curly-spacing': ['warn', 'never'],
     },
 };

@@ -1,4 +1,5 @@
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
+import {COLOR_PLAYER} from '../Lobby/World/Entity/styled';
 
 const Container = styled.div`
     display: flex;
@@ -33,20 +34,7 @@ Logotype.Block = styled.div.attrs(() => ({
     width: 42px;
     height: 42px;
     border-radius: 8%;
-    background: ${(p) => {
-        switch (p.index) {
-            case 0:
-                return css`linear-gradient(135deg, #ffb300 0%, #ff7300 100%)`;
-            case 1:
-                return css`linear-gradient(135deg, #e47dff 0%, #9248a6 100%)`;
-            case 2:
-                return css`linear-gradient(135deg, #3dcbf0 0%, #1b86a2 100%)`;
-            case 3:
-                return css`linear-gradient(135deg, #f05656 0%, #b53a3a 100%)`;
-            case 4:
-                return css`linear-gradient(135deg, #a3e75f 0%, #5ea21b 100%)`;
-        }
-    }};
+    background: ${(p) => COLOR_PLAYER[p.index]};
     &:not(:last-child) {
         margin-right: 5px;
     }

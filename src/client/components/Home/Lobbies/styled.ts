@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
+/** Images */
+
 import IconPlayers from './icons/players.svg';
+
+/** Styles */
 
 const Title = styled.div`
     text-align: center;

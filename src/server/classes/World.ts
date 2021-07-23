@@ -58,7 +58,7 @@ export default class World {
             return;
         }
         for (const location of locations) {
-            this.setEntity(location, `${MAP_ENTITY.PLAYER}-slot${slot + 1}`);
+            this.setEntity(location, `${MAP_ENTITY.PLAYER}-slot${slot}`);
         }
         return locations;
     }

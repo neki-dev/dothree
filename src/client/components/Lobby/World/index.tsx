@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback, useMemo, useRef} from 'react';
 import {Socket} from 'socket.io-client';
-import styled from 'styled-components';
 import Entity from './Entity';
+import {Field, Line} from './styled';
 
 import type WorldMap from '~type/WorldMap';
 import PlayerInfo from '~type/PlayerInfo';
@@ -46,8 +46,6 @@ export default function World({socket, players}: ComponentProps) {
         };
     }, [refWorld.current]);
 
-    // ---
-
     if (!world) {
         return null;
     }
@@ -57,8 +55,7 @@ export default function World({socket, players}: ComponentProps) {
             {world.map((line: string[], y: number) => (
                 <Line key={y}>
                     {line.map((entity: string, x: number) => (
-                        <Entity key={`${x}-${y}`} value={entity} world={world} x={x} y={y}
-                                isPutting={current && current.slot === step} onPut={putEntity}/>
+                        <Entity key={`${x}-${y}`} value={entity} world={world} x={x} y={y} isPutting={current && current.slot === step} onPut={putEntity} />
                     ))}
                 </Line>
             ))}
@@ -67,16 +64,3 @@ export default function World({socket, players}: ComponentProps) {
 
 }
 
-const Field = styled.div`
-  user-select: none;
-  display: flex;
-  background: rgba(#323a45, 0.8);
-  padding: 10px (10px + 14px) 10px 10px;
-  flex-direction: column;
-  box-shadow: (-17px - 14px) 0 0 #1E232A inset;
-  overflow-y: scroll;
-`;
-
-const Line = styled.div`
-  display: flex;
-`;

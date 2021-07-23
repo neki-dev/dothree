@@ -1,8 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const AutoprefixerPlugin = require('autoprefixer');
-const CSSNanoPlugin = require('cssnano');
-const ExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
@@ -34,9 +31,6 @@ module.exports = {
         filename: 'bundle.js',
     },
     plugins: [
-        new ExtractPlugin({
-            filename: 'bundle.css',
-        }),
         new webpack.NoEmitOnErrorsPlugin(),
     ],
     module: {
@@ -58,32 +52,6 @@ module.exports = {
             }, {
                 loader: 'ts-loader',
             }],
-            include: path.join(__dirname, 'src', 'client'),
-        }, {
-            test: /\.css$/,
-            use: [
-                {
-                    loader: ExtractPlugin.loader,
-                },
-                {
-                    loader: 'css-loader',
-                    options: {
-                        sourceMap: false,
-                    },
-                },
-                {
-                    loader: 'postcss-loader',
-                    options: {
-                        postcssOptions: {
-                            plugins: [
-                                AutoprefixerPlugin(),
-                                CSSNanoPlugin({preset: 'default'}),
-                            ],
-                        },
-                        sourceMap: false,
-                    },
-                },
-            ],
             include: path.join(__dirname, 'src', 'client'),
         }, {
             test: /\.(svg|png|ttf|woff|wav)$/,

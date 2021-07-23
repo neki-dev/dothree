@@ -1,20 +1,4 @@
-import React from 'react';
 import {createGlobalStyle} from 'styled-components';
-import {Normalize} from 'styled-normalize';
-
-interface ComponentProps {
-    children: any;
-}
-
-export default function App({children}: ComponentProps) {
-    return (
-        <>
-            <Normalize/>
-            <GlobalStyle/>
-            {children}
-        </>
-    );
-}
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400&display=swap');
@@ -48,3 +32,5 @@ const GlobalStyle = createGlobalStyle`
     flex-direction: column;
   }
 `;
+
+export {GlobalStyle};

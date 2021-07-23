@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef, useMemo} from 'react';
 import dayjs from 'dayjs';
-import styled, {keyframes, css} from 'styled-components';
+import {Timeleft} from './styled';
 
 interface ComponentProps {
     value: number
@@ -36,23 +36,3 @@ export default function Countdown({value, isCurrent}: ComponentProps) {
     );
 
 }
-
-const AnimationPulse = keyframes`
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-`;
-
-const Timeleft: any = styled.div<{
-    danger: boolean
-}>`
-  font-size: 16px;
-  margin-left: 10px;
-  color: ${(p) => (p.danger ? '#ffbb00' : '#5b6b7d')};
-  ${(p) => p.danger && css`
-    animation: 1s linear ${AnimationPulse};
-  `};
-`;

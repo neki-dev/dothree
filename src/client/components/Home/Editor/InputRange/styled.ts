@@ -1,20 +1,4 @@
-import React from 'react';
 import styled from 'styled-components';
-
-interface ComponentProps extends React.HTMLProps<HTMLInputElement> {
-    label: string;
-    value: number;
-}
-
-export default function InputRange({label, value, ...props}: ComponentProps) {
-    return (
-        <Container>
-            <InputLabel>{label}</InputLabel>
-            <Range defaultValue={value} {...props} />
-            <InputValue>{value}</InputValue>
-        </Container>
-    );
-}
 
 const Container = styled.div`
   display: flex;
@@ -121,7 +105,7 @@ const Range: any = styled.input.attrs({
   }
 `;
 
-const InputLabel = styled.div`
+const Label = styled.div`
   width: 60px;
   text-align: right;
   font-size: 11px;
@@ -130,9 +114,11 @@ const InputLabel = styled.div`
   color: #bac7d6;
 `;
 
-const InputValue = styled.div`
+const Value = styled.div`
   margin-left: 10px;
   font-size: 14px;
   font-weight: 700;
   width: 60px;
 `;
+
+export {Container, Range, Label, Value};

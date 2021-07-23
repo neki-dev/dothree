@@ -1,19 +1,18 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import ReactDOM from 'react-dom';
-
-import './styles/normalize.css';
-import './styles/main.css';
-
-import Lobby from './components/Lobby';
-import Home from './components/Home';
+import App from './components/App';
+import PageLobby from './components/Lobby';
+import PageHome from './components/Home';
 
 ReactDOM.render(
     <BrowserRouter>
-        <Switch>
-            <Route exact path="/" component={Home}/>
-            <Route exact path="/game/:uuid" component={Lobby}/>
-        </Switch>
+        <App>
+            <Switch>
+                <Route exact path="/" component={PageHome}/>
+                <Route exact path="/game/:uuid" component={PageLobby}/>
+            </Switch>
+        </App>
     </BrowserRouter>,
     document.getElementById('app')
 );

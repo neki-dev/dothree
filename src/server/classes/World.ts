@@ -26,21 +26,13 @@ export default class World {
         this.options = options;
     }
 
-    generate(): void {
+    generateMap(): void {
         for (let y = 0; y < MAP_SIZE[1]; y++) {
             this.map[y] = [];
             for (let x = 0; x < MAP_SIZE[0]; x++) {
-                let entity = MAP_ENTITY.EMPTY;
-                if (utils.probability(this.options.density)) {
-                    entity = MAP_ENTITY.BLOCK;
-                } else if (y + 1 !== MAP_SIZE[1] && utils.probability(this.options.bonusing)) {
-                    entity = MAP_ENTITY.BONUS + '-' + utils.randomize([
-                        ENTITY_BONUS.REPLACER,
-                        ENTITY_BONUS.SPAWN,
-                        ENTITY_BONUS.LASER,
-                    ]);
-                }
-                this.setEntity([x, y], entity);
+                const location: WorldLocation = [x, y];
+                const entity: string = this.createRandomEntity(location);
+                this.setEntity(location, entity);
             }
         }
     }
@@ -116,6 +108,15 @@ export default class World {
         return additional;
     }
 
+    moveMap(): void {
+        for (const [y, line] of Object.entries(this.map)) {
+            line.shift();
+            const location: WorldLocation = [line.length, Number(y)];
+            const entity: string = this.createRandomEntity(location);
+            this.setEntity(location, entity);
+        }
+    }
+
     private canBePlaced(location: WorldLocation): boolean {
         if (location[1] + 1 === this.map.length) {
             return true;
@@ -170,6 +171,20 @@ export default class World {
                     }
                 }
             }
+        }
+    }
+
+    private createRandomEntity(location: WorldLocation): string {
+        if (utils.probability(this.options.density)) {
+            return MAP_ENTITY.BLOCK;
+        } else if (this.options.useBonuses && location[1] + 1 !== MAP_SIZE[1] && utils.probability(this.options.bonusing)) {
+            return MAP_ENTITY.BONUS + '-' + utils.randomize([
+                ENTITY_BONUS.REPLACER,
+                ENTITY_BONUS.SPAWN,
+                ENTITY_BONUS.LASER,
+            ]);
+        } else {
+            return MAP_ENTITY.EMPTY;
         }
     }
 

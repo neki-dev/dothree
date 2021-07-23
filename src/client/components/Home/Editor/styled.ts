@@ -7,7 +7,7 @@ const Container = styled.form`
 `;
 
 const Settings = styled.div`
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 `;
 
 const Actions = styled.div`

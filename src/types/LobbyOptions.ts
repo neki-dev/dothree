@@ -4,4 +4,6 @@ export default interface LobbyOptions {
     bonusing?: number
     timeout?: number
     targetLength?: number
+    moveMap?: boolean
+    useBonuses?: boolean
 }

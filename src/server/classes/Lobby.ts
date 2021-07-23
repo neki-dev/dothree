@@ -34,24 +34,13 @@ export default class Lobby {
     }
 
     constructor(core: Core, options: LobbyOptions) {
-
-        this.options = utils.validate(options, {
-            maxPlayers: {default: 3, min: 2, max: 5},
-            density: {default: 10, min: 0, max: 40},
-            bonusing: {default: 2, min: 0, max: 5},
-            timeout: {default: 30, min: 5, max: 60},
-            targetLength: {default: 3, min: 3, max: 4},
-        });
-
+        this.options = options;
         this.core = core;
         this.uuid = utils.generate();
         this.date = new Date();
-
         this.world = new World(this.options);
-        this.world.generate();
-
+        this.world.generateMap();
         console.log(`Lobby #${this.uuid} created`);
-
     }
 
     destroy(): void {
@@ -172,6 +161,9 @@ export default class Lobby {
         } else {
             this.step++;
         }
+        if (this.options.moveMap) {
+            this.world.moveMap();
+        }
     }
 
     private start(): void {
@@ -184,7 +176,7 @@ export default class Lobby {
             clearTimeout(this.reseting);
             this.reseting = null;
         }
-        this.world.generate();
+        this.world.generateMap();
         this.emit('updateWorldMap', this.world.map);
         if (this.isFulled()) {
             this.start();

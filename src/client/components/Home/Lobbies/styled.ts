@@ -30,7 +30,7 @@ const Lobby: any = styled.a`
     text-decoration: none;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 5px 30px rgba(#000, 0.05);
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.05);
     transition: all 0.1s ease-out;
     &:not(:last-child) {
         margin-bottom: 10px;
@@ -59,7 +59,7 @@ Lobby.Date = styled.span`
     margin-right: 9px;
     color: rgba(255, 255, 255, 0.5);
     font-size: 11px;
-    border-right: 1px solid rgba(#fff, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
     padding-right: 8px;
 `;
 

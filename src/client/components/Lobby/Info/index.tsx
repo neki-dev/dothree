@@ -60,8 +60,6 @@ export default function Info({socket, players, options}: ComponentProps) {
         };
     }, [step, (current && current.slot), players.length]);
 
-    // ---
-
     return (
         <Container>
             <Block>

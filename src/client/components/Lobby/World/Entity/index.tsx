@@ -4,12 +4,12 @@ import {Block, Pointer} from './styled';
 import type WorldMap from '~type/WorldMap';
 
 interface ComponentProps {
-    value: string,
-    world: WorldMap,
-    x: number,
-    y: number,
-    isPutting?: boolean,
-    onPut: Function,
+    value: string
+    world: WorldMap
+    x: number
+    y: number
+    isPutting?: boolean
+    onPut: Function
 }
 
 export default function Entity({value, world, x, y, isPutting = false, onPut}: ComponentProps) {

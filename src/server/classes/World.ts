@@ -76,7 +76,7 @@ export default class World {
                 const puttedEntities: WorldLocation[] = [];
                 this.eachMap((entity: string, x: number, y: number) => {
                     const [type, targetSlot]: string[] = entity.split('-');
-                    if (type === MAP_ENTITY.PLAYER && Number(targetSlot.replace('slot', '')) - 1 !== slot) {
+                    if (type === MAP_ENTITY.PLAYER && Number(targetSlot.replace('slot', '')) !== slot) {
                         puttedEntities.push([x, y]);
                     }
                 });

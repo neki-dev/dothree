@@ -27,8 +27,6 @@ export default function Countdown({value, isCurrent}: ComponentProps) {
         };
     }, []);
 
-    // ---
-
     return (
         <Timeleft danger={isCurrent && tick <= Math.round(value / 3)}>
             {date.second(tick).format('mm:ss')}

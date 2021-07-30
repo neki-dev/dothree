@@ -3,7 +3,7 @@ import {Normalize} from 'styled-normalize';
 import {GlobalStyle} from './styled';
 
 interface ComponentProps {
-    children: any;
+    children: any
 }
 
 export default function App({children}: ComponentProps) {

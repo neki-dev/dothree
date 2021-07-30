@@ -5,7 +5,7 @@ import LobbyInfo from '~type/LobbyInfo';
 import {Title, LobbyList, Lobby, DataGroup} from './styled';
 
 interface ComponentProps {
-    socket: Socket;
+    socket: Socket
 }
 
 export default function Lobbies({socket}: ComponentProps) {
@@ -15,8 +15,6 @@ export default function Lobbies({socket}: ComponentProps) {
     useEffect(() => {
         socket.on('updateLatestLobbies', setLobbies);
     }, []);
-
-    // ---
 
     return (lobbies.length > 0) ? (
         <>

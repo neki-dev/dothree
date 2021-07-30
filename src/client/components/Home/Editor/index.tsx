@@ -7,8 +7,8 @@ import {Container, Settings, Actions, ButtonBack, ButtonCreate} from './styled';
 import LobbyOptions from '~type/LobbyOptions';
 
 interface ComponentProps {
-    socket: Socket;
-    onClose?: Function;
+    socket: Socket
+    onClose?: Function
 }
 
 export default function Editor({socket, onClose}: ComponentProps) {

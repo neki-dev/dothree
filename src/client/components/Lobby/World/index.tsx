@@ -7,8 +7,8 @@ import type WorldMap from '~type/WorldMap';
 import PlayerInfo from '~type/PlayerInfo';
 
 interface ComponentProps {
-    socket: Socket;
-    players: PlayerInfo[];
+    socket: Socket
+    players: PlayerInfo[]
 }
 
 export default function World({socket, players}: ComponentProps) {

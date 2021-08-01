@@ -30,10 +30,10 @@ const Controls: any = styled.div`
 
 Controls.Inc = styled.div`
     background: #243345 url(${IconInc}) center center no-repeat;
-    background-size: 70%;
+    background-size: 10px;
     border-radius: 50%;
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     &:hover {
         cursor: pointer;
         background-color: #39495c;
@@ -42,10 +42,10 @@ Controls.Inc = styled.div`
 
 Controls.Dec = styled.div`
     background: #243345 url(${IconDec}) center center no-repeat;
-    background-size: 70%;
+    background-size: 10px;
     border-radius: 50%;
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     &:hover {
         cursor: pointer;
         background-color: #39495c;

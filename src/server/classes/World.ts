@@ -41,11 +41,10 @@ export default class World {
         if (!this.canBePlaced(location)) {
             return;
         }
-        let locations: WorldLocation[] = [location];
+        const locations: WorldLocation[] = [location];
         const types: string[] = this.getEntity(location).split('-');
         if (types[0] === MAP_ENTITY.BONUS) {
-            const additional = this.useBonus(slot, location, types[1]);
-            locations = locations.concat(additional);
+            this.useBonus(locations, slot, types[1]);
         } else if (types[0] !== MAP_ENTITY.EMPTY) {
             return;
         }
@@ -69,8 +68,7 @@ export default class World {
         return false;
     }
 
-    useBonus(slot: number, location: WorldLocation, type: string): WorldLocation[] {
-        const additional: WorldLocation[] = [];
+    useBonus(locations: WorldLocation[], slot: number, type: string): void {
         switch (type) {
             case ENTITY_BONUS.REPLACER: {
                 const puttedEntities: WorldLocation[] = [];
@@ -81,7 +79,7 @@ export default class World {
                     }
                 });
                 if (puttedEntities.length > 0) {
-                    additional.push(utils.randomize(puttedEntities));
+                    locations.push(utils.randomize(puttedEntities));
                 }
                 break;
             }
@@ -93,19 +91,20 @@ export default class World {
                     }
                 });
                 if (emptyEntities.length > 0) {
-                    additional.push(utils.randomize(emptyEntities));
+                    locations.push(utils.randomize(emptyEntities));
                 }
                 break;
             }
             case ENTITY_BONUS.LASER: {
+                const mainLocationX: number = locations[0][0];
                 for (const y of Object.keys(this.map)) {
-                    this.setEntity([location[0], Number(y)], MAP_ENTITY.EMPTY)
+                    this.setEntity([mainLocationX, Number(y)], MAP_ENTITY.EMPTY);
                 }
-                additional[0][1] = this.map.length - 1;
+                const mainLocation: WorldLocation = [mainLocationX, this.map.length - 1];
+                locations.splice(0, locations.length, mainLocation);
                 break;
             }
         }
-        return additional;
     }
 
     moveMap(): void {

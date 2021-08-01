@@ -1,6 +1,6 @@
 {
 	"IP_ONCE": false,
-	"PORT": 3000,
+	"PORT": 99,
 	"LOBBY_IDLE_TIMEOUT": 10,
 	"RESTART_TIMEOUT": 5
 }

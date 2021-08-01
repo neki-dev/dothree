@@ -13,7 +13,8 @@
     "paths": {
       "~root/*": ["*"],
       "~type/*": ["src/types/*"],
-      "~hook/*": ["src/client/hooks/*"]
+      "~hook/*": ["src/client/hooks/*"],
+      "~context/*": ["src/client/context/*"]
     }
   }
 }

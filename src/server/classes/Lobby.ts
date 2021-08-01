@@ -21,7 +21,6 @@ export default class Lobby {
     private players: Player[] = [];
     private idleTick: number = 0;
     private reseting?: NodeJS.Timeout | null = null;
-    private timeout: number = 0;
 
     private _step: number | null = null;
     public get step() {
@@ -31,6 +30,16 @@ export default class Lobby {
     public set step(v: number | null) {
         this._step = v;
         this.emit('updateStep', v);
+    }
+
+    private _timeout: number = 0;
+    public get timeout() {
+        return this._timeout;
+    }
+
+    public set timeout(v: number | null) {
+        this._timeout = v;
+        this.emit('updateTimeout', v);
     }
 
     constructor(core: Core, options: LobbyOptions) {

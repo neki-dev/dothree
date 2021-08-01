@@ -15,9 +15,7 @@ const Timeleft: any = styled.div<{
   font-size: 16px;
   margin-left: 10px;
   color: ${(p) => (p.danger ? '#ffbb00' : '#5b6b7d')};
-  ${(p) => p.danger && css`
-    animation: 1s linear ${AnimationPulse};
-  `};
+  animation: ${(p) => (p.danger ? css`1s linear ${AnimationPulse}` : 'none')};
 `;
 
 export {Timeleft};

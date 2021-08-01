@@ -2,9 +2,9 @@ import styled, {css, FlattenSimpleInterpolation} from 'styled-components';
 
 /** Images */
 
-import IconBonusLaser from './icons/laser.svg';
-import IconBonusSpawn from './icons/spawn.svg';
-import IconBonusReplacer from './icons/replacer.svg';
+import IconBonusLaser from './icons/l.svg';
+import IconBonusSpawn from './icons/s.svg';
+import IconBonusReplacer from './icons/r.svg';
 
 /** Colors */
 
@@ -64,7 +64,10 @@ const Block: any = styled.div<{
                 laser: IconBonusLaser,
                 replacer: IconBonusReplacer,
             }[p.types[1]] || 'none';
-            return css`background-image: url(${icon});`;
+            return css`
+                background-image: url(${icon});
+                background-size: 90%;
+            `;
         }
     }}
     ${(p) => p.allow && css`

@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useCallback, useMemo, useRef} from 'react';
-import {Socket} from 'socket.io-client';
+import React, {useState, useEffect, useCallback, useMemo, useRef, useContext} from 'react';
+import {SocketContext} from '~context/SocketContext';
 import Entity from './Entity';
 import {Field, Line} from './styled';
 
@@ -7,14 +7,15 @@ import type WorldMap from '~type/WorldMap';
 import PlayerInfo from '~type/PlayerInfo';
 
 interface ComponentProps {
-    socket: Socket
     players: PlayerInfo[]
 }
 
-export default function World({socket, players}: ComponentProps) {
+export default function World({players}: ComponentProps) {
 
     const [world, setWorld] = useState<WorldMap>(null);
     const [step, setStep] = useState<number>(null);
+
+    const {socket} = useContext(SocketContext);
 
     const refWorld = useRef<HTMLDivElement>(null);
 

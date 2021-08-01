@@ -1,7 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
-import {Socket} from 'socket.io-client';
-import useSocket from '~hook/useSocket';
+import React, {useState, useEffect, useContext} from 'react';
+import {SocketContext} from '~context/SocketContext';
 import Info from './Info';
 import World from './World';
 import {Container, GameScreen, Error, Status, WaitingOverlay, Loading} from './styled';
@@ -11,12 +9,11 @@ import PlayerInfo from '~type/PlayerInfo';
 
 export default function Lobby() {
 
-    const {uuid} = useParams<{ uuid: string }>();
-    const socket: Socket = useSocket('/lobby', {uuid});
-
     const [error, setError] = useState<string>(null);
     const [options, setOptions] = useState<LobbyOptions>(null);
     const [players, setPlayers] = useState<PlayerInfo[]>([]);
+
+    const {socket} = useContext(SocketContext);
 
     useEffect(() => {
         socket.on('lobbyError', setError);
@@ -53,8 +50,8 @@ export default function Lobby() {
                         </WaitingOverlay>
                     )}
                     <GameScreen>
-                        <World socket={socket} players={players} />
-                        <Info socket={socket} players={players} options={options || {}} />
+                        <World players={players} />
+                        <Info players={players} options={options || {}} />
                     </GameScreen>
                 </>
             )}
@@ -62,3 +59,4 @@ export default function Lobby() {
     );
 
 }
+

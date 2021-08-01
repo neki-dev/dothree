@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect, useMemo, useContext} from 'react';
 import {useParams} from 'react-router-dom';
-import {Socket} from 'socket.io-client';
+import {SocketContext} from '~context/SocketContext';
 import Countdown from './Countdown';
 import {Container, Block, Player, RestartMessage, WinMessage, EmptySlot} from './styled';
 
@@ -8,17 +8,18 @@ import LobbyOptions from '~type/LobbyOptions';
 import PlayerInfo from '~type/PlayerInfo';
 
 interface ComponentProps {
-    socket: Socket
     players: PlayerInfo[]
     options: LobbyOptions
 }
 
-export default function Info({socket, players, options}: ComponentProps) {
+export default function Info({players, options}: ComponentProps) {
 
     const {uuid} = useParams<{uuid: string}>();
 
     const [step, setStep] = useState<number>(null);
     const [winner, setWinner] = useState<string>(null);
+
+    const {socket} = useContext(SocketContext);
 
     const slots: Array<PlayerInfo | null> = useMemo(() => {
         const slots: Array<PlayerInfo | null> = [];
@@ -83,7 +84,7 @@ export default function Info({socket, players, options}: ComponentProps) {
                     <Block.Label>Ход</Block.Label>
                     <Block.Value>
                         <Player slot={step} />
-                        <Countdown key={step} value={options.timeout} isCurrent={current && current.slot === step} />
+                        <Countdown key={step} limit={options.timeout} isCurrent={current && current.slot === step} />
                     </Block.Value>
                 </Block>
             )}

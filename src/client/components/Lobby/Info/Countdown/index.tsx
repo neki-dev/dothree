@@ -1,34 +1,29 @@
-import React, {useState, useEffect, useRef, useMemo} from 'react';
+import React, {useState, useEffect, useMemo, useContext} from 'react';
 import dayjs from 'dayjs';
+import {SocketContext} from '~context/SocketContext';
 import {Timeleft} from './styled';
 
 interface ComponentProps {
-    value: number
+    limit: number
     isCurrent: boolean
 }
 
-export default function Countdown({value, isCurrent}: ComponentProps) {
+export default function Countdown({limit, isCurrent}: ComponentProps) {
 
-    const [tick, setTick] = useState<number>(value);
+    const [tick, setTick] = useState<number>(0);
 
-    const refInterval = useRef(null);
+    const {socket} = useContext(SocketContext);
 
     const date = useMemo(() => {
         return dayjs().hour(0).minute(0);
     }, []);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setTick((tick) => (tick - 1));
-        }, 1000);
-        refInterval.current = interval;
-        return () => {
-            clearInterval(interval);
-        };
+        socket.on('updateTimeout', setTick);
     }, []);
 
-    return (
-        <Timeleft danger={isCurrent && tick <= Math.round(value / 3)}>
+    return (tick > 0) && (
+        <Timeleft danger={isCurrent && tick <= Math.round(limit / 3)}>
             {date.second(tick).format('mm:ss')}
         </Timeleft>
     );

@@ -23,6 +23,7 @@ module.exports = {
             ['~root']: __dirname,
             ['~type']: path.join(__dirname, 'src', 'types'),
             ['~hook']: path.join(__dirname, 'src', 'client', 'hooks'),
+            ['~context']: path.join(__dirname, 'src', 'client', 'context'),
         },
     },
     output: {

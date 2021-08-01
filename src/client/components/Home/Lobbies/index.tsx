@@ -1,16 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import dayjs from 'dayjs';
-import {Socket} from 'socket.io-client';
+import {SocketContext} from '~context/SocketContext';
 import LobbyInfo from '~type/LobbyInfo';
 import {Title, LobbyList, Lobby, DataGroup} from './styled';
 
-interface ComponentProps {
-    socket: Socket
-}
-
-export default function Lobbies({socket}: ComponentProps) {
+export default function Lobbies() {
 
     const [lobbies, setLobbies] = useState<LobbyInfo[]>([]);
+
+    const {socket} = useContext(SocketContext);
 
     useEffect(() => {
         socket.on('updateLatestLobbies', setLobbies);

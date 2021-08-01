@@ -1,14 +1,10 @@
 import React, {useState} from 'react';
 import GitHubButton from 'react-github-btn';
-import {Socket} from 'socket.io-client';
-import useSocket from '~hook/useSocket';
 import Editor from './Editor';
 import Lobbies from './Lobbies';
 import {Container, Logotype, ButtonCreate, Footer} from './styled';
 
 export default function Home() {
-
-    const socket: Socket = useSocket('/home');
 
     const [section, setSection] = useState<string>('lobbies');
 
@@ -23,11 +19,11 @@ export default function Home() {
                 <Logotype.Label>dothree</Logotype.Label>
             </Logotype>
             {(section === 'editor') ? (
-                <Editor socket={socket} onClose={() => setSection('lobbies')} />
+                <Editor onClose={() => setSection('lobbies')} />
             ) : (
                 <>
                     <ButtonCreate onClick={() => setSection('editor')}>Создать новую игру</ButtonCreate>
-                    <Lobbies socket={socket} />
+                    <Lobbies />
                 </>
             )}
             <Footer>

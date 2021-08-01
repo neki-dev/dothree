@@ -1,5 +1,5 @@
-import React, {useCallback, useState} from 'react';
-import {Socket} from 'socket.io-client';
+import React, {useCallback, useContext, useState} from 'react';
+import {SocketContext} from '~context/SocketContext';
 import InputRange from './InputRange';
 import InputCheckbox from './InputCheckbox';
 import {Container, Settings, Actions, ButtonBack, ButtonCreate} from './styled';
@@ -7,11 +7,10 @@ import {Container, Settings, Actions, ButtonBack, ButtonCreate} from './styled';
 import LobbyOptions from '~type/LobbyOptions';
 
 interface ComponentProps {
-    socket: Socket
     onClose?: Function
 }
 
-export default function Editor({socket, onClose}: ComponentProps) {
+export default function Editor({onClose}: ComponentProps) {
 
     const [options, setOptions] = useState<LobbyOptions>({
         maxPlayers: 3,
@@ -22,6 +21,8 @@ export default function Editor({socket, onClose}: ComponentProps) {
         moveMap: false,
         useBonuses: true,
     });
+
+    const {socket} = useContext(SocketContext);
 
     const onChange = useCallback((name: string, value: number | boolean) => {
         setOptions((options) => ({

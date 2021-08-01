@@ -19,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
         font: 13px 'Nunito', sans-serif;
         background: #0F141A;
         color: #FFFFFF;
+        min-width: 280px;
     }
     #app {
         display: flex;

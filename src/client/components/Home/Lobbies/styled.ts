@@ -13,13 +13,8 @@ const Title = styled.div`
     font-size: 11px;
 `;
 
-const DataGroup = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
 const LobbyList = styled.div`
-    width: 210px;
+    width: 100%;
 `;
 
 const Lobby: any = styled.a`
@@ -54,15 +49,6 @@ Lobby.OnlineValue = styled.span`
     font-weight: bold;
 `;
 
-Lobby.Date = styled.span`
-    display: inline-block;
-    margin-right: 9px;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 11px;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-    padding-right: 8px;
-`;
-
 Lobby.Name = styled.span`
     display: inline-block;
     color: #fff;
@@ -70,4 +56,4 @@ Lobby.Name = styled.span`
     margin-right: 20px;
 `;
 
-export {Title, LobbyList, Lobby, DataGroup};
+export {Title, LobbyList, Lobby};

@@ -1,111 +1,74 @@
 import styled from 'styled-components';
 
+/** Images */
+
+import IconInc from './icons/inc.svg';
+import IconDec from './icons/dec.svg';
+
+/** Styles */
+
 const Container = styled.div`
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 13px 14px;
+    border-radius: 4px;
     &:not(:last-child) {
-        margin-bottom: 20px;
+        margin-bottom: 3px;
     }
 `;
 
-const Range: any = styled.input.attrs({
-    type: 'range',
-    tabIndex: 1,
-})`
-    width: 200px;
-    -webkit-appearance: none;
-    background: transparent;
-    &:focus {
-        outline: none;
-    }
-    &::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        border: 4px solid #0f141a;
-        height: 18px;
-        width: 18px;
-        border-radius: 50%;
-        background: #ffffff;
+const Group = styled.div`
+
+`;
+
+const Controls: any = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+Controls.Inc = styled.div`
+    background: #243345 url(${IconInc}) center center no-repeat;
+    background-size: 70%;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    &:hover {
         cursor: pointer;
-        margin-top: -5px;
+        background-color: #39495c;
     }
-    &:focus::-webkit-slider-thumb {
-        background: #c169db;
-    }
-    &::-moz-range-thumb {
-        -webkit-appearance: none;
-        border: 4px solid #0f141a;
-        height: 18px;
-        width: 18px;
-        border-radius: 50%;
-        background: #ffffff;
+`;
+
+Controls.Dec = styled.div`
+    background: #243345 url(${IconDec}) center center no-repeat;
+    background-size: 70%;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    &:hover {
         cursor: pointer;
-    }
-    &:focus::-moz-range-thumb {
-        background: #c169db;
-    }
-    &::-ms-thumb {
-        -webkit-appearance: none;
-        border: 4px solid #0f141a;
-        height: 18px;
-        width: 18px;
-        border-radius: 50%;
-        background: #ffffff;
-        cursor: pointer;
-    }
-    &:focus::-ms-thumb {
-        background: #c169db;
-    }
-    &::-webkit-slider-runnable-track {
-        width: 100%;
-        height: 8px;
-        border-radius: 4px;
-        cursor: pointer;
-        background: #5b6b7d;
-    }
-    &::-moz-range-track {
-        width: 100%;
-        height: 8px;
-        border-radius: 4px;
-        cursor: pointer;
-        background: #5b6b7d;
-    }
-    &::-ms-track {
-        width: 100%;
-        height: 8px;
-        cursor: pointer;
-        background: transparent;
-        border-color: transparent;
-        border-width: 16px 0;
-        color: transparent;
-    }
-    &::-ms-fill-lower {
-        background: #2a6495;
-        border: 0.2px solid #010101;
-        border-radius: 2.6px;
-        box-shadow: 1px 1px 1px #000000, 0 0 1px #0d0d0d;
-    }
-    &::-ms-fill-upper {
-        background: #3071a9;
-        border: 0.2px solid #010101;
-        border-radius: 2.6px;
-        box-shadow: 1px 1px 1px #000000, 0 0 1px #0d0d0d;
+        background-color: #39495c;
     }
 `;
 
 const Label = styled.div`
-    width: 60px;
-    text-align: right;
+    // width: 60px;
+    // text-align: right;
     font-size: 11px;
     line-height: 11px;
     margin-right: 10px;
     color: #bac7d6;
 `;
 
-const Value = styled.div`
-    margin-left: 10px;
-    font-size: 14px;
+const Value = styled.div<{
+    small: boolean
+}>`
+    line-height: 11px;
+    font-size: ${({small}) => (small ? '12px' : '16px')};
     font-weight: 700;
-    width: 60px;
+    width: 32px;
+    text-align: center;
 `;
 
-export {Container, Range, Label, Value};
+export {Container, Group, Controls, Label, Value};

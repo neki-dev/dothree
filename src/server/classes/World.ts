@@ -175,7 +175,7 @@ export default class World {
     }
 
     private createRandomEntity(location: WorldLocation): string {
-        if (utils.probability(this.options.density)) {
+        if (utils.probability(this.options.density * 10)) {
             return MAP_ENTITY.BLOCK;
         } else if (this.options.useBonuses && location[1] + 1 !== MAP_SIZE[1] && utils.probability(this.options.bonusing)) {
             return MAP_ENTITY.BONUS + '-' + utils.randomize([

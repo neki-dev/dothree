@@ -1,8 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
-import dayjs from 'dayjs';
 import {SocketContext} from '~context/SocketContext';
 import LobbyInfo from '~type/LobbyInfo';
-import {Title, LobbyList, Lobby, DataGroup} from './styled';
+import {Title, LobbyList, Lobby} from './styled';
 
 export default function Lobbies() {
 
@@ -20,10 +19,7 @@ export default function Lobbies() {
             <LobbyList>
                 {lobbies.map((lobby) => (
                     <Lobby key={lobby.uuid} href={`/game/${lobby.uuid}`} target="_blank">
-                        <DataGroup>
-                            <Lobby.Date>{dayjs(lobby.date).format('HH:mm')}</Lobby.Date>
-                            <Lobby.Name>{lobby.uuid}</Lobby.Name>
-                        </DataGroup>
+                        <Lobby.Name>{lobby.uuid}</Lobby.Name>
                         <Lobby.OnlineWrapper>
                             <Lobby.OnlineValue>{lobby.players.online}</Lobby.OnlineValue> / <Lobby.OnlineValue>{lobby.players.max}</Lobby.OnlineValue>
                         </Lobby.OnlineWrapper>

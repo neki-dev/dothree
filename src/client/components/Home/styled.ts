@@ -8,6 +8,12 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     padding: 100px;
+    width: 460px;
+    margin: 0 auto;
+    @media (max-width: 460px) {
+        width: 100%;
+        padding: 40px;
+    }
 `;
 
 const Logotype: any = styled.div`
@@ -48,28 +54,6 @@ Logotype.Label = styled.div`
     overflow: hidden;
 `;
 
-const ButtonCreate = styled.div.attrs({
-    tabIndex: 1,
-})`
-    width: 210px;
-    color: #fff;
-    background: #684473;
-    padding: 18px;
-    border-radius: 3px;
-    text-align: center;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: background 0.1s ease-in;
-    &:hover {
-        cursor: pointer;
-        background: #ff5d00;
-    }
-    &:focus {
-        background: #c169db;
-    }
-`;
-
 const Footer = styled.div`
     height: 31px;
     margin-top: 30px;
@@ -80,4 +64,4 @@ const Footer = styled.div`
     }
 `;
 
-export {Container, Logotype, ButtonCreate, Footer};
+export {Container, Logotype, Footer};

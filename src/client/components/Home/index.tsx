@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import GitHubButton from 'react-github-btn';
 import Editor from './Editor';
 import Lobbies from './Lobbies';
-import {Container, Logotype, ButtonCreate, Footer} from './styled';
+import Button from './Button';
+import {Container, Logotype, Footer} from './styled';
 
 export default function Home() {
 
@@ -22,7 +23,7 @@ export default function Home() {
                 <Editor onClose={() => setSection('lobbies')} />
             ) : (
                 <>
-                    <ButtonCreate onClick={() => setSection('editor')}>Создать новую игру</ButtonCreate>
+                    <Button onClick={() => setSection('editor')}>Создать новую игру</Button>
                     <Lobbies />
                 </>
             )}

@@ -2,10 +2,11 @@ import styled from 'styled-components';
 
 const Container = styled.div`
     display: flex;
-    align-items: center;
-    margin-left: 70px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 13px 14px;
+    border-radius: 4px;
     &:not(:last-child) {
-        margin-bottom: 20px;
+        margin-bottom: 3px;
     }
 `;
 

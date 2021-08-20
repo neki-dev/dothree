@@ -1,16 +1,14 @@
-import React from 'react';
+import React, {MouseEventHandler} from 'react';
 import {Container} from './styled';
 
 interface ComponentProps {
-    children: any
-    onClick?: any
+    children: React.ReactChild | React.ReactChildren
+    onClick?: MouseEventHandler
 }
 
 export default function Button({onClick, children}: ComponentProps) {
-
     return (
         <Container onClick={onClick}>{children}</Container>
     );
-
 }
 

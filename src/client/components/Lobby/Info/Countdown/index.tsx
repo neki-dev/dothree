@@ -20,6 +20,9 @@ export default function Countdown({limit, isCurrent}: ComponentProps) {
 
     useEffect(() => {
         socket.on('updateTimeout', setTick);
+        return () => {
+            socket.off('updateTimeout', setTick);
+        };
     }, []);
 
     return (tick > 0) && (

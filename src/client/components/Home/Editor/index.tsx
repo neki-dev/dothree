@@ -45,12 +45,19 @@ export default function Editor({onClose}: ComponentProps) {
     return (
         <Form>
             <Settings>
-                <InputRange label="Количество игроков" name="maxPlayers" defaultValue={options.maxPlayers} min={2} max={5} onChange={onChange} tooltip="Количество игроков, необходимое для начала игры" />
-                <InputRange label="Плотность карты" name="density" defaultValue={options.density} min={0} max={4} step={1} onChange={onChange} tooltip="Коэффициент спавна блоков мира" />
-                <InputRange label="Таймаут хода" name="timeout" defaultValue={options.timeout} min={5} max={60} step={5} onChange={onChange} tooltip="Количество секунд, за которые игрок должен сделать свой ход" />
+                <InputRange label="Количество игроков" name="maxPlayers" defaultValue={options.maxPlayers} min={2} max={5} onChange={onChange}
+                    tooltip="Количество игроков, необходимое для начала игры" />
+                <InputRange label="Плотность карты" name="density" defaultValue={options.density} min={0} max={4} step={1} onChange={onChange}
+                    tooltip="Коэффициент спавна блоков мира" />
+                <InputRange label="Таймаут хода" name="timeout" defaultValue={options.timeout} min={5} max={60} step={5} onChange={onChange}
+                    tooltip="Количество секунд, за которые игрок должен сделать свой ход" />
                 <InputCheckbox label="Использовать бонусы" name="useBonuses" value={options.useBonuses} onChange={onChange} />
-                {options.useBonuses && <InputRange label="Частота бонусов" name="bonusing" defaultValue={options.bonusing} min={1} max={5} onChange={onChange} tooltip="Коэффициент спавна бонусов" />}
-                <InputCheckbox label="Подвижная карта" name="moveMap" value={options.moveMap} onChange={onChange} tooltip="При подвижной карте после каждого хода идет смещение на один блок влево" />
+                {options.useBonuses && (
+                    <InputRange label="Частота бонусов" name="bonusing" defaultValue={options.bonusing} min={1} max={5} onChange={onChange}
+                        tooltip="Коэффициент спавна бонусов" />
+                )}
+                <InputCheckbox label="Подвижная карта" name="moveMap" value={options.moveMap} onChange={onChange}
+                    tooltip="При подвижной карте после каждого хода идет смещение на один блок влево" />
             </Settings>
             <Button onClick={createLobby}>Продолжить</Button>
         </Form>

@@ -14,23 +14,25 @@ interface ComponentProps {
 
 export default function Entity({value, world, x, y, isPutting = false, onPut}: ComponentProps) {
 
-    const canBePlaced = useCallback((x: number, y: number) => {
+    const canBePlaced = (x: number, y: number): boolean => {
         if (y + 1 === world.length) {
             return true;
         } else {
             const [type] = world[y + 1][x].split('-');
             return ['player', 'block'].includes(type);
         }
-    }, [world]);
+    };
 
     const isAllow: boolean = useMemo(() => {
         const [type] = value.split('-');
         return (isPutting && ['empty', 'bonus'].includes(type) && canBePlaced(x, y));
-    }, [isPutting, canBePlaced]);
+    }, [world, isPutting]);
 
     return (
-        <Block types={value.split('-')} allow={isAllow} onClick={isAllow ? () => onPut(x, y) : undefined}>
-            {isAllow && <Pointer />}
+        <Block types={value.split('-')} allow={isAllow || undefined} onClick={isAllow ? () => onPut(x, y) : undefined}>
+            {isAllow && (
+                <Pointer />
+            )}
         </Block>
     );
 

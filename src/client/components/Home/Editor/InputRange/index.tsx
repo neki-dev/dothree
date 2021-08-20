@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import {Container, Group, Controls, Label, Value} from './styled';
 
 interface ComponentProps {
@@ -16,7 +16,7 @@ export default function InputRange({label, name, defaultValue, min, max, step = 
 
     const [value, setValue] = useState<number>(defaultValue);
 
-    const changeValue = useCallback((shift: 1 | -1) => {
+    const changeValue = (shift: 1 | -1): void => {
         const newValue: number = value + (shift * step);
         if (newValue >= min && newValue <= max) {
             setValue(newValue);
@@ -24,7 +24,7 @@ export default function InputRange({label, name, defaultValue, min, max, step = 
                 onChange(name, newValue);
             }
         }
-    }, [value, name, min, max, onChange]);
+    };
 
     return (
         <Container title={tooltip}>

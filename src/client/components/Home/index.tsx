@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import GitHubButton from 'react-github-btn';
 import Editor from './Editor';
 import Lobbies from './Lobbies';
@@ -8,6 +8,9 @@ import {Container, Logotype, Footer} from './styled';
 export default function Home() {
 
     const [section, setSection] = useState<string>('lobbies');
+
+    const setSectionLobbies = useCallback(() => setSection('lobbies'), []);
+    const setSectionEditor = useCallback(() => setSection('editor'), []);
 
     return (
         <Container>
@@ -20,10 +23,10 @@ export default function Home() {
                 <Logotype.Label>dothree</Logotype.Label>
             </Logotype>
             {(section === 'editor') ? (
-                <Editor onClose={() => setSection('lobbies')} />
+                <Editor onClose={setSectionLobbies} />
             ) : (
                 <>
-                    <Button onClick={() => setSection('editor')}>Создать новую игру</Button>
+                    <Button onClick={setSectionEditor}>Создать новую игру</Button>
                     <Lobbies />
                 </>
             )}

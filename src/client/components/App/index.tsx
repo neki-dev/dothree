@@ -3,7 +3,7 @@ import {Normalize} from 'styled-normalize';
 import {GlobalStyle} from './styled';
 
 interface ComponentProps {
-    children: any
+    children: React.ReactChild | React.ReactChildren
 }
 
 export default function App({children}: ComponentProps) {

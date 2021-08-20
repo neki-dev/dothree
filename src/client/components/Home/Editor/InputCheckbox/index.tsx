@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {Container, Checkbox, Label} from './styled';
 
 interface ComponentProps {
@@ -11,9 +11,9 @@ interface ComponentProps {
 
 export default function InputCheckbox({label, value, name, tooltip, onChange}: ComponentProps) {
 
-    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         onChange(e.target.name, e.target.checked);
-    }, [onChange]);
+    };
 
     return (
         <Container title={tooltip}>

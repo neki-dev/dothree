@@ -19,6 +19,11 @@ export default function Lobby() {
         socket.on('lobbyError', setError);
         socket.on('updatePlayers', setPlayers);
         socket.on('sendOptions', setOptions);
+        return () => {
+            socket.off('lobbyError', setError);
+            socket.off('updatePlayers', setPlayers);
+            socket.off('sendOptions', setOptions);
+        };
     }, []);
 
     return (

@@ -11,7 +11,7 @@ export const SocketContext = createContext({} as Functionaly);
 
 interface ComponentProps {
     namespace: string
-    children: any
+    children: React.ReactChild | React.ReactChildren
 }
 
 export function SocketProvider({namespace, children}: ComponentProps) {

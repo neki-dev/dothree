@@ -11,6 +11,9 @@ export default function Lobbies() {
 
     useEffect(() => {
         socket.on('updateLatestLobbies', setLobbies);
+        return () => {
+            socket.off('updateLatestLobbies', setLobbies);
+        };
     }, []);
 
     return (lobbies.length > 0) ? (

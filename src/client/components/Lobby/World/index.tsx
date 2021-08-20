@@ -25,33 +25,18 @@ export default function World({players}: ComponentProps) {
 
     const putEntity = useCallback((x: number, y: number) => {
         socket.emit('putEntity', [x, y]);
-    }, [world]);
+    }, []);
 
     useEffect(() => {
         socket.on('updateStep', setStep);
         socket.on('updateWorldMap', setWorld);
+        return () => {
+            socket.off('updateStep', setStep);
+            socket.off('updateWorldMap', setWorld);
+        };
     }, []);
 
-    useEffect(() => {
-        if (!refWorld.current) {
-            return;
-        }
-        const onScroll = () => {
-            // console.log('a', e.target.scrollTop);
-            // console.log('b', e.target.clientHeight, e.target.scrollHeight);
-        };
-        refWorld.current.scrollTop = refWorld.current.clientHeight;
-        refWorld.current.addEventListener('scroll', onScroll);
-        return () => {
-            refWorld.current.removeEventListener('scroll', onScroll);
-        };
-    }, [refWorld.current]);
-
-    if (!world) {
-        return null;
-    }
-
-    return (
+    return world ? (
         <Field ref={refWorld}>
             {world.map((line: string[], y: number) => (
                 <Line key={y}>
@@ -61,7 +46,7 @@ export default function World({players}: ComponentProps) {
                 </Line>
             ))}
         </Field>
-    );
+    ) : null;
 
 }
 

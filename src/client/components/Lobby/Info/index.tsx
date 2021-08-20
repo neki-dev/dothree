@@ -37,6 +37,10 @@ export default function Info({players, options}: ComponentProps) {
     useEffect(() => {
         socket.on('updateStep', setStep);
         socket.on('playerWin', setWinner);
+        return () => {
+            socket.off('updateStep', setStep);
+            socket.off('playerWin', setWinner);
+        };
     }, []);
 
     useEffect(() => {

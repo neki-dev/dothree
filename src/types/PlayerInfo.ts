@@ -1,4 +1,4 @@
 export default interface PlayerInfo {
-    id: string
-    slot: number
+  id: string
+  slot: number
 }

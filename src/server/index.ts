@@ -1,4 +1,5 @@
 import { createServer } from 'http';
+import console from 'console';
 import path from 'path';
 import express, { Express } from 'express';
 import { Server as SocketServer } from 'socket.io';

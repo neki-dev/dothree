@@ -1,222 +1,267 @@
+import console from 'console';
+import { Namespace } from 'socket.io';
 import utils from '../utils';
-import Core from './Core';
 import Player from './Player';
 import World from './World';
-
-import type WorldLocation from '~type/WorldLocation';
-import LobbyOptions from '~type/LobbyOptions';
-import LobbyInfo from '~type/LobbyInfo';
-import PlayerInfo from '~type/PlayerInfo';
+import { WorldLocation, WorldMap } from '~type/World';
+import { LobbyOptions, LobbyInfo } from '~type/Lobby';
+import { PlayerInfo } from '~type/Player';
 
 import CONFIG from '~root/config.json';
-import WorldMap from '~type/WorldMap';
+
+type LobbyParameters = {
+  namespace: () => Namespace
+  onDestroy?: () => void
+};
 
 export default class Lobby {
+  public readonly uuid: string;
 
-    public readonly uuid: string;
-    public options: LobbyOptions;
-    private readonly date: Date;
-    private readonly core: Core;
-    private readonly world: World;
-    private players: Player[] = [];
-    private idleTick: number = 0;
-    private reseting?: NodeJS.Timeout | null = null;
+  public readonly options: LobbyOptions;
 
-    private _step: number | null = null;
-    public get step() {
-        return this._step;
+  private readonly parameters: LobbyParameters;
+
+  private readonly date: Date;
+
+  private readonly world: World;
+
+  private players: Player[] = [];
+
+  private idleTick: number = 0;
+
+  private reseting?: NodeJS.Timeout | null = null;
+
+  private _step: number | null = null;
+
+  public get step() {
+    return this._step;
+  }
+
+  public set step(v: number | null) {
+    this._step = v;
+    this.emit('updateStep', v);
+  }
+
+  private _timeout: number = 0;
+
+  public get timeout() {
+    return this._timeout;
+  }
+
+  public set timeout(v: number | null) {
+    this._timeout = v;
+    this.emit('updateTimeout', v);
+  }
+
+  constructor(options: LobbyOptions, parameters: LobbyParameters) {
+    this.options = options;
+    this.parameters = parameters;
+
+    this.uuid = utils.generate();
+    this.date = new Date();
+    this.world = new World(this.options);
+    this.world.generateMap();
+
+    console.log(`Lobby #${this.uuid} created`);
+  }
+
+  emit(key: string, data: any): void {
+    const { namespace } = this.parameters;
+    namespace().to(this.uuid).emit(key, data);
+  }
+
+  onGameTick(): void {
+    this.handleStepTimeout();
+
+    if (CONFIG.LOBBY_IDLE_TIMEOUT > 0) {
+      this.handleIdleTimeout();
+    }
+  }
+
+  joinPlayer(player: Player): void {
+    const isExists = this.players.some((p) => (p.id === player.id));
+    if (isExists) {
+      player.sendError('Вы уже находитесь в этой игре');
+      return;
     }
 
-    public set step(v: number | null) {
-        this._step = v;
-        this.emit('updateStep', v);
+    const slot = this.getFreeSlot();
+    if (slot === null) {
+      player.sendError('Указанная игра уже запущена');
+      return;
     }
 
-    private _timeout: number = 0;
-    public get timeout() {
-        return this._timeout;
+    player.join(this.uuid, slot);
+    player.emit('sendOptions', this.options);
+    player.emit('updateWorldMap', this.getMap());
+    player.emit('updateStep', this.step);
+
+    this.players.push(player);
+    this.updateClientPlayers();
+
+    if (!this.isStarted() && this.isFulled()) {
+      this.start();
     }
 
-    public set timeout(v: number | null) {
-        this._timeout = v;
-        this.emit('updateTimeout', v);
+    console.log(`Player #${player.id} joined to lobby #${this.uuid}`);
+  }
+
+  leavePlayer(player: Player): void {
+    const index = this.findPlayerIndex(player);
+    if (index === -1) {
+      console.warn(`Player #${player.id} not found in lobby #${this.uuid}`);
+      return;
     }
 
-    constructor(core: Core, options: LobbyOptions) {
-        this.options = options;
-        this.core = core;
-        this.uuid = utils.generate();
-        this.date = new Date();
-        this.world = new World(this.options);
-        this.world.generateMap();
-        console.log(`Lobby #${this.uuid} created`);
+    this.players.splice(index, 1);
+    this.updateClientPlayers();
+
+    player.leave(this.uuid);
+
+    if (this.reseting) {
+      this.reset();
     }
 
-    destroy(): void {
-        this.core.removeLobby(this);
-        if (this.reseting !== null) {
-            clearTimeout(this.reseting);
-        }
-        console.log(`Lobby #${this.uuid} destroyed`);
+    console.log(`Player #${player.id} leaved from lobby #${this.uuid}`);
+  }
+
+  putEntity(player: Player, location: WorldLocation): void {
+    if (this.step !== player.slot) {
+      return;
     }
 
-    emit(key: string, data: any): void {
-        this.core.namespace('/lobby').to(this.uuid).emit(key, data);
+    const result = this.world.place(player.slot, location);
+    if (result) {
+      const isWinning = this.world.checkWinning(result);
+      if (isWinning) {
+        this.finish();
+        this.emit('playerWin', player.id);
+      } else {
+        this.moveStepToNextPlayer();
+      }
+
+      this.emit('updateWorldMap', this.world.map);
+    }
+  }
+
+  getMap(): WorldMap {
+    return this.world.map;
+  }
+
+  getInfo(): LobbyInfo {
+    return {
+      uuid: this.uuid,
+      date: this.date,
+      players: {
+        online: this.players.length,
+        max: this.options.maxPlayers,
+      },
+    };
+  }
+
+  isStarted(): boolean {
+    return (this.step !== null);
+  }
+
+  isFulled(): boolean {
+    return (this.players.length === this.options.maxPlayers);
+  }
+
+  private destroy(): void {
+    const { onDestroy } = this.parameters;
+    if (onDestroy) {
+      onDestroy();
     }
 
-    onGameTick(): void {
-        this.handleStepTimeout();
-        if (CONFIG.LOBBY_IDLE_TIMEOUT > 0) {
-            this.handleIdleTimeout();
-        }
+    if (this.reseting !== null) {
+      clearTimeout(this.reseting);
     }
 
-    joinPlayer(player: Player): void {
-        const isExists: boolean = this.players.some((p) => (p.id === player.id));
-        if (isExists) {
-            player.sendError('Вы уже находитесь в этой игре');
-            return;
-        }
-        const slot: number = this.getFreeSlot();
-        if (slot === null) {
-            player.sendError('Указанная игра уже запущена');
-            return;
-        }
-        player.joinLobby(this, slot);
-        this.players.push(player);
-        this.updateClientPlayers();
-        if (!this.isStarted() && this.isFulled()) {
-            this.start();
-        }
-        console.log(`Player #${player.id} joined to lobby #${this.uuid}`);
+    console.log(`Lobby #${this.uuid} destroyed`);
+  }
+
+  private findPlayerIndex(player: Player): number | undefined {
+    return this.players.findIndex((p) => (p.id === player.id));
+  }
+
+  private getFreeSlot(): number | null {
+    for (let i = 0; i < this.options.maxPlayers; i += 1) {
+      if (this.players.every((player) => (player.slot !== i))) {
+        return i;
+      }
     }
 
-    leavePlayer(player: Player): void {
-        const index: number = this.players.findIndex((p) => (p.id === player.id));
-        if (index === -1) {
-            return console.warn(`Player #${player.id} not found in lobby #${this.uuid}`);
-        }
-        this.players.splice(index, 1);
-        this.updateClientPlayers();
-        player.leaveLobby(this);
-        if (this.reseting) {
-            this.reset();
-        }
-        console.log(`Player #${player.id} leaved from lobby #${this.uuid}`);
+    return null;
+  }
+
+  private updateClientPlayers(): void {
+    const players: PlayerInfo[] = this.players.map((player) => ({
+      id: player.id,
+      slot: player.slot,
+    }));
+    this.emit('updatePlayers', players);
+  }
+
+  private moveStepToNextPlayer(): void {
+    this.resetTimeout();
+    if (this.step + 1 === this.options.maxPlayers) {
+      this.step = 0;
+    } else {
+      this.step += 1;
     }
 
-    putEntity(player: Player, location: WorldLocation): void {
-        if (this.step !== player.slot) {
-            return;
-        }
-        const result: WorldLocation[] = this.world.place(player.slot, location);
-        if (result) {
-            const isWinning: boolean = this.world.checkWinning(result);
-            if (isWinning) {
-                this.finish();
-                this.emit('playerWin', player.id);
-            } else {
-                this.moveStepToNextPlayer();
-            }
-            this.emit('updateWorldMap', this.world.map);
-        }
+    if (this.options.moveMap) {
+      this.world.moveMap();
+    }
+  }
+
+  private resetTimeout(): void {
+    this.timeout = this.options.timeout;
+  }
+
+  private start(): void {
+    this.timeout = this.options.timeout;
+    this.step = Math.floor(Math.random() * this.options.maxPlayers);
+  }
+
+  private reset(): void {
+    if (this.reseting) {
+      clearTimeout(this.reseting);
+      this.reseting = null;
     }
 
-    getMap(): WorldMap {
-        return this.world.map;
-    }
+    this.world.generateMap();
+    this.emit('updateWorldMap', this.world.map);
 
-    getInfo(): LobbyInfo {
-        return {
-            uuid: this.uuid,
-            date: this.date,
-            players: {
-                online: this.players.length,
-                max: this.options.maxPlayers,
-            },
-        };
+    if (this.isFulled()) {
+      this.start();
     }
+  }
 
-    isStarted(): boolean {
-        return (this.step !== null);
+  private finish(): void {
+    this.reseting = setTimeout(() => {
+      this.reset();
+    }, CONFIG.RESTART_TIMEOUT * 1000);
+    this.step = null;
+  }
+
+  private handleIdleTimeout(): void {
+    if (this.players.length === 0) {
+      this.idleTick += 1;
+      if (this.idleTick === CONFIG.LOBBY_IDLE_TIMEOUT) {
+        this.destroy();
+      }
+    } else {
+      this.idleTick = 0;
     }
+  }
 
-    isFulled(): boolean {
-        return (this.players.length === this.options.maxPlayers);
+  private handleStepTimeout(): void {
+    if (this.isStarted() && this.isFulled()) {
+      this.timeout -= 1;
+      if (this.timeout === 0) {
+        this.moveStepToNextPlayer();
+      }
     }
-
-    private getFreeSlot(): number | null {
-        for (let i = 0; i < this.options.maxPlayers; i++) {
-            if (this.players.every((player) => (player.slot !== i))) {
-                return i;
-            }
-        }
-        return null;
-    }
-
-    private updateClientPlayers(): void {
-        const players: PlayerInfo[] = this.players.map((player) => ({
-            id: player.id,
-            slot: player.slot,
-        }));
-        this.emit('updatePlayers', players);
-        this.core.updateClientLobbies();
-    }
-
-    private moveStepToNextPlayer(): void {
-        this.timeout = this.options.timeout;
-        if (this.step + 1 === this.options.maxPlayers) {
-            this.step = 0;
-        } else {
-            this.step++;
-        }
-        if (this.options.moveMap) {
-            this.world.moveMap();
-        }
-    }
-
-    private start(): void {
-        this.timeout = this.options.timeout;
-        this.step = Math.floor(Math.random() * this.options.maxPlayers);
-    }
-
-    private reset(): void {
-        if (this.reseting) {
-            clearTimeout(this.reseting);
-            this.reseting = null;
-        }
-        this.world.generateMap();
-        this.emit('updateWorldMap', this.world.map);
-        if (this.isFulled()) {
-            this.start();
-        }
-    }
-
-    private finish(): void {
-        this.reseting = setTimeout(() => {
-            this.reset();
-        }, CONFIG.RESTART_TIMEOUT * 1000);
-        this.step = null;
-    }
-
-    private handleIdleTimeout(): void {
-        if (this.players.length === 0) {
-            this.idleTick++;
-            if (this.idleTick === CONFIG.LOBBY_IDLE_TIMEOUT) {
-                this.destroy();
-            }
-        } else {
-            this.idleTick = 0;
-        }
-    }
-
-    private handleStepTimeout(): void {
-        if (this.isStarted() && this.isFulled()) {
-            this.timeout--;
-            if (this.timeout === 0) {
-                this.moveStepToNextPlayer();
-            }
-        }
-    }
-
+  }
 }

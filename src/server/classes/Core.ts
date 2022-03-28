@@ -1,63 +1,82 @@
-import {Namespace, Server} from 'socket.io';
+import { Namespace, Server } from 'socket.io';
+import console from 'console';
 import Lobby from './Lobby';
+import { LobbyInfo, LobbyOptions } from '~type/Lobby';
+import MOCK_OPTIONS from '../mocks/options';
 
-import LobbyInfo from '~type/LobbyInfo';
+import CONFIG from '~root/config.json';
 
 export default class Core {
+  private readonly io: Server;
 
-    private readonly io: Server;
-    private readonly lobbies: Lobby[];
+  private readonly lobbies: Lobby[];
 
-    constructor(io: Server) {
-        this.io = io;
-        this.lobbies = [];
+  constructor(io: Server) {
+    this.io = io;
+    this.lobbies = [];
+  }
+
+  initialize(): void {
+    setInterval(() => {
+      this.lobbies.forEach((lobby) => {
+        lobby.onGameTick();
+      });
+    }, 1000);
+
+    if (CONFIG.MOCKED_LOBBY) {
+      this.createLobby(MOCK_OPTIONS);
+    }
+  }
+
+  namespace(name: string): Namespace {
+    return this.io.of(name);
+  }
+
+  createLobby(options: LobbyOptions): Lobby {
+    const lobby = new Lobby(options, {
+      namespace: () => this.namespace('/lobby'),
+      onDestroy: () => {
+        this.removeLobby(lobby);
+      },
+    });
+    this.addLobby(lobby);
+
+    return lobby;
+  }
+
+  findLobby(uuid: string): Lobby | undefined {
+    return this.lobbies.find((lobby) => (lobby.uuid === uuid));
+  }
+
+  addLobby(lobby: Lobby): void {
+    this.lobbies.push(lobby);
+    this.updateClientLatestLobbies();
+  }
+
+  removeLobby(lobby: Lobby): void {
+    const index = this.findLobbyIndex(lobby);
+    if (index === -1) {
+      console.warn(`Lobby #${lobby.uuid} is not found`);
+      return;
     }
 
-    initialize(): void {
-        setInterval(() => {
-            for (const lobby of this.lobbies) {
-                lobby.onGameTick();
-            }
-        }, 1000);
-    }
+    this.lobbies.splice(index, 1);
+    this.updateClientLatestLobbies();
+  }
 
-    namespace(name: string): Namespace {
-        return this.io.of(name);
-    }
+  updateClientLatestLobbies(): void {
+    const lobbies = this.getLastLobbies();
+    this.namespace('/home').emit('updateLatestLobbies', lobbies);
+  }
 
-    send(key: string, data: any): void {
-        this.namespace('/home').emit(`player:${key}`, data);
-    }
+  private findLobbyIndex(lobby: Lobby): number | undefined {
+    return this.lobbies.findIndex((l) => (l.uuid === lobby.uuid));
+  }
 
-    getLobby(uuid: string): Lobby | undefined {
-        return this.lobbies.find((lobby) => (lobby.uuid === uuid));
-    }
-
-    addLobby(lobby: Lobby): void {
-        this.lobbies.push(lobby);
-        this.updateClientLobbies();
-    }
-
-    removeLobby(lobby: Lobby): void {
-        const index: number = this.lobbies.findIndex((l) => (l.uuid === lobby.uuid));
-        if (index === -1) {
-            console.warn(`Lobby #${lobby.uuid} is not found`);
-            return;
-        }
-        this.lobbies.splice(index, 1);
-        this.updateClientLobbies();
-    }
-
-    getLastLobbies(limit: number = 5): LobbyInfo[] {
-        return this.lobbies.filter((lobby) => !lobby.isFulled())
-            .reverse()
-            .slice(0, limit)
-            .map((lobby: Lobby) => lobby.getInfo());
-    }
-
-    updateClientLobbies(): void {
-        const lobbies: LobbyInfo[] = this.getLastLobbies();
-        this.send('updateLatestLobbies', lobbies);
-    }
-
+  private getLastLobbies(limit: number = 5): LobbyInfo[] {
+    return this.lobbies.filter((lobby: Lobby) => !lobby.isFulled())
+      .reverse()
+      .slice(0, limit)
+      .map((lobby: Lobby) => lobby.getInfo());
+  }
 }

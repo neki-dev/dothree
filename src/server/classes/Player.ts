@@ -1,39 +1,35 @@
-import {Socket} from 'socket.io';
-import Lobby from './Lobby';
+import { Socket } from 'socket.io';
 
 import CONFIG from '~root/config.json';
 
 export default class Player {
+  private readonly socket: Socket;
 
-    private readonly socket: Socket;
-    public readonly id: string;
-    public slot?: number;
+  public readonly id: string;
 
-    constructor(socket: Socket) {
-        this.socket = socket;
-        this.id = CONFIG.IP_ONCE ? socket.handshake.address : socket.id;
-        this.slot = null;
-    }
+  public slot?: number;
 
-    emit(key: string, data: any): void {
-        this.socket.emit(key, data);
-    }
+  constructor(socket: Socket) {
+    this.socket = socket;
+    this.id = CONFIG.IP_ONCE ? socket.handshake.address : socket.id;
+    this.slot = null;
+  }
 
-    sendError(message: string): void {
-        this.socket.emit('lobbyError', message);
-    }
+  emit(key: string, data: any): void {
+    this.socket.emit(key, data);
+  }
 
-    joinLobby(lobby: Lobby, slot: number): void {
-        this.slot = slot;
-        this.socket.join(lobby.uuid);
-        this.emit('sendOptions', lobby.options);
-        this.emit('updateWorldMap', lobby.getMap());
-        this.emit('updateStep', lobby.step);
-    }
+  sendError(message: string): void {
+    this.socket.emit('lobbyError', message);
+  }
 
-    leaveLobby(lobby: Lobby): void {
-        this.slot = null;
-        this.socket.leave(lobby.uuid);
-    }
+  join(uuid: string, slot: number): void {
+    this.slot = slot;
+    this.socket.join(uuid);
+  }
 
+  leave(uuid: string): void {
+    this.slot = null;
+    this.socket.leave(uuid);
+  }
 }

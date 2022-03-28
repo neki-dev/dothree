@@ -1,4 +1,13 @@
-export default interface LobbyOptions {
+export type LobbyInfo = {
+  uuid: string
+  date: Date
+  players: {
+    online: number
+    max: number
+  }
+};
+
+export type LobbyOptions = {
   maxPlayers?: number
   density?: number
   bonusing?: number
@@ -6,4 +15,4 @@ export default interface LobbyOptions {
   targetLength?: number
   moveMap?: boolean
   useBonuses?: boolean
-}
+};

@@ -1,7 +1,7 @@
 {
   "name": "dothree",
   "description": "Online logic game",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "keywords": [
     "game",
     "logic",
@@ -9,8 +9,8 @@
   ],
   "author": {
     "name": "Nikita Galadiy",
-    "email": "me@essle.ru",
-    "url": "https://essle.ru/"
+    "email": "dev@neki.guru",
+    "url": "https://neki.guru/"
   },
   "license": "MIT",
   "main": "./app/server.js",
@@ -22,7 +22,7 @@
     "ie > 11"
   ],
   "scripts": {
-    "lint": "eslint src/**/*.ts src/**/*.tsx --fix",
+    "lint": "eslint src  --ext .js,.jsx,.ts,.tsx --fix",
     "start": "node ./app/server.js",
     "watch": "webpack --mode development --watch",
     "build": "webpack --mode production"

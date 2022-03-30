@@ -3,5 +3,5 @@
 node_modules/
 package-lock.json
 .DS_Store
-/app/server.js
-/app/dist/*
+app/dist/
+app/*.js*

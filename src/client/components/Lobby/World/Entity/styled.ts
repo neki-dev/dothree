@@ -1,5 +1,5 @@
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
-import { WorldEntity } from '~type/World';
+import { EntityType, WorldEntity } from '~type/Entity';
 
 /** Images */
 
@@ -51,25 +51,30 @@ const Block: any = styled.div<{
   background-repeat: no-repeat;
   background-size: 50%;
   ${(p) => {
-    if (p.entity.type === 'empty') {
-      return css`background: rgba(255, 255, 255, 0.04);`;
-    } if (p.entity.type === 'block') {
-      return css`background: ${COLOR_BLOCK};`;
-    } if (p.entity.type === 'player') {
-      const slot = Number(p.entity.subtype.replace(/^slot(\d)+.*$/, '$1'));
-      return css`background: ${COLOR_PLAYER[slot]};`;
-    } if (p.entity.type === 'bonus') {
-      const icon = (p.entity.subtype && {
-        spawn: IconBonusSpawn,
-        laser: IconBonusLaser,
-        replacer: IconBonusReplacer,
-      }[p.entity.subtype]) || 'none';
-      return css`
-      background-image: url(${icon});
-      background-size: 90%;
-    `;
+    switch (p.entity.type) {
+      case EntityType.EMPTY: {
+        return css`background: rgba(255, 255, 255, 0.04);`;
+      }
+      case EntityType.BLOCK: {
+        return css`background: ${COLOR_BLOCK};`;
+      }
+      case EntityType.PLAYER: {
+        const slot = Number(p.entity.subtype.replace(/^slot(\d)+.*$/, '$1'));
+        return css`background: ${COLOR_PLAYER[slot]};`;
+      }
+      case EntityType.BONUS: {
+        const icon = (p.entity.subtype && {
+          spawn: IconBonusSpawn,
+          laser: IconBonusLaser,
+          replacer: IconBonusReplacer,
+        }[p.entity.subtype]) || 'none';
+        return css`
+          background-image: url(${icon});
+          background-size: 90%;
+        `;
+      }
+      default: return '';
     }
-    return '';
   }}
   ${(p) => p.allow && css`
     display: flex;

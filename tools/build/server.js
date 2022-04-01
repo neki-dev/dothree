@@ -1,9 +1,9 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const globalConfig = require('./global');
-const tsconfig = require('../tsconfig.json');
+const tsconfig = require('../../tsconfig.json');
 
-const ROOT = path.resolve(__dirname, '..');
+const ROOT = path.resolve(__dirname, '../..');
 const OUTPUT_DIR = path.resolve(ROOT, tsconfig.compilerOptions.outDir);
 const OUTPUT_FILE = 'server.js';
 

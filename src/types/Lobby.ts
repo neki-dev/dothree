@@ -12,7 +12,6 @@ export type LobbyOptions = {
   density?: number
   bonusing?: number
   timeout?: number
-  targetLength?: number
   moveMap?: boolean
   useBonuses?: boolean
 };

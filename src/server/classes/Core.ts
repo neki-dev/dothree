@@ -2,9 +2,6 @@ import { Namespace, Server } from 'socket.io';
 import console from 'console';
 import Lobby from './Lobby';
 import { LobbyInfo, LobbyOptions } from '~type/Lobby';
-import MOCK_OPTIONS from '../mocks/options';
-
-import CONFIG from '~root/config.json';
 
 export default class Core {
   private readonly io: Server;
@@ -22,10 +19,6 @@ export default class Core {
         lobby.onGameTick();
       });
     }, 1000);
-
-    if (CONFIG.MOCKED_LOBBY) {
-      this.createLobby(MOCK_OPTIONS);
-    }
   }
 
   namespace(name: string): Namespace {

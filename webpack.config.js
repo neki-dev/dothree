@@ -1,4 +1,4 @@
 module.exports = [
-  require('./build/server'),
-  require('./build/client'),
+  require('./tools/build/server'),
+  require('./tools/build/client'),
 ];

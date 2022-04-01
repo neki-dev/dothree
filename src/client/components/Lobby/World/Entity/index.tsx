@@ -1,38 +1,34 @@
-import React, { useMemo } from 'react';
-import { WorldMap, WorldEntity } from '~type/World';
+import React, { useContext, useMemo } from 'react';
+import { WorldEntity } from '~type/Entity';
+import { WorldContext } from '~context/WorldContext';
 import { Block, Pointer } from './styled';
+import { canBePutTo } from './helpers';
 
 type ComponentProps = {
   data: WorldEntity
-  world: WorldMap
   x: number
   y: number
-  isPutting?: boolean
-  onPut: Function
+  isCurrentStep?: boolean
+  onPut: () => void
 };
 
 export default function Entity({
-  data, world, x, y, isPutting, onPut,
+  data, x, y, isCurrentStep, onPut,
 }: ComponentProps) {
-  const canBePlaced = (toX: number, toY: number): boolean => {
-    if (toY + 1 === world.length) {
-      return true;
-    }
-    const entity = world[toY + 1][toX];
-    return ['player', 'block'].includes(entity.type);
-  };
+  const world = useContext(WorldContext);
 
-  const isAllow = useMemo<boolean>(() => (
-    (isPutting && ['empty', 'bonus'].includes(data.type) && canBePlaced(x, y))
-  ), [world, isPutting]);
+  const canBePut = useMemo<boolean>(() => (
+    (isCurrentStep && canBePutTo(world, x, y))
+  ), [world, isCurrentStep]);
 
   return (
     <Block
       entity={data}
-      allow={isAllow || undefined}
-      onClick={isAllow ? () => onPut(x, y) : undefined}
+      allow={canBePut}
+      onClick={canBePut ? onPut : undefined}
+      data-testid="entity"
     >
-      {isAllow && (
+      {canBePut && (
         <Pointer />
       )}
     </Block>
@@ -40,5 +36,5 @@ export default function Entity({
 }
 
 Entity.defaultProps = {
-  isPutting: false,
+  isCurrentStep: false,
 };

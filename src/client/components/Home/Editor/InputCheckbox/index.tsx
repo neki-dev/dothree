@@ -5,8 +5,8 @@ type ComponentProps = {
   label: string
   name: string
   tooltip?: string
-  value: boolean
-  onChange: Function
+  value?: boolean
+  onChange?: (name: string, value: boolean) => void
 };
 
 export default function InputCheckbox({
@@ -18,7 +18,11 @@ export default function InputCheckbox({
 
   return (
     <Container title={tooltip}>
-      <Checkbox defaultChecked={value} name={name} onChange={handleChange} />
+      <Checkbox
+        defaultChecked={value} name={name}
+        onChange={onChange ? handleChange : undefined}
+        data-testid={name}
+      />
       <Label>{label}</Label>
     </Container>
   );
@@ -26,4 +30,6 @@ export default function InputCheckbox({
 
 InputCheckbox.defaultProps = {
   tooltip: undefined,
+  value: false,
+  onChange: undefined,
 };

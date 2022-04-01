@@ -11,7 +11,7 @@ type ComponentProps = {
   min: number
   max: number
   step?: number
-  onChange: Function
+  onChange?: (name: string, value: number) => void
 };
 
 export default function InputRange({
@@ -23,6 +23,7 @@ export default function InputRange({
     const newValue = value + (shift * step);
     if (newValue >= min && newValue <= max) {
       setValue(newValue);
+
       if (onChange) {
         onChange(name, newValue);
       }
@@ -33,10 +34,10 @@ export default function InputRange({
     <Container title={tooltip}>
       <Label>{label}</Label>
       <Group>
-        <Controls>
-          <Controls.Dec onClick={() => changeValue(-1)} />
+        <Controls data-testid={name}>
+          <Controls.Dec onClick={() => changeValue(-1)} data-testid={`${name}/dec`} />
           <Value small={max >= 10}>{value}</Value>
-          <Controls.Inc onClick={() => changeValue(1)} />
+          <Controls.Inc onClick={() => changeValue(+1)} data-testid={`${name}/inc`} />
         </Controls>
       </Group>
     </Container>
@@ -46,4 +47,5 @@ export default function InputRange({
 InputRange.defaultProps = {
   tooltip: undefined,
   step: 1,
+  onChange: undefined,
 };

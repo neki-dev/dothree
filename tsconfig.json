@@ -13,7 +13,9 @@
       "~root/*": ["./*"],
       "~type/*": ["./src/types/*"],
       "~hook/*": ["./src/client/hooks/*"],
-      "~context/*": ["./src/client/context/*"]
+      "~context/*": ["./src/client/context/*"],
+      "~class/*": ["./src/server/classes/*"],
+      "~test/*": ["./tools/test/*"]
     }
   }
 }

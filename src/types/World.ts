@@ -1,8 +1,4 @@
-export interface WorldEntity {
-  type: string
-  subtype: string
-  toString(): string
-}
+import { WorldEntity } from './Entity';
 
 export type WorldLocation = [number, number];
 

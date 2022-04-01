@@ -1,22 +1,11 @@
 import utils from '../utils';
-import { WorldEntity, WorldLocation, WorldMap } from '~type/World';
+import { WorldLocation, WorldMap } from '~type/World';
 import { LobbyOptions } from '~type/Lobby';
+import { WorldEntity, EntityType, EntityBonusType } from '~type/Entity';
 import Entity from './Entity';
 
 const MAP_SIZE = [25, 11];
-const MAP_ENTITY = {
-  EMPTY: 'empty',
-  BLOCK: 'block',
-  PLAYER: 'player',
-  BONUS: 'bonus',
-};
-
-const ENTITY_BONUS = {
-  REPLACER: 'replacer',
-  SPAWN: 'spawn',
-  LASER: 'laser',
-};
-
+const CHAIN_TARGET_LENGTH = 3;
 const WORLD_DIRECTIONS: WorldLocation[] = [
   [-1, 0], [-1, -1], [0, -1], [1, -1],
 ];
@@ -48,14 +37,14 @@ export default class World {
 
     const locations: WorldLocation[] = [to];
     const targetEntity = this.getEntity(to);
-    if (targetEntity.type === MAP_ENTITY.BONUS) {
+    if (targetEntity.type === EntityType.BONUS) {
       this.useBonus(locations, slot, targetEntity.subtype);
-    } else if (targetEntity.type !== MAP_ENTITY.EMPTY) {
+    } else if (targetEntity.type !== EntityType.EMPTY) {
       return undefined;
     }
 
     locations.forEach((location) => {
-      const playerEntity = new Entity(MAP_ENTITY.PLAYER, `slot${slot}`);
+      const playerEntity = new Entity(EntityType.PLAYER, `slot${slot}`);
       this.setEntity(location, playerEntity);
     });
 
@@ -77,10 +66,10 @@ export default class World {
 
   useBonus(locations: WorldLocation[], slot: number, type: string): void {
     switch (type) {
-      case ENTITY_BONUS.REPLACER: {
+      case EntityBonusType.REPLACER: {
         const puttedEntities: WorldLocation[] = [];
         this.eachMap((entity: WorldEntity, x: number, y: number) => {
-          if (entity.type === MAP_ENTITY.PLAYER) {
+          if (entity.type === EntityType.PLAYER) {
             const entitySlot = Number(entity.subtype.replace(/^slot(\d)+.*$/, '$1'));
             if (entitySlot !== slot) {
               puttedEntities.push([x, y]);
@@ -93,10 +82,10 @@ export default class World {
         break;
       }
 
-      case ENTITY_BONUS.SPAWN: {
+      case EntityBonusType.SPAWN: {
         const emptyEntities: WorldLocation[] = [];
         this.eachMap((entity: WorldEntity, x: number, y: number) => {
-          if (entity.type === MAP_ENTITY.EMPTY && this.canBePlaced([x, y])) {
+          if (entity.type === EntityType.EMPTY && this.canBePlaced([x, y])) {
             emptyEntities.push([x, y]);
           }
         });
@@ -106,10 +95,10 @@ export default class World {
         break;
       }
 
-      case ENTITY_BONUS.LASER: {
+      case EntityBonusType.LASER: {
         const mainLocationX: number = locations[0][0];
         Object.keys(this.map).forEach((y) => {
-          const emptyEntity = new Entity(MAP_ENTITY.EMPTY);
+          const emptyEntity = new Entity(EntityType.EMPTY);
           this.setEntity([mainLocationX, Number(y)], emptyEntity);
         });
         const mainLocation: WorldLocation = [mainLocationX, this.map.length - 1];
@@ -140,7 +129,7 @@ export default class World {
 
     const entity = this.getEntity([x, y + 1]);
     if (entity) {
-      return [MAP_ENTITY.PLAYER, MAP_ENTITY.BLOCK].includes(entity.type);
+      return [EntityType.PLAYER, EntityType.BLOCK].includes(entity.type);
     }
 
     return false;
@@ -164,7 +153,7 @@ export default class World {
     return this.map[y][x];
   }
 
-  private eachMap(callback: Function): void {
+  private eachMap(callback: (entity: Entity, x: number, y: number) => void): void {
     Object.entries(this.map).forEach(([y, line]) => {
       Object.entries(line).forEach(([x, entity]) => {
         callback(entity, Number(x), Number(y));
@@ -175,8 +164,8 @@ export default class World {
   private getWinningLocations(from: WorldLocation): WorldLocation[] | undefined {
     let result;
     WORLD_DIRECTIONS.some((direction) => {
-      for (let side = 0; side > -this.options.targetLength; side -= 1) {
-        const locations = this.getLocationsByDirection(from, direction, side);
+      for (let side = 0; side > -CHAIN_TARGET_LENGTH; side -= 1) {
+        const locations = World.getLocationsByDirection(from, direction, side);
         if (this.isLocationsMatch(from, locations)) {
           result = locations;
           return true;
@@ -188,13 +177,13 @@ export default class World {
     return result;
   }
 
-  private getLocationsByDirection(
+  private static getLocationsByDirection(
     from: WorldLocation,
     direction: WorldLocation,
     side: number,
   ): WorldLocation[] {
     const locations: WorldLocation[] = [];
-    for (let step = side; step <= (side + this.options.targetLength - 1); step += 1) {
+    for (let step = side; step <= (side + CHAIN_TARGET_LENGTH - 1); step += 1) {
       const point = <WorldLocation>from.map((f, i) => (f - direction[i] * step));
       if (point.every((c, i) => (c >= 0 && c < MAP_SIZE[i]))) {
         locations.push(point);
@@ -206,7 +195,7 @@ export default class World {
 
   private isLocationsMatch(from: WorldLocation, locations: WorldLocation[]): boolean {
     return (
-      locations.length === this.options.targetLength
+      locations.length === CHAIN_TARGET_LENGTH
       && locations.every((location) => this.isEntitiesEquals(from, location))
     );
   }
@@ -219,21 +208,21 @@ export default class World {
     const { density, useBonuses, bonusing } = this.options;
 
     if (utils.probability(density * 10)) {
-      return new Entity(MAP_ENTITY.BLOCK);
+      return new Entity(EntityType.BLOCK);
     }
     if (
       useBonuses
       && location[1] + 1 !== MAP_SIZE[1]
       && utils.probability(bonusing)
     ) {
-      return new Entity(MAP_ENTITY.BONUS, utils.randomize([
-        ENTITY_BONUS.REPLACER,
-        ENTITY_BONUS.SPAWN,
-        ENTITY_BONUS.LASER,
+      return new Entity(EntityType.BONUS, utils.randomize([
+        EntityBonusType.REPLACER,
+        EntityBonusType.SPAWN,
+        EntityBonusType.LASER,
       ]));
     }
 
-    return new Entity(MAP_ENTITY.EMPTY);
+    return new Entity(EntityType.EMPTY);
   }
 
   static locationIsValid(location: WorldLocation): boolean {

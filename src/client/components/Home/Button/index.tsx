@@ -3,12 +3,13 @@ import { Container } from './styled';
 
 type ComponentProps = {
   children: React.ReactChild | React.ReactChildren
+  name: string
   onClick?: MouseEventHandler
 };
 
-export default function Button({ onClick, children }: ComponentProps) {
+export default function Button({ onClick, name, children }: ComponentProps) {
   return (
-    <Container onClick={onClick}>{children}</Container>
+    <Container onClick={onClick} data-testid={name}>{children}</Container>
   );
 }
 

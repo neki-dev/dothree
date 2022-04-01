@@ -1,11 +1,11 @@
-import { WorldEntity } from '~root/src/types/World';
+import { EntityType, WorldEntity } from '~type/Entity';
 
 export default class Entity implements WorldEntity {
-  public type: string;
+  public type: EntityType;
 
-  public subtype: string;
+  public subtype?: string;
 
-  constructor(type: string, substype: string = undefined) {
+  constructor(type: EntityType, substype: string = undefined) {
     this.type = type;
     this.subtype = substype;
   }

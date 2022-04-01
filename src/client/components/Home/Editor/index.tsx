@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { SocketContext } from '~context/SocketContext';
+import { DEFAULT_OPTIONS } from '~class/Lobby';
 import InputRange from './InputRange';
 import InputCheckbox from './InputCheckbox';
 import Button from '../Button';
@@ -7,19 +8,11 @@ import { LobbyOptions } from '~type/Lobby';
 import { Form, Settings } from './styled';
 
 type ComponentProps = {
-  onClose?: Function
+  onClose?: () => void
 };
 
 export default function Editor({ onClose }: ComponentProps) {
-  const [options, setOptions] = useState<LobbyOptions>({
-    maxPlayers: 3,
-    density: 1,
-    bonusing: 2,
-    timeout: 30,
-    targetLength: 3,
-    moveMap: false,
-    useBonuses: true,
-  });
+  const [options, setOptions] = useState<LobbyOptions>(DEFAULT_OPTIONS);
 
   const socket = useContext(SocketContext);
 
@@ -32,8 +25,10 @@ export default function Editor({ onClose }: ComponentProps) {
 
   const createLobby = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
+
     socket.emit('createLobby', options, (uuid: string) => {
       window.open(`/game/${uuid}`);
+
       if (onClose) {
         onClose();
       }
@@ -65,11 +60,11 @@ export default function Editor({ onClose }: ComponentProps) {
           onChange={onChange}
         />
         {options.useBonuses && (
-        <InputRange
-          label="Частота бонусов" name="bonusing" defaultValue={options.bonusing}
-          min={1} max={5} onChange={onChange}
-          tooltip="Коэффициент спавна бонусов"
-        />
+          <InputRange
+            label="Частота бонусов" name="bonusing" defaultValue={options.bonusing}
+            min={1} max={5} onChange={onChange}
+            tooltip="Коэффициент спавна бонусов"
+          />
         )}
         <InputCheckbox
           label="Подвижная карта" name="moveMap" value={options.moveMap}
@@ -77,7 +72,7 @@ export default function Editor({ onClose }: ComponentProps) {
           tooltip="При подвижной карте после каждого хода идет смещение на один блок влево"
         />
       </Settings>
-      <Button onClick={createLobby}>Продолжить</Button>
+      <Button onClick={createLobby} name="createLobby">Продолжить</Button>
     </Form>
   );
 }

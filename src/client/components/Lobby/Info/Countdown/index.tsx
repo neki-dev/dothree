@@ -7,7 +7,7 @@ import { Timeleft } from './styled';
 
 type ComponentProps = {
   limit: number
-  isCurrent: boolean
+  isCurrent?: boolean
 };
 
 export default function Countdown({ limit, isCurrent }: ComponentProps) {
@@ -31,3 +31,7 @@ export default function Countdown({ limit, isCurrent }: ComponentProps) {
     </Timeleft>
   );
 }
+
+Countdown.defaultProps = {
+  isCurrent: false,
+};

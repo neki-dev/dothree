@@ -25,7 +25,7 @@ export default function Home() {
         <Editor onClose={setSectionLobbies} />
       ) : (
         <>
-          <Button onClick={setSectionEditor}>Создать новую игру</Button>
+          <Button onClick={setSectionEditor} name="createLobby">Создать новую игру</Button>
           <Lobbies />
         </>
       )}

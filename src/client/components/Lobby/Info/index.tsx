@@ -78,9 +78,9 @@ export default function Info({ players, options }: ComponentProps) {
           {slots.map((player, slot) => (
             player ? (
               // eslint-disable-next-line react/no-array-index-key
-              <Player key={slot} slot={slot}>
+              <Player key={slot} slot={slot} data-testid={`previewPlayer${slot}`}>
                 {(current && current.slot === slot) && (
-                <Player.SelfLabel>Вы</Player.SelfLabel>
+                  <Player.SelfLabel>Вы</Player.SelfLabel>
                 )}
               </Player>
             ) : (
@@ -103,7 +103,7 @@ export default function Info({ players, options }: ComponentProps) {
           </Block.Value>
         </Block>
       )}
-      {(players.length === options.maxPlayers && step === null) && (
+      {winner && (
         <Block>
           <Block.Label />
           <Block.Value>

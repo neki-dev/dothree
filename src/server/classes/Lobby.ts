@@ -1,4 +1,4 @@
-import console from 'console';
+import log from 'loglevel';
 import { Namespace } from 'socket.io';
 import utils from '../utils';
 import Player from './Player';
@@ -12,6 +12,15 @@ import CONFIG from '~root/config.json';
 type LobbyParameters = {
   namespace: () => Namespace
   onDestroy?: () => void
+};
+
+export const DEFAULT_OPTIONS = {
+  maxPlayers: 3,
+  density: 1,
+  bonusing: 2,
+  timeout: 30,
+  moveMap: false,
+  useBonuses: true,
 };
 
 export default class Lobby {
@@ -62,7 +71,7 @@ export default class Lobby {
     this.world = new World(this.options);
     this.world.generateMap();
 
-    console.log(`Lobby #${this.uuid} created`);
+    log.info(`Lobby #${this.uuid} created`);
   }
 
   emit(key: string, data: any): void {
@@ -103,13 +112,13 @@ export default class Lobby {
       this.start();
     }
 
-    console.log(`Player #${player.id} joined to lobby #${this.uuid}`);
+    log.info(`Player #${player.id} joined to lobby #${this.uuid}`);
   }
 
   leavePlayer(player: Player): void {
     const index = this.findPlayerIndex(player);
     if (index === -1) {
-      console.warn(`Player #${player.id} not found in lobby #${this.uuid}`);
+      log.warn(`Player #${player.id} not found in lobby #${this.uuid}`);
       return;
     }
 
@@ -122,7 +131,7 @@ export default class Lobby {
       this.reset();
     }
 
-    console.log(`Player #${player.id} leaved from lobby #${this.uuid}`);
+    log.info(`Player #${player.id} leaved from lobby #${this.uuid}`);
   }
 
   putEntity(player: Player, location: WorldLocation): void {
@@ -177,7 +186,7 @@ export default class Lobby {
       clearTimeout(this.reseting);
     }
 
-    console.log(`Lobby #${this.uuid} destroyed`);
+    log.info(`Lobby #${this.uuid} destroyed`);
   }
 
   private findPlayerIndex(player: Player): number | undefined {

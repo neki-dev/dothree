@@ -4,6 +4,9 @@
     "@neki-dev/eslint-config/typescript"
   ],
   "rules": {
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": ["**/*.test.ts", "**/*.test.tsx", "./tools/**/*"]
+    }]
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "dothree",
-  "description": "Online logic game",
+  "description": "Logic online game similar to a mixture of tetris and tic-tac-toe",
   "version": "1.1.4",
   "keywords": [
     "game",

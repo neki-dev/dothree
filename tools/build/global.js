@@ -1,10 +1,13 @@
+const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
-const alias = require('../alias');
+const alias = require('alias-reuse');
 
 module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
-    alias: alias.forWebpack(),
+    alias: alias(path.resolve(__dirname, '../..'))
+      .fromTsconfig()
+      .toWebpack(),
   },
   stats: {
     all: false,

@@ -12,4 +12,5 @@
 ---
 
 
-[![Building](https://github.com/neki-dev/dothree/actions/workflows/npm.yml/badge.svg)](https://github.com/neki-dev/dothree/actions)
+[![Testing](https://github.com/neki-dev/dothree/actions/workflows/test.yml/badge.svg)](https://github.com/neki-dev/dothree/actions/workflows/test.yml)
+[![Building](https://github.com/neki-dev/dothree/actions/workflows/build.yml/badge.svg)](https://github.com/neki-dev/dothree/actions/workflows/build.yml)

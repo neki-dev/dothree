@@ -14,9 +14,6 @@
   },
   "license": "MIT",
   "main": "./app/server.js",
-  "engines": {
-    "node": ">=10.16"
-  },
   "browserslist": [
     "> 0.1%",
     "ie > 11"

@@ -7,7 +7,7 @@ module.exports = {
     ...alias(__dirname)
       .fromTsconfig()
       .toJest(),
-    '(.*).svg$': '<rootDir>/tools/test/void',
+    '^.+\\.svg$': '<rootDir>/tools/test/void',
   },
   transform: {
     '^.+\\.tsx?$': 'babel-jest',

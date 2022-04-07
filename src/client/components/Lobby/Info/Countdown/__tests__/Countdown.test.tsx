@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '~test/preset';
 import render from '~test/render';
 import socket from '~test/socket';
 

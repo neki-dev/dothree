@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '~test/preset';
 import render from '~test/render';
 import { WorldContext } from '~context/WorldContext';
 

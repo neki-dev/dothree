@@ -14,29 +14,29 @@ describe('Lobby / Info', () => {
     });
   });
 
-  it('должен отображать список игроков', () => {
+  it('should display players list', () => {
     const [player] = props.players;
     expect(screen.queryByTestId(`previewPlayer${player.slot}`)).toBeInTheDocument();
-    expect(screen.queryByText('Вы')).toBeInTheDocument();
+    expect(screen.queryByText('You')).toBeInTheDocument();
   });
 
-  it('не должен отображать текущий ход, если игра неактивна', () => {
-    expect(screen.queryByText('Ход')).not.toBeInTheDocument();
+  it('should not display current step, if lobby is not started', () => {
+    expect(screen.queryByText('Step')).not.toBeInTheDocument();
   });
 
-  it('должен отображать текущий ход, если игра активна', () => {
+  it('should display current step, if lobby is started', () => {
     const [player] = props.players;
     socket.emitSelf('updateStep', player.slot);
     waitFor(() => {
-      expect(screen.queryByText('Ход')).toBeInTheDocument();
+      expect(screen.queryByText('Step')).toBeInTheDocument();
     });
   });
 
-  it('должен отображать победителя в конце игры', () => {
+  it('should display winner and loser', () => {
     const [player] = props.players;
     socket.emitSelf('playerWin', player.id);
     waitFor(() => {
-      expect(screen.queryByText('Вы выиграли')).toBeInTheDocument();
+      expect(screen.queryByText('You lose')).toBeInTheDocument();
     });
   });
 });

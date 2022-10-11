@@ -32,11 +32,11 @@ export function Waiting({
             ))}
           </Loading>
           <Status>
-            <Status.String>Вошло</Status.String>
+            <Status.String>Joined</Status.String>
             <Status.Number data-testid="waitingCurrentPlayers">{currentPlayers}</Status.Number>
-            <Status.String>из</Status.String>
+            <Status.String>from</Status.String>
             <Status.Number data-testid="waitingMaxPlayers">{maxPlayers}</Status.Number>
-            <Status.String>игроков</Status.String>
+            <Status.String>players</Status.String>
           </Status>
         </>
       )}

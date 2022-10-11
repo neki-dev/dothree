@@ -11,12 +11,12 @@ describe('Home / Editor / InputCheckbox', () => {
     render(<InputCheckbox {...props} />);
   });
 
-  it('должен отображать содержимое', () => {
+  it('should display content', () => {
     expect(screen.queryByText(props.label)).toBeInTheDocument();
     expect(screen.queryByTestId(props.name)).toBeInTheDocument();
   });
 
-  it('должен обрабатывать событие изменения', () => {
+  it('should handle change event', () => {
     const checkbox = screen.queryByTestId(props.name);
     fireEvent.click(checkbox);
     expect(props.onChange).toBeCalled();

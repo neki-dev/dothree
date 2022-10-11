@@ -91,13 +91,13 @@ export class Lobby {
   joinPlayer(player: Player): void {
     const isExists = this.players.some((p) => (p.id === player.id));
     if (isExists) {
-      player.sendError('Вы уже находитесь в этой игре');
+      player.sendError('You are already in this lobby');
       return;
     }
 
     const slot = this.getFreeSlot();
     if (slot === null) {
-      player.sendError('Указанная игра уже запущена');
+      player.sendError('This lobby is already started');
       return;
     }
 

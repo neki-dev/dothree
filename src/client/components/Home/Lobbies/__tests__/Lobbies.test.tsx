@@ -16,8 +16,8 @@ describe('Home / Lobbies', () => {
     });
   });
 
-  it('должен отображать заголовок только если количество лобби больше нуля', () => {
-    const title = 'Или выбрать существующую';
+  it('should display title, only if lobbies count more zero', () => {
+    const title = 'Or select existing';
     waitFor(() => {
       expect(screen.queryByText(title)).not.toBeInTheDocument();
       socket.emitSelf('updateLatestLobbies', [lobby]);
@@ -27,14 +27,14 @@ describe('Home / Lobbies', () => {
     });
   });
 
-  it('должен отображать список лобби', () => {
+  it('should display lobbies list', () => {
     socket.emitSelf('updateLatestLobbies', [lobby]);
     waitFor(() => {
       expect(screen.queryByText(lobby.uuid)).toBeInTheDocument();
     });
   });
 
-  it('должен содержать ссылки на лобби', () => {
+  it('should redirect to lobby, if link was clicked', () => {
     socket.emitSelf('updateLatestLobbies', [lobby]);
     waitFor(() => {
       const link = screen.queryByTestId('open-lobby');

@@ -20,7 +20,7 @@ export function Lobbies() {
 
   return (lobbies.length > 0) ? (
     <>
-      <Title>Или выбрать существующую</Title>
+      <Title>Or select existing</Title>
       <LobbyList>
         {lobbies.map((lobby) => (
           <Lobby

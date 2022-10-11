@@ -42,40 +42,40 @@ export function Editor({ onClose }: ComponentProps) {
     <Form>
       <Settings>
         <InputRange
-          label="Количество игроков" name="maxPlayers" defaultValue={options.maxPlayers}
+          label="Max players" name="maxPlayers" defaultValue={options.maxPlayers}
           min={2} max={5} onChange={onChange}
-          tooltip="Количество игроков, необходимое для начала игры"
+          tooltip="Number of players required to start game"
         />
         <InputRange
-          label="Плотность карты" name="density" defaultValue={options.density}
+          label="Map density" name="density" defaultValue={options.density}
           min={0} max={4} step={1}
           onChange={onChange}
-          tooltip="Коэффициент спавна блоков мира"
+          tooltip="World cubes spawn rate"
         />
         <InputRange
-          label="Таймаут хода" name="timeout" defaultValue={options.timeout}
+          label="Step timeout" name="timeout" defaultValue={options.timeout}
           min={5} max={60} step={5}
           onChange={onChange}
-          tooltip="Количество секунд, за которые игрок должен сделать свой ход"
+          tooltip="Number of seconds allocated per step"
         />
         <InputCheckbox
-          label="Использовать бонусы" name="useBonuses" value={options.useBonuses}
+          label="Use bonuses" name="useBonuses" value={options.useBonuses}
           onChange={onChange}
         />
         {options.useBonuses && (
           <InputRange
-            label="Частота бонусов" name="bonusing" defaultValue={options.bonusing}
+            label="Bonus frequency" name="bonusing" defaultValue={options.bonusing}
             min={1} max={5} onChange={onChange}
-            tooltip="Коэффициент спавна бонусов"
+            tooltip="Bonus spawn rate"
           />
         )}
         <InputCheckbox
-          label="Подвижная карта" name="moveMap" value={options.moveMap}
+          label="Movable map" name="moveMap" value={options.moveMap}
           onChange={onChange}
-          tooltip="При подвижной карте после каждого хода идет смещение на один блок влево"
+          tooltip="With a moving map, after each step, there is a shift one cell to left"
         />
       </Settings>
-      <Button onClick={createLobby} name="createLobby">Продолжить</Button>
+      <Button onClick={createLobby} name="createLobby">Accept</Button>
     </Form>
   );
 }

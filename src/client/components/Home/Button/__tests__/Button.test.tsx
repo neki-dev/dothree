@@ -11,11 +11,11 @@ describe('Home / Button', () => {
     render(<Button {...props} />);
   });
 
-  it('должен отображать содержимое', () => {
+  it('should display content', () => {
     expect(screen.queryByText(props.children)).toBeInTheDocument();
   });
 
-  it('должен обрабатывать событие клика', () => {
+  it('should handle click event', () => {
     const button = screen.queryByTestId(props.name);
     fireEvent.click(button);
     expect(props.onClick).toBeCalled();

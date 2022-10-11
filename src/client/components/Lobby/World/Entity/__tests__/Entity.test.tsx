@@ -17,7 +17,7 @@ describe('Lobby / World / Entity', () => {
     );
   }
 
-  it('не должен обрабатывать клик, если не свой ход', () => {
+  it('should not handle click, if not you step', () => {
     renderWithWorld({
       isCurrentStep: false,
     });
@@ -27,7 +27,7 @@ describe('Lobby / World / Entity', () => {
     expect(props.onPut).not.toBeCalled();
   });
 
-  it('не должен обрабатывать клик, если позиция находится в воздухе', () => {
+  it('should not handle click, if position without baseground', () => {
     renderWithWorld({
       isCurrentStep: true,
     });
@@ -37,7 +37,7 @@ describe('Lobby / World / Entity', () => {
     expect(props.onPut).not.toBeCalled();
   });
 
-  it('должен обрабатывать клик, если свой ход и позволяет позиция', () => {
+  it('should handle click, if you step and correct position', () => {
     renderWithWorld({
       isCurrentStep: true,
       y: 1,

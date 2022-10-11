@@ -55,7 +55,7 @@ export function Info({ players, options }: ComponentProps) {
     }
 
     const titleIdle = `Dothree #${uuid}`;
-    const titleActive = 'Ваш ход!';
+    const titleActive = 'You step!';
     let interval: NodeJS.Timer;
     if (step === current.slot && players.length === options.maxPlayers) {
       document.title = titleActive;
@@ -76,13 +76,13 @@ export function Info({ players, options }: ComponentProps) {
   return (
     <Container>
       <Block>
-        <Block.Label>Игроки</Block.Label>
+        <Block.Label>Players</Block.Label>
         <Block.Value>
           {slots.map((player, slot) => (
             player ? (
               <Player key={slot} slot={slot} data-testid={`previewPlayer${slot}`}>
                 {(current && current.slot === slot) && (
-                  <Player.SelfLabel>Вы</Player.SelfLabel>
+                  <Player.SelfLabel>You</Player.SelfLabel>
                 )}
               </Player>
             ) : (
@@ -93,7 +93,7 @@ export function Info({ players, options }: ComponentProps) {
       </Block>
       {(step !== null) && (
         <Block>
-          <Block.Label>Ход</Block.Label>
+          <Block.Label>Step</Block.Label>
           <Block.Value>
             <Player slot={step} />
             <Countdown
@@ -108,8 +108,8 @@ export function Info({ players, options }: ComponentProps) {
         <Block>
           <Block.Label />
           <Block.Value>
-            <WinMessage>{(winner === current.id) ? 'Вы выиграли' : 'Вы проиграли'}</WinMessage>
-            <RestartMessage>Рестарт игры через 5 секунд...</RestartMessage>
+            <WinMessage>{(winner === current.id) ? 'You win' : 'You lose'}</WinMessage>
+            <RestartMessage>Restart game after 5 seconds...</RestartMessage>
           </Block.Value>
         </Block>
       )}

@@ -34,7 +34,7 @@ export function boot(io: Server): void {
     const player = new Player(socket);
     const lobby = core.findLobby(uuid);
     if (!lobby) {
-      player.sendError('Указанная игра не найдена');
+      player.sendError('Lobby is not found');
       return;
     }
 

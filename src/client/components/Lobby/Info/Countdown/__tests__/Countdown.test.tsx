@@ -13,11 +13,11 @@ describe('Lobby / Info / Countdown', () => {
     });
   });
 
-  it('не должен отображаться при нулевом значении', () => {
+  it('should not display, if seconds equal to zero', () => {
     expect(screen.queryByText('00:00')).not.toBeInTheDocument();
   });
 
-  it('должен отображаться при значении больше нуля', () => {
+  it('should display, if seconds more zero', () => {
     socket.emitSelf('updateTimeout', 60);
     waitFor(() => {
       expect(screen.queryByText('60:00')).toBeInTheDocument();

@@ -13,7 +13,7 @@ describe('Home / Editor', () => {
     });
   });
 
-  it('должен отображать содержимое', () => {
+  it('should display inputs', () => {
     [
       'maxPlayers', 'density', 'timeout', 'useBonuses',
       'bonusing', 'moveMap', 'createLobby',
@@ -22,7 +22,7 @@ describe('Home / Editor', () => {
     });
   });
 
-  it('не должен отображать частоту бонусов, если они не используются', () => {
+  it('should not display bonuses rate, if they is not using', () => {
     const checkbox = screen.queryByTestId('useBonuses');
     fireEvent.change(checkbox, { target: { value: false } });
     waitFor(() => {
@@ -30,7 +30,7 @@ describe('Home / Editor', () => {
     });
   });
 
-  it('должен отправлять запрос при нажатии на кнопку', () => {
+  it('should send request, if button was clicked', () => {
     const onCreate = socket.hookEmit('createLobby');
     const button = screen.queryByTestId('createLobby');
     fireEvent.click(button);

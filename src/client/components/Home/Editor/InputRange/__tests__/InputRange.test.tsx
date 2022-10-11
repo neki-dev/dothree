@@ -11,12 +11,12 @@ describe('Home / Editor / InputRange', () => {
     render(<InputRange {...props} />);
   });
 
-  it('должен отображать содержимое', () => {
+  it('should display content', () => {
     expect(screen.queryByText(props.label)).toBeInTheDocument();
     expect(screen.queryByTestId(props.name)).toBeInTheDocument();
   });
 
-  it('должен обрабатывать события изменения', () => {
+  it('should handle change event', () => {
     const rangeDec = screen.queryByTestId(`${props.name}/dec`);
     fireEvent.click(rangeDec);
     const rangeInc = screen.queryByTestId(`${props.name}/inc`);

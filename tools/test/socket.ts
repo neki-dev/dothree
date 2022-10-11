@@ -46,10 +46,9 @@ function removeCallback(
   }
 }
 
-export default {
+export const socket = {
   id: 'FAKE_SOCKET_ID',
 
-  // @ts-ignore
   emit(event: string, data: any) {
     emitateEvent('server', event, data);
   },
@@ -58,12 +57,10 @@ export default {
     emitateEvent('client', event, data);
   },
 
-  // @ts-ignore
   on(event: string, callback: (data: any) => void) {
     addCallback('client', event, callback);
   },
 
-  // @ts-ignore
   off(event: string, callback: (data: any) => void) {
     removeCallback('client', event, callback);
   },

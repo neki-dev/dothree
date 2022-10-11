@@ -1,12 +1,12 @@
-import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
-import '~test/preset';
-import render from '~test/render';
-import { WorldContext } from '~context/WorldContext';
+import React from 'react';
 
-import Entity from '../index';
 import props from '../__mocks__/EntityProps';
 import world from '../__mocks__/World';
+import { Entity } from '../index';
+import { WorldContext } from '~context/WorldContext';
+
+import { render } from '~test';
 
 describe('Lobby / World / Entity', () => {
   function renderWithWorld(customProps = {}) {

@@ -1,11 +1,13 @@
 import { createServer } from 'http';
-import log from 'loglevel';
 import path from 'path';
+
 import express, { Express } from 'express';
+import log from 'loglevel';
 import { Server as SocketServer } from 'socket.io';
-import game from './game';
 
 import CONFIG from '~root/config.json';
+
+import { boot } from './game';
 
 const PATH_TO_INDEX: string = path.join(__dirname, '..', 'app', 'index.html');
 
@@ -18,8 +20,8 @@ app.get(['/', '/game/:uuid'], (req: express.Request, res: express.Response) => r
 const port: number = Number(process.env.PORT) || CONFIG.PORT;
 const server = createServer(app);
 server.listen(port, () => {
-  log.info(`Game server listening on :${port}`);
+  log.info(`Game server listening on http://127.0.0.1:${port}`);
 });
 
 const io = new SocketServer(server);
-game.boot(io);
+boot(io);

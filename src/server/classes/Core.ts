@@ -1,9 +1,12 @@
-import { Namespace, Server } from 'socket.io';
 import console from 'console';
-import Lobby from './Lobby';
+
+import { Namespace, Server } from 'socket.io';
+
 import { LobbyInfo, LobbyOptions } from '~type/Lobby';
 
-export default class Core {
+import { Lobby } from './Lobby';
+
+export class Core {
   private readonly io: Server;
 
   private readonly lobbies: Lobby[];

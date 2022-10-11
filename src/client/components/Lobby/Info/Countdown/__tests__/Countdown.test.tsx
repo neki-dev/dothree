@@ -1,11 +1,10 @@
-import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
-import '~test/preset';
-import render from '~test/render';
-import socket from '~test/socket';
+import React from 'react';
 
-import Countdown from '../index';
 import props from '../__mocks__/CountdownProps';
+import { Countdown } from '../index';
+
+import { render, socket } from '~test';
 
 describe('Lobby / Info / Countdown', () => {
   beforeEach(() => {

@@ -1,6 +1,6 @@
 import { EntityType, WorldEntity } from '~type/Entity';
 
-export default class Entity implements WorldEntity {
+export class Entity implements WorldEntity {
   public type: EntityType;
 
   public subtype?: string;

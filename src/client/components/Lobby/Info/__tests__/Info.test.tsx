@@ -1,11 +1,10 @@
-import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
-import '~test/preset';
-import render from '~test/render';
-import socket from '~test/socket';
+import React from 'react';
 
-import Info from '../index';
 import props from '../__mocks__/InfoProps';
+import { Info } from '../index';
+
+import { render, socket } from '~test';
 
 describe('Lobby / Info', () => {
   beforeEach(() => {

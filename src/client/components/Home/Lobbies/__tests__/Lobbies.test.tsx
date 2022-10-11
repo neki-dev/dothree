@@ -1,13 +1,12 @@
-import React from 'react';
 import {
   fireEvent, screen, waitFor,
 } from '@testing-library/react';
-import '~test/preset';
-import render from '~test/render';
-import socket from '~test/socket';
+import React from 'react';
 
-import Lobbies from '../index';
 import lobby from '../__mocks__/Lobby';
+import { Lobbies } from '../index';
+
+import { render, socket } from '~test';
 
 describe('Home / Lobbies', () => {
   beforeAll(() => {

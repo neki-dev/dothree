@@ -1,9 +1,9 @@
-import { WorldMap } from '~root/src/types/World';
 import { EntityType } from '~type/Entity';
+import { WorldMap } from '~type/World';
 
-// eslint-disable-next-line import/prefer-default-export
 export function canBePutTo(world: WorldMap, x: number, y: number): boolean {
   const entity = world[y][x];
+
   if (![EntityType.EMPTY, EntityType.BONUS].includes(entity.type)) {
     return false;
   }

@@ -1,10 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import { SocketProvider } from '~context/SocketContext';
-import App from './components/App';
-import PageLobby from './components/Lobby';
-import PageHome from './components/Home';
+
+import { App } from './components/App';
+import { Home } from './components/Home';
+import { Lobby } from './components/Lobby';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -13,14 +15,14 @@ ReactDOM.render(
         <Route
           exact path="/" component={() => (
             <SocketProvider namespace="/home">
-              <PageHome />
+              <Home />
             </SocketProvider>
           )}
         />
         <Route
           exact path="/game/:uuid" component={() => (
             <SocketProvider namespace="/lobby">
-              <PageLobby />
+              <Lobby />
             </SocketProvider>
           )}
         />

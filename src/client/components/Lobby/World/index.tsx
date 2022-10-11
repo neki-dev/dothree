@@ -1,19 +1,22 @@
 import React, {
   useState, useEffect, useCallback, useMemo, useRef, useContext,
 } from 'react';
+
 import { SocketContext } from '~context/SocketContext';
 import { WorldContext } from '~context/WorldContext';
-import Entity from './Entity';
-import { WorldMap } from '~type/World';
 import { WorldEntity } from '~type/Entity';
 import { PlayerInfo } from '~type/Player';
+import { WorldMap } from '~type/World';
+
+import { Entity } from './Entity';
+
 import { Field, Line } from './styled';
 
 type ComponentProps = {
   players: PlayerInfo[]
 };
 
-export default function World({ players }: ComponentProps) {
+export function World({ players }: ComponentProps) {
   const [world, setWorld] = useState<WorldMap>(null);
   const [step, setStep] = useState<number>(null);
 
@@ -43,11 +46,9 @@ export default function World({ players }: ComponentProps) {
     <Field ref={refWorld} data-testid="world">
       <WorldContext.Provider value={world}>
         {world.map((line: WorldEntity[], y: number) => (
-        // eslint-disable-next-line react/no-array-index-key
           <Line key={y}>
             {line.map((entity: WorldEntity, x: number) => (
               <Entity
-              // eslint-disable-next-line react/no-array-index-key
                 key={`${x}-${y}`} data={entity}
                 x={x} y={y} isCurrentStep={current && current.slot === step}
                 onPut={() => putEntity(x, y)}

@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import GitHubButton from 'react-github-btn';
-import Editor from './Editor';
-import Lobbies from './Lobbies';
-import Button from './Button';
+
+import { Button } from './Button';
+import { Editor } from './Editor';
+import { Lobbies } from './Lobbies';
+
 import { Container, Logotype, Footer } from './styled';
 
-export default function Home() {
+export function Home() {
   const [section, setSection] = useState<string>('lobbies');
 
   const setSectionLobbies = useCallback(() => setSection('lobbies'), []);

@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 /** Images */
 
-import IconInc from './icons/inc.svg';
 import IconDec from './icons/dec.svg';
+import IconInc from './icons/inc.svg';
 
 /** Styles */
 

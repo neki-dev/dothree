@@ -15,6 +15,7 @@
       "~hook/*": ["./src/client/hooks/*"],
       "~context/*": ["./src/client/context/*"],
       "~class/*": ["./src/server/classes/*"],
+      "~test": ["./tools/test/index"],
       "~test/*": ["./tools/test/*"]
     }
   }

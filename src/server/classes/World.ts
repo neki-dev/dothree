@@ -1,8 +1,9 @@
-import utils from '../utils';
-import { WorldLocation, WorldMap } from '~type/World';
-import { LobbyOptions } from '~type/Lobby';
+import { randomize, probability } from '../utils';
 import { WorldEntity, EntityType, EntityBonusType } from '~type/Entity';
-import Entity from './Entity';
+import { LobbyOptions } from '~type/Lobby';
+import { WorldLocation, WorldMap } from '~type/World';
+
+import { Entity } from './Entity';
 
 const MAP_SIZE = [25, 11];
 const CHAIN_TARGET_LENGTH = 3;
@@ -10,7 +11,7 @@ const WORLD_DIRECTIONS: WorldLocation[] = [
   [-1, 0], [-1, -1], [0, -1], [1, -1],
 ];
 
-export default class World {
+export class World {
   readonly map: WorldMap = [];
 
   private readonly options: LobbyOptions;
@@ -77,7 +78,7 @@ export default class World {
           }
         });
         if (puttedEntities.length > 0) {
-          locations.push(utils.randomize(puttedEntities));
+          locations.push(randomize(puttedEntities));
         }
         break;
       }
@@ -90,7 +91,7 @@ export default class World {
           }
         });
         if (emptyEntities.length > 0) {
-          locations.push(utils.randomize(emptyEntities));
+          locations.push(randomize(emptyEntities));
         }
         break;
       }
@@ -207,15 +208,15 @@ export default class World {
   private createRandomEntity(location: WorldLocation): Entity {
     const { density, useBonuses, bonusing } = this.options;
 
-    if (utils.probability(density * 10)) {
+    if (probability(density * 10)) {
       return new Entity(EntityType.BLOCK);
     }
     if (
       useBonuses
       && location[1] + 1 !== MAP_SIZE[1]
-      && utils.probability(bonusing)
+      && probability(bonusing)
     ) {
-      return new Entity(EntityType.BONUS, utils.randomize([
+      return new Entity(EntityType.BONUS, randomize([
         EntityBonusType.REPLACER,
         EntityBonusType.SPAWN,
         EntityBonusType.LASER,

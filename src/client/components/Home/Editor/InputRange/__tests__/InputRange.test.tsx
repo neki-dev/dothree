@@ -1,10 +1,10 @@
-import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
-import '~test/preset';
-import render from '~test/render';
+import React from 'react';
 
-import InputRange from '../index';
 import props from '../__mocks__/InputRangeProps';
+import { InputRange } from '../index';
+
+import { render } from '~test';
 
 describe('Home / Editor / InputRange', () => {
   beforeEach(() => {

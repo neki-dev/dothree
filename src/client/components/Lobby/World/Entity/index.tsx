@@ -1,8 +1,11 @@
 import React, { useContext, useMemo } from 'react';
-import { WorldEntity } from '~type/Entity';
+
 import { WorldContext } from '~context/WorldContext';
-import { Block, Pointer } from './styled';
+import { WorldEntity } from '~type/Entity';
+
 import { canBePutTo } from './helpers';
+
+import { Block, Pointer } from './styled';
 
 type ComponentProps = {
   data: WorldEntity
@@ -12,7 +15,7 @@ type ComponentProps = {
   onPut: () => void
 };
 
-export default function Entity({
+export function Entity({
   data, x, y, isCurrentStep, onPut,
 }: ComponentProps) {
   const world = useContext(WorldContext);

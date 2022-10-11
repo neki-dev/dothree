@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { COLOR_PLAYER } from '../World/Entity/styled';
 
 export const Container = styled.div`

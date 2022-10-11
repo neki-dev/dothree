@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
   Container, Group, Controls, Label, Value,
 } from './styled';
@@ -14,7 +15,7 @@ type ComponentProps = {
   onChange?: (name: string, value: number) => void
 };
 
-export default function InputRange({
+export function InputRange({
   label, name, defaultValue, min, max, step, tooltip, onChange,
 }: ComponentProps) {
   const [value, setValue] = useState<number>(defaultValue);

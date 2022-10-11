@@ -1,17 +1,20 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { SocketContext } from '~context/SocketContext';
+
+import { Button } from '../Button';
 import { DEFAULT_OPTIONS } from '~class/Lobby';
-import InputRange from './InputRange';
-import InputCheckbox from './InputCheckbox';
-import Button from '../Button';
+import { SocketContext } from '~context/SocketContext';
 import { LobbyOptions } from '~type/Lobby';
+
+import { InputCheckbox } from './InputCheckbox';
+import { InputRange } from './InputRange';
+
 import { Form, Settings } from './styled';
 
 type ComponentProps = {
   onClose?: () => void
 };
 
-export default function Editor({ onClose }: ComponentProps) {
+export function Editor({ onClose }: ComponentProps) {
   const [options, setOptions] = useState<LobbyOptions>(DEFAULT_OPTIONS);
 
   const socket = useContext(SocketContext);

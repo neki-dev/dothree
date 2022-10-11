@@ -1,7 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
+
 const nodeExternals = require('webpack-node-externals');
-const globalConfig = require('./global');
+
 const tsconfig = require('../../tsconfig.json');
+
+const globalConfig = require('./global');
 
 const ROOT = path.resolve(__dirname, '../..');
 const OUTPUT_DIR = path.resolve(ROOT, tsconfig.compilerOptions.outDir);

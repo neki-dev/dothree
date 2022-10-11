@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Container, Checkbox, Label } from './styled';
 
 type ComponentProps = {
@@ -9,7 +10,7 @@ type ComponentProps = {
   onChange?: (name: string, value: boolean) => void
 };
 
-export default function InputCheckbox({
+export function InputCheckbox({
   label, value, name, tooltip, onChange,
 }: ComponentProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

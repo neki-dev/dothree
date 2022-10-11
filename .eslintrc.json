@@ -1,12 +1,24 @@
 {
-  "extends": [
-    "@neki-dev/eslint-config",
-    "@neki-dev/eslint-config/typescript"
-  ],
+  "extends": ["neki/ts-react"],
   "rules": {
-    "import/extensions": "off",
-    "import/no-extraneous-dependencies": ["error", {
-      "devDependencies": ["**/*.test.ts", "**/*.test.tsx", "./tools/**/*", "./*.js"]
+    "react/no-array-index-key": "off",
+    "import/order": ["warn", {
+      "newlines-between": "always",
+      "groups": ["builtin", "external", "parent", "sibling", "index"],
+      "alphabetize": {
+        "order": "asc",
+        "caseInsensitive": true
+      },
+      "pathGroups": [
+        {
+          "pattern": "~**/**",
+          "group": "parent"
+        },
+        {
+          "pattern": "./styled",
+          "group": "index"
+        }
+      ]
     }]
   }
 }

@@ -1,7 +1,8 @@
-import React, { createContext, ReactChild, ReactChildren } from 'react';
+import React, { ReactElement, createContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { Socket } from 'socket.io-client';
-import useSocket from '~hook/useSocket';
+
+import { useSocket } from '~hook/useSocket';
 
 export const SocketContext = createContext<Socket>(null);
 
@@ -11,10 +12,12 @@ type PageRouteProps = {
 
 type ComponentProps = {
   namespace: string
-  children: ReactChild | ReactChildren
+  children: ReactElement
 };
 
-export function SocketProvider({ namespace, children }: ComponentProps) {
+export function SocketProvider({
+  namespace, children,
+}: ComponentProps) {
   const { uuid } = useParams<PageRouteProps>();
   const socket = useSocket(namespace, { uuid });
 

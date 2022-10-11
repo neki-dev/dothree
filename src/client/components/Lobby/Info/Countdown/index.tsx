@@ -1,8 +1,10 @@
+import dayjs from 'dayjs';
 import React, {
   useState, useEffect, useMemo, useContext,
 } from 'react';
-import dayjs from 'dayjs';
+
 import { SocketContext } from '~context/SocketContext';
+
 import { Timeleft } from './styled';
 
 type ComponentProps = {
@@ -10,7 +12,7 @@ type ComponentProps = {
   isCurrent?: boolean
 };
 
-export default function Countdown({ limit, isCurrent }: ComponentProps) {
+export function Countdown({ limit, isCurrent }: ComponentProps) {
   const [tick, setTick] = useState<number>(0);
 
   const socket = useContext(SocketContext);

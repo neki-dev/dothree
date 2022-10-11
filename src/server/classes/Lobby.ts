@@ -1,13 +1,14 @@
 import log from 'loglevel';
 import { Namespace } from 'socket.io';
-import utils from '../utils';
-import Player from './Player';
-import World from './World';
-import { WorldLocation, WorldMap } from '~type/World';
+
+import { generateUUID } from '../utils';
+import CONFIG from '~root/config.json';
 import { LobbyOptions, LobbyInfo } from '~type/Lobby';
 import { PlayerInfo } from '~type/Player';
+import { WorldLocation, WorldMap } from '~type/World';
 
-import CONFIG from '~root/config.json';
+import { Player } from './Player';
+import { World } from './World';
 
 type LobbyParameters = {
   namespace: () => Namespace
@@ -23,7 +24,7 @@ export const DEFAULT_OPTIONS = {
   useBonuses: true,
 };
 
-export default class Lobby {
+export class Lobby {
   public readonly uuid: string;
 
   public readonly options: LobbyOptions;
@@ -66,7 +67,7 @@ export default class Lobby {
     this.options = options;
     this.parameters = parameters;
 
-    this.uuid = utils.generate();
+    this.uuid = generateUUID();
     this.date = new Date();
     this.world = new World(this.options);
     this.world.generateMap();

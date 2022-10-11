@@ -2,10 +2,13 @@ import React, {
   useState, useEffect, useMemo, useContext,
 } from 'react';
 import { useParams } from 'react-router-dom';
+
 import { SocketContext } from '~context/SocketContext';
-import Countdown from './Countdown';
 import { LobbyOptions } from '~type/Lobby';
 import { PlayerInfo } from '~type/Player';
+
+import { Countdown } from './Countdown';
+
 import {
   Container, Block, Player, RestartMessage, WinMessage, EmptySlot,
 } from './styled';
@@ -15,7 +18,7 @@ type ComponentProps = {
   options: LobbyOptions
 };
 
-export default function Info({ players, options }: ComponentProps) {
+export function Info({ players, options }: ComponentProps) {
   const { uuid } = useParams<{ uuid: string }>();
 
   const [step, setStep] = useState<number>(null);
@@ -77,14 +80,12 @@ export default function Info({ players, options }: ComponentProps) {
         <Block.Value>
           {slots.map((player, slot) => (
             player ? (
-              // eslint-disable-next-line react/no-array-index-key
               <Player key={slot} slot={slot} data-testid={`previewPlayer${slot}`}>
                 {(current && current.slot === slot) && (
                   <Player.SelfLabel>Вы</Player.SelfLabel>
                 )}
               </Player>
             ) : (
-              // eslint-disable-next-line react/no-array-index-key
               <EmptySlot key={slot} />
             )
           ))}

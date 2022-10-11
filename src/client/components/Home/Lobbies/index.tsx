@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
+
 import { SocketContext } from '~context/SocketContext';
 import { LobbyInfo } from '~type/Lobby';
+
 import { Title, LobbyList, Lobby } from './styled';
 
-export default function Lobbies() {
+export function Lobbies() {
   const [lobbies, setLobbies] = useState<LobbyInfo[]>([]);
 
   const socket = useContext(SocketContext);

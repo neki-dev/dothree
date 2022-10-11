@@ -2,7 +2,7 @@ import { Socket } from 'socket.io';
 
 import CONFIG from '~root/config.json';
 
-export default class Player {
+export class Player {
   private readonly socket: Socket;
 
   public readonly id: string;

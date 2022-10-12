@@ -47,9 +47,9 @@ export class Lobby {
     return this._step;
   }
 
-  public set step(v: number | null) {
-    this._step = v;
-    this.emit('updateStep', v);
+  public set step(step: number | null) {
+    this._step = step;
+    this.emit('updateStep', step);
   }
 
   private _timeout: number = 0;
@@ -75,7 +75,7 @@ export class Lobby {
     log.info(`Lobby #${this.uuid} created`);
   }
 
-  emit(key: string, data: any): void {
+  emit(key: string, data?: any): void {
     const { namespace } = this.parameters;
     namespace().to(this.uuid).emit(key, data);
   }
@@ -235,6 +235,8 @@ export class Lobby {
   }
 
   private reset(): void {
+    this.emit('clearWinner');
+
     if (this.reseting) {
       clearTimeout(this.reseting);
       this.reseting = null;

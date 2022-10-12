@@ -40,13 +40,19 @@ export function Info({ players, options }: ComponentProps) {
     players.find((player) => (player.id === socket.id))
   ), [players]);
 
+  const clearWinner = () => {
+    setWinner(null);
+  };
+
   useEffect(() => {
     socket.on('updateStep', setStep);
     socket.on('playerWin', setWinner);
+    socket.on('clearWinner', clearWinner);
 
     return () => {
       socket.off('updateStep', setStep);
       socket.off('playerWin', setWinner);
+      socket.off('clearWinner', clearWinner);
     };
   }, []);
 

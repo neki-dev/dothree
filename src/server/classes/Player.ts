@@ -15,7 +15,7 @@ export class Player {
     this.slot = null;
   }
 
-  emit(key: string, data: any): void {
+  emit(key: string, data?: any): void {
     this.socket.emit(key, data);
   }
 

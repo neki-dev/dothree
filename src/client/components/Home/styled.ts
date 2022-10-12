@@ -18,7 +18,7 @@ export const Container = styled.div`
 `;
 
 export const Logotype: any = styled.div`
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,8 +55,9 @@ Logotype.Label = styled.div`
   overflow: hidden;
 `;
 
-Logotype.Description = styled.div`
-  margin-top: 20px;
+export const Description = styled.div`
+  margin-bottom: 20px;
+  color: #556f8c;
 `;
 
 export const Footer = styled.div`

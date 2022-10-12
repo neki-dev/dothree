@@ -5,7 +5,9 @@ import { Button } from './Button';
 import { Editor } from './Editor';
 import { Lobbies } from './Lobbies';
 
-import { Container, Logotype, Footer } from './styled';
+import {
+  Container, Logotype, Description, Footer,
+} from './styled';
 
 export function Home() {
   const [section, setSection] = useState<string>('lobbies');
@@ -22,10 +24,10 @@ export function Home() {
           <Logotype.Block />
         </Logotype.Blocks>
         <Logotype.Label>DOTHREE</Logotype.Label>
-        <Logotype.Description>
-          Online logic game, which like a mix of tetris and tic-tac-toe
-        </Logotype.Description>
       </Logotype>
+      <Description>
+        Online logic game, which like a mix of tetris and tic-tac-toe
+      </Description>
       {(section === 'editor') ? (
         <Editor onClose={setSectionLobbies} />
       ) : (

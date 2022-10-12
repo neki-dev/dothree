@@ -1,8 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 
-const nodeExternals = require('webpack-node-externals');
-
 const tsconfig = require('../../tsconfig.json');
 
 const globalConfig = require('./global');
@@ -24,7 +22,4 @@ module.exports = () => ({
       use: 'ts-loader',
     }],
   },
-  externals: [
-    nodeExternals(),
-  ],
 });

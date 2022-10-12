@@ -8,25 +8,20 @@ const tsconfig = require('../../tsconfig.json');
 const globalConfig = require('./global');
 
 const ROOT = path.resolve(__dirname, '../..');
-const OUTPUT_DIR = path.resolve(ROOT, tsconfig.compilerOptions.outDir);
-const OUTPUT_FILE = 'server.js';
 
 module.exports = () => ({
   ...globalConfig,
   name: 'Server',
   target: 'node',
-  entry: [
-    'babel-polyfill',
-    path.resolve(ROOT, 'src/server/index.ts'),
-  ],
+  entry: path.join(ROOT, 'src/server/index.ts'),
   output: {
-    path: OUTPUT_DIR,
-    filename: OUTPUT_FILE,
+    path: path.join(ROOT, tsconfig.compilerOptions.outDir),
+    filename: 'server.js',
   },
   module: {
     rules: [{
-      test: /\.tsx?$/,
-      use: 'babel-loader',
+      test: /\.ts$/,
+      use: 'ts-loader',
     }],
   },
   externals: [

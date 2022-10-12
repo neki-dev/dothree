@@ -12,10 +12,10 @@ module.exports = {
   target: 'web',
   entry: [
     'babel-polyfill',
-    path.resolve(ROOT, 'src/client/index.tsx'),
+    path.join(ROOT, 'src/client/index.tsx'),
   ],
   output: {
-    path: path.resolve(ROOT, tsconfig.compilerOptions.outDir, 'dist'),
+    path: path.join(ROOT, tsconfig.compilerOptions.outDir, 'dist'),
     filename: 'bundle.js',
   },
   module: {

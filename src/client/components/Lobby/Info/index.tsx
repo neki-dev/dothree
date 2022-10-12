@@ -4,6 +4,7 @@ import React, {
 import { useParams } from 'react-router-dom';
 
 import { SocketContext } from '~context/SocketContext';
+import CONFIG from '~root/config.json';
 import { LobbyOptions } from '~type/Lobby';
 import { PlayerInfo } from '~type/Player';
 
@@ -54,7 +55,7 @@ export function Info({ players, options }: ComponentProps) {
       return undefined;
     }
 
-    const titleIdle = `Dothree #${uuid}`;
+    const titleIdle = `DOTHREE #${uuid}`;
     const titleActive = 'You step!';
     let interval: NodeJS.Timer;
     if (step === current.slot && players.length === options.maxPlayers) {
@@ -109,7 +110,13 @@ export function Info({ players, options }: ComponentProps) {
           <Block.Label />
           <Block.Value>
             <WinMessage>{(winner === current.id) ? 'You win' : 'You lose'}</WinMessage>
-            <RestartMessage>Restart game after 5 seconds...</RestartMessage>
+            <RestartMessage>
+              Restart game after
+              {' '}
+              {CONFIG.LOBBY_RESTART_TIMEOUT}
+              {' '}
+              seconds...
+            </RestartMessage>
           </Block.Value>
         </Block>
       )}

@@ -55,6 +55,10 @@ Logotype.Label = styled.div`
   overflow: hidden;
 `;
 
+Logotype.Description = styled.div`
+  margin-top: 20px;
+`;
+
 export const Footer = styled.div`
   height: 31px;
   margin-top: 30px;

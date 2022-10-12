@@ -4,4 +4,5 @@ node_modules/
 coverage/
 .DS_Store
 app/dist/
-app/*.js*
+app/server.js
+app/server.js.map

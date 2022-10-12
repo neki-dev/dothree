@@ -251,7 +251,7 @@ export class Lobby {
   private finish(): void {
     this.reseting = setTimeout(() => {
       this.reset();
-    }, CONFIG.RESTART_TIMEOUT * 1000);
+    }, CONFIG.LOBBY_RESTART_TIMEOUT * 1000);
     this.step = null;
   }
 

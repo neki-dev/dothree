@@ -9,12 +9,12 @@ import CONFIG from '~root/config.json';
 
 import { boot } from './game';
 
-const PATH_TO_INDEX = path.join(__dirname, '..', 'app', 'index.html');
+const PATH_TO_INDEX = path.join(__dirname, 'index.html');
 
 log.setLevel('debug');
 
 const app = express();
-app.use(express.static(path.join(__dirname, '..', 'app')));
+app.use(express.static(path.join(__dirname)));
 app.get(['/', '/game/:uuid'], (_, res) => {
   res.sendFile(PATH_TO_INDEX);
 });

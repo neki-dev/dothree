@@ -21,7 +21,10 @@ export function Home() {
           <Logotype.Block />
           <Logotype.Block />
         </Logotype.Blocks>
-        <Logotype.Label>dothree</Logotype.Label>
+        <Logotype.Label>DOTHREE</Logotype.Label>
+        <Logotype.Description>
+          Online logic game, which like a mix of tetris and tic-tac-toe
+        </Logotype.Description>
       </Logotype>
       {(section === 'editor') ? (
         <Editor onClose={setSectionLobbies} />

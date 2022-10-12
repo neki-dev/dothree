@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { SocketProvider } from '~context/SocketContext';
 
@@ -8,26 +8,30 @@ import { App } from './components/App';
 import { Home } from './components/Home';
 import { Lobby } from './components/Lobby';
 
-ReactDOM.render(
+const app = document.getElementById('app');
+const root = createRoot(app);
+
+root.render(
   <BrowserRouter>
     <App>
-      <Switch>
+      <Routes>
         <Route
-          exact path="/" component={() => (
+          path="/"
+          element={(
             <SocketProvider namespace="/home">
               <Home />
             </SocketProvider>
           )}
         />
         <Route
-          exact path="/game/:uuid" component={() => (
+          path="/game/:uuid"
+          element={(
             <SocketProvider namespace="/lobby">
               <Lobby />
             </SocketProvider>
           )}
         />
-      </Switch>
+      </Routes>
     </App>
   </BrowserRouter>,
-  document.getElementById('app'),
 );

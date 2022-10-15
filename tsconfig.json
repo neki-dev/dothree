@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
     "outDir": "./app",
-    "noImplicitAny": true,
     "module": "es6",
     "target": "es5",
     "jsx": "react",
-    "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
     "resolveJsonModule": true,
     "paths": {
       "~root/*": ["./*"],

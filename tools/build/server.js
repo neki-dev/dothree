@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 
 const tsconfig = require('../../tsconfig.json');
@@ -19,7 +18,7 @@ module.exports = () => ({
   module: {
     rules: [{
       test: /\.ts$/,
-      use: 'ts-loader',
+      use: 'babel-loader',
     }],
   },
 });

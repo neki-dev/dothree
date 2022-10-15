@@ -26,7 +26,7 @@ app.get('/handshake', (_, res) => {
 const port = Number(process.env.PORT) || CONFIG.PORT;
 const server = createServer(app);
 server.listen(port, () => {
-  log.info(`Game server listening on http://127.0.0.1:${port}`);
+  log.info(`Game server listening on http://localhost:${port}`);
 });
 
 const io = new SocketServer(server);

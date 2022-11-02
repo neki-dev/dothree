@@ -9,18 +9,14 @@ import CONFIG from '~root/config.json';
 
 import { boot } from './game';
 
-const PATH_TO_INDEX = path.join(__dirname, 'index.html');
+const PUBLIC_PATH = path.join(__dirname, 'public');
 
 log.setLevel('debug');
 
 const app = express();
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(PUBLIC_PATH));
 app.get(['/', '/game/:uuid'], (_, res) => {
-  res.sendFile(PATH_TO_INDEX);
-});
-
-app.get('/handshake', (_, res) => {
-  res.send('OK');
+  res.sendFile(path.join(PUBLIC_PATH, 'index.html'));
 });
 
 const port = Number(process.env.PORT) || CONFIG.PORT;

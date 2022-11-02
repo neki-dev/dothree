@@ -1,7 +1,7 @@
 {
   "name": "dothree",
   "description": "Logic online game similar to a mixture of tetris and tic-tac-toe",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "keywords": [
     "game",
     "logic",
@@ -57,7 +57,6 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
     "dayjs": "^1.11.5",
     "express": "^4.18.2",
     "loglevel": "^1.8.0",

@@ -3,5 +3,5 @@
 node_modules/
 coverage/
 .DS_Store
-app/dist/
+app/public/dist/
 app/server.js*

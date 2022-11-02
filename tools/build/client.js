@@ -10,12 +10,9 @@ module.exports = {
   ...globalConfig,
   name: 'Client',
   target: 'web',
-  entry: [
-    'babel-polyfill',
-    path.join(ROOT, 'src/client/index.tsx'),
-  ],
+  entry: path.join(ROOT, 'src/client/index.tsx'),
   output: {
-    path: path.join(ROOT, tsconfig.compilerOptions.outDir, 'dist'),
+    path: path.join(ROOT, tsconfig.compilerOptions.outDir, 'public', 'dist'),
     filename: 'bundle.js',
   },
   module: {

@@ -1,7 +1,7 @@
 import { randomize, probability } from '../utils';
-import { WorldEntity, EntityType, EntityBonusType } from '~type/Entity';
-import { LobbyOptions } from '~type/Lobby';
-import { WorldLocation, WorldMap } from '~type/World';
+import { WorldEntity, EntityType, EntityBonusType } from '~type/entity';
+import { LobbyOptions } from '~type/lobby';
+import { WorldLocation, WorldMap } from '~type/world';
 
 import { Entity } from './Entity';
 

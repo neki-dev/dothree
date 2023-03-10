@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 
 import { WorldContext } from '~context/WorldContext';
-import { WorldEntity } from '~type/Entity';
+import { WorldEntity } from '~type/entity';
 
 import { canBePutTo } from './helpers';
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 import { SocketContext } from '~context/SocketContext';
-import { LobbyOptions } from '~type/Lobby';
-import { PlayerInfo } from '~type/Player';
+import { LobbyEvent, LobbyOptions } from '~type/lobby';
+import { PlayerInfo } from '~type/player';
 
 import { Info } from './Info';
 import { Waiting } from './Waiting';
@@ -20,14 +20,14 @@ export function Lobby() {
   const isReady = (players.length === options.maxPlayers);
 
   useEffect(() => {
-    socket.on('lobbyError', setError);
-    socket.on('updatePlayers', setPlayers);
-    socket.on('sendOptions', setOptions);
+    socket.on(LobbyEvent.Error, setError);
+    socket.on(LobbyEvent.UpdatePlayers, setPlayers);
+    socket.on(LobbyEvent.SendOptions, setOptions);
 
     return () => {
-      socket.off('lobbyError', setError);
-      socket.off('updatePlayers', setPlayers);
-      socket.off('sendOptions', setOptions);
+      socket.off(LobbyEvent.Error, setError);
+      socket.off(LobbyEvent.UpdatePlayers, setPlayers);
+      socket.off(LobbyEvent.SendOptions, setOptions);
     };
   }, []);
 

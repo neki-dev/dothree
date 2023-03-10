@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useState } from 'react';
 import { Button } from '../Button';
 import { DEFAULT_OPTIONS } from '~class/Lobby';
 import { SocketContext } from '~context/SocketContext';
-import { LobbyOptions } from '~type/Lobby';
+import { LobbyEvent, LobbyOptions } from '~type/lobby';
 
 import { InputCheckbox } from './InputCheckbox';
 import { InputRange } from './InputRange';
@@ -29,7 +29,7 @@ export function Editor({ onClose }: ComponentProps) {
   const createLobby = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
 
-    socket.emit('createLobby', options, (uuid: string) => {
+    socket.emit(LobbyEvent.CreateLobby, options, (uuid: string) => {
       window.open(`/game/${uuid}`);
 
       if (onClose) {

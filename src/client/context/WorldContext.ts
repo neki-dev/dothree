@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-import { WorldMap } from '~type/World';
+import { WorldMap } from '~type/world';
 
 export const WorldContext = createContext<WorldMap>([]);

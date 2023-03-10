@@ -1,6 +1,6 @@
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
 
-import { EntityType, WorldEntity } from '~type/Entity';
+import { EntityType, WorldEntity } from '~type/entity';
 
 /** Images */
 

@@ -2,7 +2,7 @@ import console from 'console';
 
 import { Namespace, Server } from 'socket.io';
 
-import { LobbyInfo, LobbyOptions } from '~type/Lobby';
+import { LobbyEvent, LobbyInfo, LobbyOptions } from '~type/lobby';
 
 import { Lobby } from './Lobby';
 
@@ -66,7 +66,7 @@ export class Core {
   updateClientLatestLobbies(): void {
     const lobbies = this.getLastLobbies();
 
-    this.namespace('/home').emit('updateLatestLobbies', lobbies);
+    this.namespace('/home').emit(LobbyEvent.UpdateLatestLobbies, lobbies);
   }
 
   private findLobbyIndex(lobby: Lobby): number | undefined {

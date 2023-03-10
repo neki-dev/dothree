@@ -4,6 +4,7 @@ import React, {
 } from 'react';
 
 import { SocketContext } from '~context/SocketContext';
+import { LobbyEvent } from '~root/src/types/lobby';
 
 import { Timeleft } from './styled';
 
@@ -20,10 +21,10 @@ export function Countdown({ limit, isCurrent }: ComponentProps) {
   const date = useMemo(() => dayjs().hour(0).minute(0), []);
 
   useEffect(() => {
-    socket.on('updateTimeout', setTick);
+    socket.on(LobbyEvent.UpdateTimeout, setTick);
 
     return () => {
-      socket.off('updateTimeout', setTick);
+      socket.off(LobbyEvent.UpdateTimeout, setTick);
     };
   }, []);
 

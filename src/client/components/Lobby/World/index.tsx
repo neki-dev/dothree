@@ -4,9 +4,10 @@ import React, {
 
 import { SocketContext } from '~context/SocketContext';
 import { WorldContext } from '~context/WorldContext';
-import { WorldEntity } from '~type/Entity';
-import { PlayerInfo } from '~type/Player';
-import { WorldMap } from '~type/World';
+import { WorldMap } from '~root/src/types/world';
+import { WorldEntity } from '~type/entity';
+import { LobbyEvent } from '~type/lobby';
+import { PlayerInfo } from '~type/player';
 
 import { Entity } from './Entity';
 
@@ -29,16 +30,16 @@ export function World({ players }: ComponentProps) {
   ), [players]);
 
   const putEntity = useCallback((x: number, y: number) => {
-    socket.emit('putEntity', [x, y]);
+    socket.emit(LobbyEvent.PutEntity, [x, y]);
   }, []);
 
   useEffect(() => {
-    socket.on('updateStep', setStep);
-    socket.on('updateWorldMap', setWorld);
+    socket.on(LobbyEvent.UpdateStep, setStep);
+    socket.on(LobbyEvent.UpdateWorldMap, setWorld);
 
     return () => {
-      socket.off('updateStep', setStep);
-      socket.off('updateWorldMap', setWorld);
+      socket.off(LobbyEvent.UpdateStep, setStep);
+      socket.off(LobbyEvent.UpdateWorldMap, setWorld);
     };
   }, []);
 

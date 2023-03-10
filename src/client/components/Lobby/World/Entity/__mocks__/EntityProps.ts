@@ -1,4 +1,4 @@
-import { EntityType } from '~type/Entity';
+import { EntityType } from '~type/entity';
 
 export const typeBlock = { type: EntityType.BLOCK };
 export const typeEmpty = { type: EntityType.EMPTY };

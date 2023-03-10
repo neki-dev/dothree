@@ -1,8 +1,8 @@
 import { Server, Socket } from 'socket.io';
 
 import CONFIG from '~root/config.json';
-import { LobbyOptions } from '~type/Lobby';
-import { WorldLocation } from '~type/World';
+import { LobbyEvent, LobbyOptions } from '~type/lobby';
+import { WorldLocation } from '~type/world';
 
 import { Core } from './classes/Core';
 import { DEFAULT_OPTIONS } from './classes/Lobby';
@@ -20,7 +20,7 @@ export function boot(io: Server): void {
   core.namespace('/home').on('connection', (socket: Socket) => {
     core.updateClientLatestLobbies();
 
-    socket.on('createLobby', (data: LobbyOptions, callback: (uuid: string) => void) => {
+    socket.on(LobbyEvent.CreateLobby, (data: LobbyOptions, callback: (uuid: string) => void) => {
       const { uuid } = core.createLobby(data);
 
       callback(uuid);
@@ -46,7 +46,7 @@ export function boot(io: Server): void {
     lobby.joinPlayer(player);
     core.updateClientLatestLobbies();
 
-    socket.on('putEntity', (location: WorldLocation) => {
+    socket.on(LobbyEvent.PutEntity, (location: WorldLocation) => {
       lobby.putEntity(player, location);
     });
 

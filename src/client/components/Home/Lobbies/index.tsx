@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 import { SocketContext } from '~context/SocketContext';
-import { LobbyInfo } from '~type/Lobby';
+import { LobbyEvent, LobbyInfo } from '~type/lobby';
 
 import { Title, LobbyList, Lobby } from './styled';
 
@@ -11,10 +11,10 @@ export function Lobbies() {
   const socket = useContext(SocketContext);
 
   useEffect(() => {
-    socket.on('updateLatestLobbies', setLobbies);
+    socket.on(LobbyEvent.UpdateLatestLobbies, setLobbies);
 
     return () => {
-      socket.off('updateLatestLobbies', setLobbies);
+      socket.off(LobbyEvent.UpdateLatestLobbies, setLobbies);
     };
   }, []);
 

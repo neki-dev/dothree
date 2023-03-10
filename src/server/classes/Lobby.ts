@@ -3,9 +3,9 @@ import { Namespace } from 'socket.io';
 
 import { generateUUID } from '../utils';
 import CONFIG from '~root/config.json';
-import { LobbyOptions, LobbyInfo } from '~type/Lobby';
-import { PlayerInfo } from '~type/Player';
-import { WorldLocation, WorldMap } from '~type/World';
+import { LobbyOptions, LobbyInfo, LobbyEvent } from '~type/lobby';
+import { PlayerInfo } from '~type/player';
+import { WorldLocation, WorldMap } from '~type/world';
 
 import { Player } from './Player';
 import { World } from './World';
@@ -49,7 +49,7 @@ export class Lobby {
 
   public set step(step: number | null) {
     this._step = step;
-    this.emit('updateStep', step);
+    this.emit(LobbyEvent.UpdateStep, step);
   }
 
   private _timeout: number = 0;
@@ -60,7 +60,7 @@ export class Lobby {
 
   public set timeout(v: number | null) {
     this._timeout = v;
-    this.emit('updateTimeout', v);
+    this.emit(LobbyEvent.UpdateTimeout, v);
   }
 
   constructor(options: LobbyOptions, parameters: LobbyParameters) {
@@ -107,9 +107,9 @@ export class Lobby {
     }
 
     player.join(this.uuid, slot);
-    player.emit('sendOptions', this.options);
-    player.emit('updateWorldMap', this.getMap());
-    player.emit('updateStep', this.step);
+    player.emit(LobbyEvent.SendOptions, this.options);
+    player.emit(LobbyEvent.UpdateWorldMap, this.getMap());
+    player.emit(LobbyEvent.UpdateStep, this.step);
 
     this.players.push(player);
     this.updateClientPlayers();
@@ -154,12 +154,12 @@ export class Lobby {
 
       if (isWinning) {
         this.finish();
-        this.emit('playerWin', player.id);
+        this.emit(LobbyEvent.PlayerWin, player.id);
       } else {
         this.moveStepToNextPlayer();
       }
 
-      this.emit('updateWorldMap', this.world.map);
+      this.emit(LobbyEvent.UpdateWorldMap, this.world.map);
     }
   }
 
@@ -220,7 +220,7 @@ export class Lobby {
       slot: player.slot,
     }));
 
-    this.emit('updatePlayers', players);
+    this.emit(LobbyEvent.UpdatePlayers, players);
   }
 
   private moveStepToNextPlayer(): void {
@@ -246,7 +246,7 @@ export class Lobby {
   }
 
   private reset(): void {
-    this.emit('clearWinner');
+    this.emit(LobbyEvent.ClearWinner);
 
     if (this.reseting) {
       clearTimeout(this.reseting);
@@ -254,7 +254,7 @@ export class Lobby {
     }
 
     this.world.generateMap();
-    this.emit('updateWorldMap', this.world.map);
+    this.emit(LobbyEvent.UpdateWorldMap, this.world.map);
 
     if (this.isFulled()) {
       this.start();

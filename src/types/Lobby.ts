@@ -15,3 +15,17 @@ export type LobbyOptions = {
   moveMap?: boolean
   useBonuses?: boolean
 };
+
+export enum LobbyEvent {
+  CreateLobby = 'CreateLobby',
+  Error = 'Error',
+  SendOptions = 'SendOptions',
+  PlayerWin = 'PlayerWin',
+  ClearWinner = 'ClearWinner',
+  PutEntity = 'PutEntity',
+  UpdateLatestLobbies = 'UpdateLatestLobbies',
+  UpdateWorldMap = 'UpdateWorldMap',
+  UpdateTimeout = 'UpdateTimeout',
+  UpdateStep = 'UpdateStep',
+  UpdatePlayers = 'UpdatePlayers',
+}

@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom';
 
 import { SocketContext } from '~context/SocketContext';
 import CONFIG from '~root/config.json';
-import { LobbyOptions } from '~type/Lobby';
-import { PlayerInfo } from '~type/Player';
+import { LobbyEvent, LobbyOptions } from '~type/lobby';
+import { PlayerInfo } from '~type/player';
 
 import { Countdown } from './Countdown';
 
@@ -48,14 +48,14 @@ export function Info({ players, options }: ComponentProps) {
   };
 
   useEffect(() => {
-    socket.on('updateStep', setStep);
-    socket.on('playerWin', setWinner);
-    socket.on('clearWinner', clearWinner);
+    socket.on(LobbyEvent.UpdateStep, setStep);
+    socket.on(LobbyEvent.PlayerWin, setWinner);
+    socket.on(LobbyEvent.ClearWinner, clearWinner);
 
     return () => {
-      socket.off('updateStep', setStep);
-      socket.off('playerWin', setWinner);
-      socket.off('clearWinner', clearWinner);
+      socket.off(LobbyEvent.UpdateStep, setStep);
+      socket.off(LobbyEvent.PlayerWin, setWinner);
+      socket.off(LobbyEvent.ClearWinner, clearWinner);
     };
   }, []);
 

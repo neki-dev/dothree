@@ -1,4 +1,4 @@
-import { EntityType, WorldEntity } from '~type/Entity';
+import { EntityType, WorldEntity } from '~type/entity';
 
 export class Entity implements WorldEntity {
   public type: EntityType;

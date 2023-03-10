@@ -28,6 +28,7 @@ export function Home() {
       <Description>
         Online logic game, which like a mix of tetris and tic-tac-toe
       </Description>
+
       {(section === 'editor') ? (
         <Editor onClose={setSectionLobbies} />
       ) : (
@@ -36,11 +37,14 @@ export function Home() {
           <Lobbies />
         </>
       )}
+
       <Footer>
         <GitHubButton
           href="https://github.com/neki-dev/dothree"
           data-color-scheme="no-preference: dark; light: dark; dark: dark;"
-          data-size="large" data-show-count="true" aria-label="Star neki-dev/dothree on GitHub"
+          data-size="large"
+          data-show-count="true"
+          aria-label="Star neki-dev/dothree on GitHub"
           data-icon="octicon-star"
         >
           Star
@@ -48,7 +52,8 @@ export function Home() {
         <GitHubButton
           href="https://github.com/neki-dev"
           data-color-scheme="no-preference: dark; light: dark; dark: dark;"
-          data-size="large" data-show-count="true"
+          data-size="large"
+          data-show-count="true"
           aria-label="Follow @neki-dev on GitHub"
         >
           Follow

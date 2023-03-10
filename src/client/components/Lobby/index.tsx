@@ -45,6 +45,7 @@ export function Lobby() {
               maxPlayers={options.maxPlayers}
             />
           )}
+
           <GameScreen>
             <World players={players} />
             <Info players={players} options={options} />

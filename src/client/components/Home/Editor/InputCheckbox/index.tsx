@@ -20,7 +20,8 @@ export function InputCheckbox({
   return (
     <Container title={tooltip}>
       <Checkbox
-        defaultChecked={value} name={name}
+        defaultChecked={value}
+        name={name}
         onChange={onChange ? handleChange : undefined}
         data-testid={name}
       />

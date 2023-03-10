@@ -50,8 +50,11 @@ export function World({ players }: ComponentProps) {
           <Line key={y}>
             {line.map((entity: WorldEntity, x: number) => (
               <Entity
-                key={`${x}-${y}`} data={entity}
-                x={x} y={y} isCurrentStep={current && current.slot === step}
+                key={`${x}-${y}`}
+                data={entity}
+                x={x}
+                y={y}
+                isCurrentStep={current && current.slot === step}
                 onPut={() => putEntity(x, y)}
               />
             ))}

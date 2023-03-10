@@ -31,6 +31,7 @@ export function Waiting({
               />
             ))}
           </Loading>
+
           <Status>
             <Status.String>Joined</Status.String>
             <Status.Number data-testid="waitingCurrentPlayers">{currentPlayers}</Status.Number>

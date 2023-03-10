@@ -102,6 +102,7 @@ export function Info({ players, options }: ComponentProps) {
           ))}
         </Block.Value>
       </Block>
+
       {(step !== null) && (
         <Block>
           <Block.Label>Step</Block.Label>
@@ -115,6 +116,7 @@ export function Info({ players, options }: ComponentProps) {
           </Block.Value>
         </Block>
       )}
+
       {winner && (
         <Block>
           <Block.Label />

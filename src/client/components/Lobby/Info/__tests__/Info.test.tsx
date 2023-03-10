@@ -16,6 +16,7 @@ describe('Lobby / Info', () => {
 
   it('should display players list', () => {
     const [player] = props.players;
+
     expect(screen.queryByTestId(`previewPlayer${player.slot}`)).toBeInTheDocument();
     expect(screen.queryByText('You')).toBeInTheDocument();
   });
@@ -26,6 +27,7 @@ describe('Lobby / Info', () => {
 
   it('should display current step, if lobby is started', () => {
     const [player] = props.players;
+
     socket.emitSelf('updateStep', player.slot);
     waitFor(() => {
       expect(screen.queryByText('Step')).toBeInTheDocument();
@@ -34,6 +36,7 @@ describe('Lobby / Info', () => {
 
   it('should display winner and loser', () => {
     const [player] = props.players;
+
     socket.emitSelf('playerWin', player.id);
     waitFor(() => {
       expect(screen.queryByText('You lose')).toBeInTheDocument();

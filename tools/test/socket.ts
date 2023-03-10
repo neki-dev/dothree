@@ -41,6 +41,7 @@ function removeCallback(
   const i = listeners[from].findIndex((l) => (
     l.event === event && l.callback === callback
   ));
+
   if (i !== -1) {
     listeners[from].splice(i, 1);
   }
@@ -67,6 +68,7 @@ export const socket = {
 
   hookEmit(event: string) {
     const fn = jest.fn();
+
     addCallback('server', event, fn);
 
     return fn;

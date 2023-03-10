@@ -4,12 +4,12 @@ const path = require('path');
 const alias = require('alias-reuse');
 const TerserPlugin = require('terser-webpack-plugin');
 
+const pathToRoot = path.resolve(__dirname, '../..');
+
 module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
-    alias: alias(path.resolve(__dirname, '../..'))
-      .fromTsconfig()
-      .toWebpack(),
+    alias: alias.fromFile(pathToRoot, './tsconfig.json').toWebpack(),
   },
   stats: {
     all: false,

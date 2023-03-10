@@ -26,6 +26,7 @@ export class World {
       for (let x = 0; x < MAP_SIZE[0]; x += 1) {
         const location: WorldLocation = [x, y];
         const entity = this.createRandomEntity(location);
+
         this.setEntity(location, entity);
       }
     }
@@ -38,6 +39,7 @@ export class World {
 
     const locations: WorldLocation[] = [to];
     const targetEntity = this.getEntity(to);
+
     if (targetEntity.type === EntityType.BONUS) {
       this.useBonus(locations, slot, targetEntity.subtype);
     } else if (targetEntity.type !== EntityType.EMPTY) {
@@ -46,6 +48,7 @@ export class World {
 
     locations.forEach((location) => {
       const playerEntity = new Entity(EntityType.PLAYER, `slot${slot}`);
+
       this.setEntity(location, playerEntity);
     });
 
@@ -55,12 +58,15 @@ export class World {
   checkWinning(locations: WorldLocation[]): boolean {
     return locations.some((location) => {
       const results = this.getWinningLocations(location);
+
       if (results) {
         results.forEach((result) => {
           const entity = this.getEntity(result);
+
           entity.subtype += '-win';
         });
       }
+
       return Boolean(results);
     });
   }
@@ -69,9 +75,11 @@ export class World {
     switch (type) {
       case EntityBonusType.REPLACER: {
         const puttedEntities: WorldLocation[] = [];
+
         this.eachMap((entity: WorldEntity, x: number, y: number) => {
           if (entity.type === EntityType.PLAYER) {
             const entitySlot = Number(entity.subtype.replace(/^slot(\d)+.*$/, '$1'));
+
             if (entitySlot !== slot) {
               puttedEntities.push([x, y]);
             }
@@ -85,6 +93,7 @@ export class World {
 
       case EntityBonusType.SPAWN: {
         const emptyEntities: WorldLocation[] = [];
+
         this.eachMap((entity: WorldEntity, x: number, y: number) => {
           if (entity.type === EntityType.EMPTY && this.canBePlaced([x, y])) {
             emptyEntities.push([x, y]);
@@ -98,11 +107,14 @@ export class World {
 
       case EntityBonusType.LASER: {
         const mainLocationX: number = locations[0][0];
+
         Object.keys(this.map).forEach((y) => {
           const emptyEntity = new Entity(EntityType.EMPTY);
+
           this.setEntity([mainLocationX, Number(y)], emptyEntity);
         });
         const mainLocation: WorldLocation = [mainLocationX, this.map.length - 1];
+
         locations.splice(0, locations.length, mainLocation);
         break;
       }
@@ -118,17 +130,20 @@ export class World {
       line.shift();
       const location: WorldLocation = [line.length, Number(y)];
       const entity = this.createRandomEntity(location);
+
       this.setEntity(location, entity);
     });
   }
 
   private canBePlaced(location: WorldLocation): boolean {
     const [x, y] = location;
+
     if (y + 1 === this.map.length) {
       return true;
     }
 
     const entity = this.getEntity([x, y + 1]);
+
     if (entity) {
       return [EntityType.PLAYER, EntityType.BLOCK].includes(entity.type);
     }
@@ -142,6 +157,7 @@ export class World {
     }
 
     const [x, y] = location;
+
     this.map[y][x] = entity;
   }
 
@@ -151,6 +167,7 @@ export class World {
     }
 
     const [x, y] = location;
+
     return this.map[y][x];
   }
 
@@ -164,14 +181,18 @@ export class World {
 
   private getWinningLocations(from: WorldLocation): WorldLocation[] | undefined {
     let result;
+
     WORLD_DIRECTIONS.some((direction) => {
       for (let side = 0; side > -CHAIN_TARGET_LENGTH; side -= 1) {
         const locations = World.getLocationsByDirection(from, direction, side);
+
         if (this.isLocationsMatch(from, locations)) {
           result = locations;
+
           return true;
         }
       }
+
       return false;
     });
 
@@ -184,8 +205,10 @@ export class World {
     side: number,
   ): WorldLocation[] {
     const locations: WorldLocation[] = [];
+
     for (let step = side; step <= (side + CHAIN_TARGET_LENGTH - 1); step += 1) {
       const point = <WorldLocation>from.map((f, i) => (f - direction[i] * step));
+
       if (point.every((c, i) => (c >= 0 && c < MAP_SIZE[i]))) {
         locations.push(point);
       }

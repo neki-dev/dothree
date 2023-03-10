@@ -77,6 +77,7 @@ export class Lobby {
 
   emit(key: string, data?: any): void {
     const { namespace } = this.parameters;
+
     namespace().to(this.uuid).emit(key, data);
   }
 
@@ -90,14 +91,18 @@ export class Lobby {
 
   joinPlayer(player: Player): void {
     const isExists = this.players.some((p) => (p.id === player.id));
+
     if (isExists) {
       player.sendError('You are already in this lobby');
+
       return;
     }
 
     const slot = this.getFreeSlot();
+
     if (slot === null) {
       player.sendError('This lobby is already started');
+
       return;
     }
 
@@ -118,8 +123,10 @@ export class Lobby {
 
   leavePlayer(player: Player): void {
     const index = this.findPlayerIndex(player);
+
     if (index === -1) {
       log.warn(`Player #${player.id} not found in lobby #${this.uuid}`);
+
       return;
     }
 
@@ -141,8 +148,10 @@ export class Lobby {
     }
 
     const result = this.world.place(player.slot, location);
+
     if (result) {
       const isWinning = this.world.checkWinning(result);
+
       if (isWinning) {
         this.finish();
         this.emit('playerWin', player.id);
@@ -179,6 +188,7 @@ export class Lobby {
 
   private destroy(): void {
     const { onDestroy } = this.parameters;
+
     if (onDestroy) {
       onDestroy();
     }
@@ -209,6 +219,7 @@ export class Lobby {
       id: player.id,
       slot: player.slot,
     }));
+
     this.emit('updatePlayers', players);
   }
 

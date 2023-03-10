@@ -18,6 +18,7 @@ describe('Home / Lobbies', () => {
 
   it('should display title, only if lobbies count more zero', () => {
     const title = 'Or select existing';
+
     waitFor(() => {
       expect(screen.queryByText(title)).not.toBeInTheDocument();
       socket.emitSelf('updateLatestLobbies', [lobby]);
@@ -38,6 +39,7 @@ describe('Home / Lobbies', () => {
     socket.emitSelf('updateLatestLobbies', [lobby]);
     waitFor(() => {
       const link = screen.queryByTestId('open-lobby');
+
       fireEvent.click(link);
       expect(link.getAttribute('href')).toBe(`/game/${lobby.uuid}`);
     });

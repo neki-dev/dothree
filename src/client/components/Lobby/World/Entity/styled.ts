@@ -61,6 +61,7 @@ const Block: any = styled.div<{
       }
       case EntityType.PLAYER: {
         const slot = Number(p.entity.subtype.replace(/^slot(\d)+.*$/, '$1'));
+
         return css`background: ${COLOR_PLAYER[slot]};`;
       }
       case EntityType.BONUS: {
@@ -69,6 +70,7 @@ const Block: any = styled.div<{
           laser: IconBonusLaser,
           replacer: IconBonusReplacer,
         }[p.entity.subtype]) || 'none';
+
         return css`
           background-image: url(${icon});
           background-size: 90%;

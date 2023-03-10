@@ -13,5 +13,6 @@ export function canBePutTo(world: WorldMap, x: number, y: number): boolean {
   }
 
   const entityDown = world[y + 1][x];
+
   return [EntityType.PLAYER, EntityType.BLOCK].includes(entityDown.type);
 }

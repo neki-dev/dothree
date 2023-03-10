@@ -7,9 +7,7 @@ module.exports = {
     '<rootDir>/tools/test/preset.ts',
   ],
   moduleNameMapper: {
-    ...alias(__dirname)
-      .fromTsconfig()
-      .toJest(),
+    ...alias.fromFile(__dirname, './tsconfig.json').toJest(),
     '^.+\\.svg$': '<rootDir>/tools/test/void',
   },
   transform: {

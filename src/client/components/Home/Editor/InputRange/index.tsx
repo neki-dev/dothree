@@ -22,6 +22,7 @@ export function InputRange({
 
   const changeValue = (shift: 1 | -1) => {
     const newValue = value + (shift * step);
+
     if (newValue >= min && newValue <= max) {
       setValue(newValue);
 

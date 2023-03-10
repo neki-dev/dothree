@@ -17,6 +17,7 @@ describe('Home / Button', () => {
 
   it('should handle click event', () => {
     const button = screen.queryByTestId(props.name);
+
     fireEvent.click(button);
     expect(props.onClick).toBeCalled();
   });

@@ -17,12 +17,13 @@ describe('Lobby / World / Entity', () => {
     );
   }
 
-  it('should not handle click, if not you step', () => {
+  it('should not handle click, if not your step', () => {
     renderWithWorld({
       isCurrentStep: false,
     });
 
     const entity = screen.getByTestId('entity');
+
     fireEvent.click(entity);
     expect(props.onPut).not.toBeCalled();
   });
@@ -33,17 +34,19 @@ describe('Lobby / World / Entity', () => {
     });
 
     const entity = screen.getByTestId('entity');
+
     fireEvent.click(entity);
     expect(props.onPut).not.toBeCalled();
   });
 
-  it('should handle click, if you step and correct position', () => {
+  it('should handle click, if your step and correct position', () => {
     renderWithWorld({
       isCurrentStep: true,
       y: 1,
     });
 
     const entity = screen.getByTestId('entity');
+
     fireEvent.click(entity);
     expect(props.onPut).toBeCalled();
   });

@@ -21,6 +21,7 @@ export function render(component: JSX.Element, options: RenderOptions = {}) {
 
     if (options.socket) {
       const fakeSocket = socket as unknown as Socket;
+
       content = (
         <SocketContext.Provider value={fakeSocket}>
           {content}

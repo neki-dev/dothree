@@ -18,8 +18,10 @@ describe('Home / Editor / InputRange', () => {
 
   it('should handle change event', () => {
     const rangeDec = screen.queryByTestId(`${props.name}/dec`);
+
     fireEvent.click(rangeDec);
     const rangeInc = screen.queryByTestId(`${props.name}/inc`);
+
     fireEvent.click(rangeInc);
     expect(props.onChange).toBeCalledTimes(2);
   });

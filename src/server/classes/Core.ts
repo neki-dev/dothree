@@ -35,6 +35,7 @@ export class Core {
         this.removeLobby(lobby);
       },
     });
+
     this.addLobby(lobby);
 
     return lobby;
@@ -51,8 +52,10 @@ export class Core {
 
   removeLobby(lobby: Lobby): void {
     const index = this.findLobbyIndex(lobby);
+
     if (index === -1) {
       console.warn(`Lobby #${lobby.uuid} is not found`);
+
       return;
     }
 
@@ -62,6 +65,7 @@ export class Core {
 
   updateClientLatestLobbies(): void {
     const lobbies = this.getLastLobbies();
+
     this.namespace('/home').emit('updateLatestLobbies', lobbies);
   }
 

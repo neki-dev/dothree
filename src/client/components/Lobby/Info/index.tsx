@@ -29,10 +29,13 @@ export function Info({ players, options }: ComponentProps) {
 
   const slots = useMemo<Array<PlayerInfo | null>>(() => {
     const result: Array<PlayerInfo | null> = [];
+
     for (let i = 0; i < options.maxPlayers; i += 1) {
       const currentPlayer: PlayerInfo = players.find((player) => (player.slot === i));
+
       result.push(currentPlayer || null);
     }
+
     return result;
   }, [players, options.maxPlayers]);
 
@@ -62,8 +65,9 @@ export function Info({ players, options }: ComponentProps) {
     }
 
     const titleIdle = `DOTHREE #${uuid}`;
-    const titleActive = 'You step!';
+    const titleActive = 'Your step!';
     let interval: NodeJS.Timer;
+
     if (step === current.slot && players.length === options.maxPlayers) {
       document.title = titleActive;
       interval = setInterval(() => {

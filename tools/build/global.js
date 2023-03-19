@@ -6,7 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 const pathToRoot = path.resolve(__dirname, '../..');
 
-module.exports = {
+module.exports = (_, { mode }) => ({
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
     alias: alias.fromFile(pathToRoot, './tsconfig.json').toWebpack(),
@@ -20,8 +20,9 @@ module.exports = {
     colors: true,
     entrypoints: true,
   },
-  devtool: 'source-map',
+  devtool: mode === 'production' ? 'inline-source-map' : undefined,
   optimization: {
+    minimize: true,
     minimizer: [
       new TerserPlugin({
         terserOptions: {
@@ -30,4 +31,4 @@ module.exports = {
       }),
     ],
   },
-};
+});

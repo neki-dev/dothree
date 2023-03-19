@@ -11,10 +11,14 @@ type ComponentProps = {
 };
 
 export function InputCheckbox({
-  label, value, name, tooltip, onChange,
+  label,
+  value,
+  name,
+  tooltip,
+  onChange,
 }: ComponentProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.name, e.target.checked);
+    onChange?.(e.target.name, e.target.checked);
   };
 
   return (
@@ -22,16 +26,10 @@ export function InputCheckbox({
       <Checkbox
         defaultChecked={value}
         name={name}
-        onChange={onChange ? handleChange : undefined}
+        onChange={handleChange}
         data-testid={name}
       />
       <Label>{label}</Label>
     </Container>
   );
 }
-
-InputCheckbox.defaultProps = {
-  tooltip: undefined,
-  value: false,
-  onChange: undefined,
-};

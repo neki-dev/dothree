@@ -19,6 +19,7 @@ describe('Lobby / Info / Countdown', () => {
 
   it('should display, if seconds more zero', () => {
     socket.emitSelf('updateTimeout', 60);
+
     waitFor(() => {
       expect(screen.queryByText('60:00')).toBeInTheDocument();
     });

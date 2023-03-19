@@ -1,4 +1,4 @@
-import { DEFAULT_OPTIONS } from '~class/Lobby';
+import { DEFAULT_OPTIONS } from '~const/lobby';
 import { PlayerInfo } from '~type/player';
 
 import { socket } from '~test';

@@ -21,7 +21,9 @@ describe('Home / Lobbies', () => {
 
     waitFor(() => {
       expect(screen.queryByText(title)).not.toBeInTheDocument();
+
       socket.emitSelf('updateLatestLobbies', [lobby]);
+
       waitFor(() => {
         expect(screen.queryByText(title)).toBeInTheDocument();
       });
@@ -30,6 +32,7 @@ describe('Home / Lobbies', () => {
 
   it('should display lobbies list', () => {
     socket.emitSelf('updateLatestLobbies', [lobby]);
+
     waitFor(() => {
       expect(screen.queryByText(lobby.uuid)).toBeInTheDocument();
     });
@@ -40,8 +43,11 @@ describe('Home / Lobbies', () => {
     waitFor(() => {
       const link = screen.queryByTestId('open-lobby');
 
-      fireEvent.click(link);
-      expect(link.getAttribute('href')).toBe(`/game/${lobby.uuid}`);
+      if (link) {
+        fireEvent.click(link);
+      }
+
+      expect(link?.getAttribute('href')).toBe(`/game/${lobby.uuid}`);
     });
   });
 });

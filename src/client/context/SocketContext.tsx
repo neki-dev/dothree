@@ -4,6 +4,7 @@ import { Socket } from 'socket.io-client';
 
 import { useSocket } from '~hook/useSocket';
 
+// @ts-ignore
 export const SocketContext = createContext<Socket>(null);
 
 type PageRouteProps = {

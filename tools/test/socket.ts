@@ -13,16 +13,14 @@ const listeners: Listeners = {
   server: [],
 };
 
-function emitateEvent(
-  from: keyof Listeners,
-  event: string,
-  data: any,
-) {
-  listeners[from].filter((listener) => listener.event === event).forEach((listener) => {
-    if (listener.callback) {
-      listener.callback(data);
-    }
-  });
+function emitateEvent(from: keyof Listeners, event: string, data: any) {
+  listeners[from]
+    .filter((listener) => listener.event === event)
+    .forEach((listener) => {
+      if (listener.callback) {
+        listener.callback(data);
+      }
+    });
 }
 
 function addCallback(
@@ -38,9 +36,9 @@ function removeCallback(
   event: string,
   callback: (data: any) => void,
 ) {
-  const i = listeners[from].findIndex((l) => (
-    l.event === event && l.callback === callback
-  ));
+  const i = listeners[from].findIndex(
+    (l) => l.event === event && l.callback === callback,
+  );
 
   if (i !== -1) {
     listeners[from].splice(i, 1);

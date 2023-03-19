@@ -8,7 +8,10 @@ import { Entity } from './Entity';
 const MAP_SIZE = [25, 11];
 const CHAIN_TARGET_LENGTH = 3;
 const WORLD_DIRECTIONS: WorldLocation[] = [
-  [-1, 0], [-1, -1], [0, -1], [1, -1],
+  [-1, 0],
+  [-1, -1],
+  [0, -1],
+  [1, -1],
 ];
 
 export class World {
@@ -40,6 +43,10 @@ export class World {
     const locations: WorldLocation[] = [to];
     const targetEntity = this.getEntity(to);
 
+    if (!targetEntity) {
+      return undefined;
+    }
+
     if (targetEntity.type === EntityType.BONUS) {
       this.useBonus(locations, slot, targetEntity.subtype);
     } else if (targetEntity.type !== EntityType.EMPTY) {
@@ -63,7 +70,9 @@ export class World {
         results.forEach((result) => {
           const entity = this.getEntity(result);
 
-          entity.subtype += '-win';
+          if (entity) {
+            entity.subtype += '-win';
+          }
         });
       }
 
@@ -78,7 +87,9 @@ export class World {
 
         this.eachMap((entity: WorldEntity, x: number, y: number) => {
           if (entity.type === EntityType.PLAYER) {
-            const entitySlot = Number(entity.subtype.replace(/^slot(\d)+.*$/, '$1'));
+            const entitySlot = Number(
+              entity.subtype.replace(/^slot(\d)+.*$/, '$1'),
+            );
 
             if (entitySlot !== slot) {
               puttedEntities.push([x, y]);
@@ -113,7 +124,10 @@ export class World {
 
           this.setEntity([mainLocationX, Number(y)], emptyEntity);
         });
-        const mainLocation: WorldLocation = [mainLocationX, this.map.length - 1];
+        const mainLocation: WorldLocation = [
+          mainLocationX,
+          this.map.length - 1,
+        ];
 
         locations.splice(0, locations.length, mainLocation);
         break;
@@ -171,7 +185,9 @@ export class World {
     return this.map[y][x];
   }
 
-  private eachMap(callback: (entity: Entity, x: number, y: number) => void): void {
+  private eachMap(
+    callback: (entity: Entity, x: number, y: number) => void,
+  ): void {
     Object.entries(this.map).forEach(([y, line]) => {
       Object.entries(line).forEach(([x, entity]) => {
         callback(entity, Number(x), Number(y));
@@ -179,7 +195,9 @@ export class World {
     });
   }
 
-  private getWinningLocations(from: WorldLocation): WorldLocation[] | undefined {
+  private getWinningLocations(
+    from: WorldLocation,
+  ): WorldLocation[] | undefined {
     let result;
 
     WORLD_DIRECTIONS.some((direction) => {
@@ -206,10 +224,10 @@ export class World {
   ): WorldLocation[] {
     const locations: WorldLocation[] = [];
 
-    for (let step = side; step <= (side + CHAIN_TARGET_LENGTH - 1); step += 1) {
-      const point = <WorldLocation>from.map((f, i) => (f - direction[i] * step));
+    for (let step = side; step <= side + CHAIN_TARGET_LENGTH - 1; step += 1) {
+      const point = <WorldLocation>from.map((f, i) => f - direction[i] * step);
 
-      if (point.every((c, i) => (c >= 0 && c < MAP_SIZE[i]))) {
+      if (point.every((c, i) => c >= 0 && c < MAP_SIZE[i])) {
         locations.push(point);
       }
     }
@@ -217,15 +235,33 @@ export class World {
     return locations;
   }
 
-  private isLocationsMatch(from: WorldLocation, locations: WorldLocation[]): boolean {
+  private isLocationsMatch(
+    from: WorldLocation,
+    locations: WorldLocation[],
+  ): boolean {
     return (
       locations.length === CHAIN_TARGET_LENGTH
       && locations.every((location) => this.isEntitiesEquals(from, location))
     );
   }
 
-  private isEntitiesEquals(locationA: WorldLocation, locationB: WorldLocation): boolean {
-    return (this.getEntity(locationA).toString() === this.getEntity(locationB).toString());
+  private isEntitiesEquals(
+    locationA: WorldLocation,
+    locationB: WorldLocation,
+  ): boolean {
+    const entityA = this.getEntity(locationA);
+
+    if (!entityA) {
+      return false;
+    }
+
+    const entityB = this.getEntity(locationB);
+
+    if (!entityB) {
+      return false;
+    }
+
+    return entityA.toString() === entityB.toString();
   }
 
   private createRandomEntity(location: WorldLocation): Entity {
@@ -239,17 +275,20 @@ export class World {
       && location[1] + 1 !== MAP_SIZE[1]
       && probability(bonusing)
     ) {
-      return new Entity(EntityType.BONUS, randomize([
-        EntityBonusType.REPLACER,
-        EntityBonusType.SPAWN,
-        EntityBonusType.LASER,
-      ]));
+      return new Entity(
+        EntityType.BONUS,
+        randomize([
+          EntityBonusType.REPLACER,
+          EntityBonusType.SPAWN,
+          EntityBonusType.LASER,
+        ]),
+      );
     }
 
     return new Entity(EntityType.EMPTY);
   }
 
   static locationIsValid(location: WorldLocation): boolean {
-    return location.every((p, i) => (p >= 0 && p < MAP_SIZE[i]));
+    return location.every((p, i) => p >= 0 && p < MAP_SIZE[i]);
   }
 }

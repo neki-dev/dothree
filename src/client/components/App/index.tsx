@@ -3,16 +3,14 @@ import { Normalize } from 'styled-normalize';
 
 import { GlobalStyle } from './styled';
 
-type ComponentProps = {
-  children: React.ReactChild | React.ReactChildren
+type Props = {
+  children: React.ReactElement
 };
 
-export function App({ children }: ComponentProps) {
-  return (
-    <>
-      <Normalize />
-      <GlobalStyle />
-      {children}
-    </>
-  );
-}
+export const App: React.FC<Props> = ({ children }) => (
+  <>
+    <Normalize />
+    <GlobalStyle />
+    {children}
+  </>
+);

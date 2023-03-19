@@ -9,8 +9,8 @@ import {
   Container, Logotype, Description, Footer,
 } from './styled';
 
-export function Home() {
-  const [section, setSection] = useState<string>('lobbies');
+export const Home: React.FC = () => {
+  const [section, setSection] = useState('lobbies');
 
   const setSectionLobbies = useCallback(() => setSection('lobbies'), []);
   const setSectionEditor = useCallback(() => setSection('editor'), []);
@@ -29,11 +29,13 @@ export function Home() {
         Online logic game, which like a mix of tetris and tic-tac-toe
       </Description>
 
-      {(section === 'editor') ? (
+      {section === 'editor' ? (
         <Editor onClose={setSectionLobbies} />
       ) : (
         <>
-          <Button onClick={setSectionEditor} name="createLobby">Create lobby</Button>
+          <Button onClick={setSectionEditor} name="createLobby">
+            Create lobby
+          </Button>
           <Lobbies />
         </>
       )}
@@ -61,4 +63,4 @@ export function Home() {
       </Footer>
     </Container>
   );
-}
+};

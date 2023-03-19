@@ -1,5 +1,5 @@
 export function probability(v: number): boolean {
-  return (Math.floor(1 + Math.random() * 100) <= v);
+  return Math.floor(1 + Math.random() * 100) <= v;
 }
 
 export function randomize<T>(v: T[]): T {

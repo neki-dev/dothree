@@ -25,7 +25,10 @@ describe('Home / Editor', () => {
   it('should not display bonuses rate, if they is not using', () => {
     const checkbox = screen.queryByTestId('useBonuses');
 
-    fireEvent.change(checkbox, { target: { value: false } });
+    if (checkbox) {
+      fireEvent.change(checkbox, { target: { value: false } });
+    }
+
     waitFor(() => {
       expect(screen.queryByTestId('bonusing')).not.toBeInTheDocument();
     });
@@ -35,7 +38,10 @@ describe('Home / Editor', () => {
     const onCreate = socket.hookEmit('createLobby');
     const button = screen.queryByTestId('createLobby');
 
-    fireEvent.click(button);
+    if (button) {
+      fireEvent.click(button);
+    }
+
     waitFor(() => {
       expect(onCreate).toBeCalled();
     });

@@ -10,14 +10,14 @@ import { World } from './World';
 
 import { Container, GameScreen, Error } from './styled';
 
-export function Lobby() {
-  const [error, setError] = useState<string>(null);
-  const [options, setOptions] = useState<LobbyOptions>({});
+export const Lobby: React.FC = () => {
+  const [error, setError] = useState<string>();
+  const [options, setOptions] = useState<LobbyOptions>();
   const [players, setPlayers] = useState<PlayerInfo[]>([]);
 
   const socket = useContext(SocketContext);
 
-  const isReady = (players.length === options.maxPlayers);
+  const isReady = players.length === options?.maxPlayers;
 
   useEffect(() => {
     socket.on(LobbyEvent.Error, setError);
@@ -42,7 +42,7 @@ export function Lobby() {
           {!isReady && (
             <Waiting
               currentPlayers={players.length}
-              maxPlayers={options.maxPlayers}
+              maxPlayers={options?.maxPlayers}
             />
           )}
 
@@ -54,4 +54,4 @@ export function Lobby() {
       )}
     </Container>
   );
-}
+};

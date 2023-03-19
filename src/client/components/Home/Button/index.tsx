@@ -2,18 +2,14 @@ import React, { MouseEventHandler } from 'react';
 
 import { Container } from './styled';
 
-type ComponentProps = {
+type Props = {
   name: string
   onClick?: MouseEventHandler
   children: string
 };
 
-export function Button({ onClick, name, children }: ComponentProps) {
-  return (
-    <Container onClick={onClick} data-testid={name}>{children}</Container>
-  );
-}
-
-Button.defaultProps = {
-  onClick: undefined,
-};
+export const Button: React.FC<Props> = ({ onClick, name, children }) => (
+  <Container onClick={onClick} data-testid={name}>
+    {children}
+  </Container>
+);

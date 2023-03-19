@@ -19,7 +19,10 @@ describe('Home / Editor / InputCheckbox', () => {
   it('should handle change event', () => {
     const checkbox = screen.queryByTestId(props.name);
 
-    fireEvent.click(checkbox);
+    if (checkbox) {
+      fireEvent.click(checkbox);
+    }
+
     expect(props.onChange).toBeCalled();
   });
 });

@@ -13,6 +13,6 @@ export enum EntityBonusType {
 
 export interface WorldEntity {
   type: EntityType
-  subtype?: string
+  subtype: string
   toString(): string
 }

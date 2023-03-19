@@ -6,8 +6,8 @@ const globalConfig = require('./global');
 
 const ROOT = path.resolve(__dirname, '../..');
 
-module.exports = () => ({
-  ...globalConfig,
+module.exports = (...args) => ({
+  ...globalConfig(...args),
   name: 'Server',
   target: 'node',
   entry: path.join(ROOT, 'src/server/index.ts'),
@@ -18,7 +18,8 @@ module.exports = () => ({
   module: {
     rules: [{
       test: /\.ts$/,
-      use: 'babel-loader',
+      exclude: /node_modules/,
+      use: ['babel-loader', 'ts-loader'],
     }],
   },
 });

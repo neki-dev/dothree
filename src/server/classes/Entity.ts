@@ -3,9 +3,9 @@ import { EntityType, WorldEntity } from '~type/entity';
 export class Entity implements WorldEntity {
   public type: EntityType;
 
-  public subtype?: string;
+  public subtype: string;
 
-  constructor(type: EntityType, substype: string = undefined) {
+  constructor(type: EntityType, substype: string = '') {
     this.type = type;
     this.subtype = substype;
   }

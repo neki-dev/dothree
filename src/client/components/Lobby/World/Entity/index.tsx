@@ -7,22 +7,27 @@ import { canBePutTo } from './helpers';
 
 import { Block, Pointer } from './styled';
 
-type ComponentProps = {
+type Props = {
   data: WorldEntity
   x: number
   y: number
-  isCurrentStep?: boolean
+  isCurrentStep: boolean
   onPut: () => void
 };
 
-export function Entity({
-  data, x, y, isCurrentStep, onPut,
-}: ComponentProps) {
+export const Entity: React.FC<Props> = ({
+  data,
+  x,
+  y,
+  isCurrentStep,
+  onPut,
+}) => {
   const world = useContext(WorldContext);
 
-  const canBePut = useMemo<boolean>(() => (
-    (isCurrentStep && canBePutTo(world, x, y))
-  ), [world, isCurrentStep]);
+  const canBePut = useMemo(
+    () => isCurrentStep && canBePutTo(world, x, y),
+    [world, isCurrentStep],
+  );
 
   return (
     <Block
@@ -31,13 +36,7 @@ export function Entity({
       onClick={canBePut ? onPut : undefined}
       data-testid="entity"
     >
-      {canBePut && (
-        <Pointer />
-      )}
+      {canBePut && <Pointer />}
     </Block>
   );
-}
-
-Entity.defaultProps = {
-  isCurrentStep: false,
 };

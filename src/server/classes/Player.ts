@@ -8,12 +8,11 @@ export class Player {
 
   public readonly id: string;
 
-  public slot?: number;
+  public slot: Nullable<number> = null;
 
   constructor(socket: Socket) {
     this.socket = socket;
     this.id = CONFIG.IP_ONCE ? socket.handshake.address : socket.id;
-    this.slot = null;
   }
 
   emit(key: string, data?: any): void {

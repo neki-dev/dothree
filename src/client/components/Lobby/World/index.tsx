@@ -1,5 +1,10 @@
 import React, {
-  useState, useEffect, useCallback, useMemo, useRef, useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  useContext,
 } from 'react';
 
 import { SocketContext } from '~context/SocketContext';
@@ -13,21 +18,22 @@ import { Entity } from './Entity';
 
 import { Field, Line } from './styled';
 
-type ComponentProps = {
+type Props = {
   players: PlayerInfo[]
 };
 
-export function World({ players }: ComponentProps) {
-  const [world, setWorld] = useState<WorldMap>(null);
-  const [step, setStep] = useState<number>(null);
+export const World: React.FC<Props> = ({ players }) => {
+  const [world, setWorld] = useState<WorldMap>();
+  const [step, setStep] = useState<number>();
 
   const socket = useContext(SocketContext);
 
   const refWorld = useRef<HTMLDivElement>(null);
 
-  const current = useMemo<PlayerInfo>(() => (
-    players.find((player) => (player.id === socket.id))
-  ), [players]);
+  const current = useMemo(
+    () => players.find((player) => player.id === socket.id),
+    [players],
+  );
 
   const putEntity = useCallback((x: number, y: number) => {
     socket.emit(LobbyEvent.PutEntity, [x, y]);
@@ -54,7 +60,7 @@ export function World({ players }: ComponentProps) {
                 data={entity}
                 x={x}
                 y={y}
-                isCurrentStep={current && current.slot === step}
+                isCurrentStep={step === current?.slot}
                 onPut={() => putEntity(x, y)}
               />
             ))}
@@ -63,4 +69,4 @@ export function World({ players }: ComponentProps) {
       </WorldContext.Provider>
     </Field>
   ) : null;
-}
+};

@@ -14,12 +14,12 @@ describe('Lobby / Waiting', () => {
   });
 
   it('should display joined players count', () => {
-    expect(screen.queryByTestId('waitingCurrentPlayers').textContent)
+    expect(screen.queryByTestId('waitingCurrentPlayers')?.textContent)
       .toContain(String(props.currentPlayers));
   });
 
   it('should display max players count', () => {
-    expect(screen.queryByTestId('waitingMaxPlayers').textContent)
+    expect(screen.queryByTestId('waitingMaxPlayers')?.textContent)
       .toContain(String(props.maxPlayers));
   });
 });

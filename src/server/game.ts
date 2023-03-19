@@ -1,11 +1,11 @@
 import { Server, Socket } from 'socket.io';
 
+import { DEFAULT_OPTIONS } from '~const/lobby';
 import CONFIG from '~root/config.json';
 import { LobbyEvent, LobbyOptions } from '~type/lobby';
 import { WorldLocation } from '~type/world';
 
 import { Core } from './classes/Core';
-import { DEFAULT_OPTIONS } from './classes/Lobby';
 import { Player } from './classes/Player';
 
 export function boot(io: Server): void {
@@ -20,11 +20,14 @@ export function boot(io: Server): void {
   core.namespace('/home').on('connection', (socket: Socket) => {
     core.updateClientLatestLobbies();
 
-    socket.on(LobbyEvent.CreateLobby, (data: LobbyOptions, callback: (uuid: string) => void) => {
-      const { uuid } = core.createLobby(data);
+    socket.on(
+      LobbyEvent.CreateLobby,
+      (data: LobbyOptions, callback: (uuid: string) => void) => {
+        const { uuid } = core.createLobby(data);
 
-      callback(uuid);
-    });
+        callback(uuid);
+      },
+    );
   });
 
   core.namespace('/lobby').on('connection', (socket: Socket) => {

@@ -5,25 +5,34 @@ import { useParams } from 'react-router-dom';
 
 import { SocketContext } from '~context/SocketContext';
 import CONFIG from '~root/config.json';
+import { DEFAULT_OPTIONS } from '~root/src/const/lobby';
 import { LobbyEvent, LobbyOptions } from '~type/lobby';
 import { PlayerInfo } from '~type/player';
 
 import { Countdown } from './Countdown';
 
 import {
-  Container, Block, Player, RestartMessage, WinMessage, EmptySlot,
+  Container,
+  Block,
+  Player,
+  RestartMessage,
+  WinMessage,
+  EmptySlot,
 } from './styled';
 
-type ComponentProps = {
+type Props = {
   players: PlayerInfo[]
-  options: LobbyOptions
+  options?: LobbyOptions
 };
 
-export function Info({ players, options }: ComponentProps) {
+export const Info: React.FC<Props> = ({
+  players,
+  options = DEFAULT_OPTIONS,
+}) => {
   const { uuid } = useParams<{ uuid: string }>();
 
-  const [step, setStep] = useState<number>(null);
-  const [winner, setWinner] = useState<string>(null);
+  const [step, setStep] = useState<number>();
+  const [winner, setWinner] = useState<Nullable<string>>(null);
 
   const socket = useContext(SocketContext);
 
@@ -31,17 +40,18 @@ export function Info({ players, options }: ComponentProps) {
     const result: Array<PlayerInfo | null> = [];
 
     for (let i = 0; i < options.maxPlayers; i += 1) {
-      const currentPlayer: PlayerInfo = players.find((player) => (player.slot === i));
+      const currentPlayer = players.find((player) => player.slot === i);
 
-      result.push(currentPlayer || null);
+      result.push(currentPlayer ?? null);
     }
 
     return result;
   }, [players, options.maxPlayers]);
 
-  const current = useMemo<PlayerInfo>(() => (
-    players.find((player) => (player.id === socket.id))
-  ), [players]);
+  const current = useMemo(
+    () => players.find((player) => player.id === socket.id),
+    [players],
+  );
 
   const clearWinner = () => {
     setWinner(null);
@@ -71,7 +81,7 @@ export function Info({ players, options }: ComponentProps) {
     if (step === current.slot && players.length === options.maxPlayers) {
       document.title = titleActive;
       interval = setInterval(() => {
-        document.title = (document.title === titleActive) ? titleIdle : titleActive;
+        document.title = document.title === titleActive ? titleIdle : titleActive;
       }, 1000);
     } else {
       document.title = titleIdle;
@@ -82,28 +92,30 @@ export function Info({ players, options }: ComponentProps) {
         clearInterval(interval);
       }
     };
-  }, [step, (current && current.slot), players.length]);
+  }, [step, current && current.slot, players.length]);
 
   return (
     <Container>
       <Block>
         <Block.Label>Players</Block.Label>
         <Block.Value>
-          {slots.map((player, slot) => (
-            player ? (
-              <Player key={slot} slot={slot} data-testid={`previewPlayer${slot}`}>
-                {(current && current.slot === slot) && (
-                  <Player.SelfLabel>You</Player.SelfLabel>
-                )}
-              </Player>
-            ) : (
-              <EmptySlot key={slot} />
-            )
-          ))}
+          {slots.map((player, slot) => (player ? (
+            <Player
+              key={slot}
+              slot={slot}
+              data-testid={`previewPlayer${slot}`}
+            >
+              {current && current.slot === slot && (
+              <Player.SelfLabel>You</Player.SelfLabel>
+              )}
+            </Player>
+          ) : (
+            <EmptySlot key={slot} />
+          )))}
         </Block.Value>
       </Block>
 
-      {(step !== null) && (
+      {step !== null && (
         <Block>
           <Block.Label>Step</Block.Label>
           <Block.Value>
@@ -111,7 +123,7 @@ export function Info({ players, options }: ComponentProps) {
             <Countdown
               key={step}
               limit={options.timeout}
-              isCurrent={current && current.slot === step}
+              isCurrent={step === current?.slot}
             />
           </Block.Value>
         </Block>
@@ -121,7 +133,9 @@ export function Info({ players, options }: ComponentProps) {
         <Block>
           <Block.Label />
           <Block.Value>
-            <WinMessage>{(winner === current.id) ? 'You win' : 'You lose'}</WinMessage>
+            <WinMessage>
+              {winner === current?.id ? 'You win' : 'You lose'}
+            </WinMessage>
             <RestartMessage>
               Restart game after
               {' '}
@@ -134,4 +148,4 @@ export function Info({ players, options }: ComponentProps) {
       )}
     </Container>
   );
-}
+};

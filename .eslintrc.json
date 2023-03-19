@@ -1,34 +1,25 @@
 {
-  "extends": [
-    "neki/ts-react"
-  ],
+  "extends": ["neki/ts-react"],
   "rules": {
-    "import/order": [
-      "warn",
-      {
-        "newlines-between": "always",
-        "groups": [
-          "builtin",
-          "external",
-          "parent",
-          "sibling",
-          "index"
-        ],
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
+    "react/require-default-props": "off",
+    "react/function-component-definition": "off",
+    "import/order": ["warn", {
+      "newlines-between": "always",
+      "groups": ["builtin", "external", "parent", "sibling", "index"],
+      "alphabetize": {
+        "order": "asc",
+        "caseInsensitive": true
+      },
+      "pathGroups": [
+        {
+          "pattern": "~**/**",
+          "group": "parent"
         },
-        "pathGroups": [
-          {
-            "pattern": "~**/**",
-            "group": "parent"
-          },
-          {
-            "pattern": "./styled",
-            "group": "index"
-          }
-        ]
-      }
-    ]
+        {
+          "pattern": "./styled",
+          "group": "index"
+        }
+      ]
+    }]
   }
 }

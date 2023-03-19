@@ -42,7 +42,7 @@ export class Core {
   }
 
   findLobby(uuid: string): Lobby | undefined {
-    return this.lobbies.find((lobby) => (lobby.uuid === uuid));
+    return this.lobbies.find((lobby) => lobby.uuid === uuid);
   }
 
   addLobby(lobby: Lobby): void {
@@ -69,12 +69,13 @@ export class Core {
     this.namespace('/home').emit(LobbyEvent.UpdateLatestLobbies, lobbies);
   }
 
-  private findLobbyIndex(lobby: Lobby): number | undefined {
-    return this.lobbies.findIndex((l) => (l.uuid === lobby.uuid));
+  private findLobbyIndex(lobby: Lobby): number {
+    return this.lobbies.findIndex((l) => l.uuid === lobby.uuid);
   }
 
   private getLastLobbies(limit: number = 5): LobbyInfo[] {
-    return this.lobbies.filter((lobby: Lobby) => !lobby.isFulled())
+    return this.lobbies
+      .filter((lobby: Lobby) => !lobby.isFulled())
       .reverse()
       .slice(0, limit)
       .map((lobby: Lobby) => lobby.getInfo());

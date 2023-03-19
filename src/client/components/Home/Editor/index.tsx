@@ -1,21 +1,21 @@
 import React, { useCallback, useContext, useState } from 'react';
 
 import { Button } from '../Button';
-import { DEFAULT_OPTIONS } from '~class/Lobby';
+import { DEFAULT_OPTIONS } from '~const/lobby';
 import { SocketContext } from '~context/SocketContext';
-import { LobbyEvent, LobbyOptions } from '~type/lobby';
+import { LobbyEvent } from '~type/lobby';
 
 import { InputCheckbox } from './InputCheckbox';
 import { InputRange } from './InputRange';
 
 import { Form, Settings } from './styled';
 
-type ComponentProps = {
+type Props = {
   onClose?: () => void
 };
 
-export function Editor({ onClose }: ComponentProps) {
-  const [options, setOptions] = useState<LobbyOptions>(DEFAULT_OPTIONS);
+export const Editor: React.FC<Props> = ({ onClose }) => {
+  const [options, setOptions] = useState(DEFAULT_OPTIONS);
 
   const socket = useContext(SocketContext);
 
@@ -26,17 +26,17 @@ export function Editor({ onClose }: ComponentProps) {
     }));
   }, []);
 
-  const createLobby = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
+  const createLobby = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
 
-    socket.emit(LobbyEvent.CreateLobby, options, (uuid: string) => {
-      window.open(`/game/${uuid}`);
-
-      if (onClose) {
-        onClose();
-      }
-    });
-  }, [options, onClose]);
+      socket.emit(LobbyEvent.CreateLobby, options, (uuid: string) => {
+        window.open(`/game/${uuid}`);
+        onClose?.();
+      });
+    },
+    [options, onClose],
+  );
 
   return (
     <Form>
@@ -56,7 +56,6 @@ export function Editor({ onClose }: ComponentProps) {
           defaultValue={options.density}
           min={0}
           max={4}
-          step={1}
           onChange={onChange}
           tooltip="World cubes spawn rate"
         />
@@ -96,11 +95,9 @@ export function Editor({ onClose }: ComponentProps) {
         />
       </Settings>
 
-      <Button onClick={createLobby} name="createLobby">Accept</Button>
+      <Button onClick={createLobby} name="createLobby">
+        Accept
+      </Button>
     </Form>
   );
-}
-
-Editor.defaultProps = {
-  onClose: undefined,
 };

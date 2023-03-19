@@ -8,12 +8,12 @@ import { LobbyEvent } from '~type/lobby';
 
 import { Timeleft } from './styled';
 
-type ComponentProps = {
+type Props = {
   limit: number
-  isCurrent?: boolean
+  isCurrent: boolean
 };
 
-export function Countdown({ limit, isCurrent }: ComponentProps) {
+export const Countdown: React.FC<Props> = ({ limit, isCurrent }) => {
   const [tick, setTick] = useState<number>(0);
 
   const socket = useContext(SocketContext);
@@ -28,13 +28,9 @@ export function Countdown({ limit, isCurrent }: ComponentProps) {
     };
   }, []);
 
-  return (tick > 0) && (
+  return tick > 0 ? (
     <Timeleft danger={isCurrent && tick <= Math.round(limit / 3)}>
       {date.second(tick).format('mm:ss')}
     </Timeleft>
-  );
-}
-
-Countdown.defaultProps = {
-  isCurrent: false,
+  ) : null;
 };

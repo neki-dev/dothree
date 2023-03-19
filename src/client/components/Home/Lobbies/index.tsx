@@ -5,7 +5,7 @@ import { LobbyEvent, LobbyInfo } from '~type/lobby';
 
 import { Title, LobbyList, Lobby } from './styled';
 
-export function Lobbies() {
+export const Lobbies: React.FC = () => {
   const [lobbies, setLobbies] = useState<LobbyInfo[]>([]);
 
   const socket = useContext(SocketContext);
@@ -18,7 +18,7 @@ export function Lobbies() {
     };
   }, []);
 
-  return (lobbies.length > 0) ? (
+  return lobbies.length > 0 ? (
     <>
       <Title>Or select existing</Title>
       <LobbyList>
@@ -42,4 +42,4 @@ export function Lobbies() {
       </LobbyList>
     </>
   ) : null;
-}
+};

@@ -2,14 +2,16 @@
   "compilerOptions": {
     "outDir": "./app",
     "module": "es6",
-    "target": "es5",
+    "target": "es6",
     "jsx": "react",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "noImplicitAny": true,
     "resolveJsonModule": true,
+    "strict": true,
+    "sourceMap": true,
     "paths": {
       "~root/*": ["./*"],
+      "~const/*": ["./src/const/*"],
       "~type/*": ["./src/types/*"],
       "~hook/*": ["./src/client/hooks/*"],
       "~context/*": ["./src/client/context/*"],

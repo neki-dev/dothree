@@ -15,15 +15,6 @@ type LobbyParameters = {
   onDestroy?: () => void
 };
 
-export const DEFAULT_OPTIONS = {
-  maxPlayers: 3,
-  density: 1,
-  bonusing: 2,
-  timeout: 30,
-  moveMap: false,
-  useBonuses: true,
-};
-
 export class Lobby {
   public readonly uuid: string;
 
@@ -39,9 +30,9 @@ export class Lobby {
 
   private idleTick: number = 0;
 
-  private reseting?: NodeJS.Timeout | null = null;
+  private reseting?: Nullable<NodeJS.Timeout> = null;
 
-  private _step: number | null = null;
+  private _step: Nullable<number> = null;
 
   public get step() {
     return this._step;
@@ -58,7 +49,7 @@ export class Lobby {
     return this._timeout;
   }
 
-  public set timeout(v: number | null) {
+  public set timeout(v: number) {
     this._timeout = v;
     this.emit(LobbyEvent.UpdateTimeout, v);
   }
@@ -90,7 +81,7 @@ export class Lobby {
   }
 
   joinPlayer(player: Player): void {
-    const isExists = this.players.some((p) => (p.id === player.id));
+    const isExists = this.players.some((p) => p.id === player.id);
 
     if (isExists) {
       player.emitError('You are already in this lobby');
@@ -143,7 +134,7 @@ export class Lobby {
   }
 
   putEntity(player: Player, location: WorldLocation): void {
-    if (this.step !== player.slot) {
+    if (this.step === null || this.step !== player.slot) {
       return;
     }
 
@@ -179,11 +170,11 @@ export class Lobby {
   }
 
   isStarted(): boolean {
-    return (this.step !== null);
+    return this.step !== null;
   }
 
   isFulled(): boolean {
-    return (this.players.length === this.options.maxPlayers);
+    return this.players.length === this.options.maxPlayers;
   }
 
   private destroy(): void {
@@ -200,13 +191,13 @@ export class Lobby {
     log.info(`Lobby #${this.uuid} destroyed`);
   }
 
-  private findPlayerIndex(player: Player): number | undefined {
-    return this.players.findIndex((p) => (p.id === player.id));
+  private findPlayerIndex(player: Player): number {
+    return this.players.findIndex((p) => p.id === player.id);
   }
 
   private getFreeSlot(): number | null {
     for (let i = 0; i < this.options.maxPlayers; i += 1) {
-      if (this.players.every((player) => (player.slot !== i))) {
+      if (this.players.every((player) => player.slot !== i)) {
         return i;
       }
     }
@@ -225,10 +216,12 @@ export class Lobby {
 
   private moveStepToNextPlayer(): void {
     this.resetTimeout();
-    if (this.step + 1 === this.options.maxPlayers) {
-      this.step = 0;
-    } else {
-      this.step += 1;
+    if (this.step !== null) {
+      if (this.step + 1 === this.options.maxPlayers) {
+        this.step = 0;
+      } else {
+        this.step++;
+      }
     }
 
     if (this.options.moveMap) {
@@ -270,7 +263,7 @@ export class Lobby {
 
   private handleIdleTimeout(): void {
     if (this.players.length === 0) {
-      this.idleTick += 1;
+      this.idleTick++;
       if (this.idleTick === CONFIG.LOBBY_IDLE_TIMEOUT) {
         this.destroy();
       }
@@ -281,7 +274,7 @@ export class Lobby {
 
   private handleStepTimeout(): void {
     if (this.isStarted() && this.isFulled()) {
-      this.timeout -= 1;
+      this.timeout--;
       if (this.timeout === 0) {
         this.moveStepToNextPlayer();
       }

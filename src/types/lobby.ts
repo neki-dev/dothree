@@ -8,12 +8,12 @@ export type LobbyInfo = {
 };
 
 export type LobbyOptions = {
-  maxPlayers?: number
-  density?: number
-  bonusing?: number
-  timeout?: number
-  moveMap?: boolean
-  useBonuses?: boolean
+  maxPlayers: number
+  density: number
+  bonusing: number
+  timeout: number
+  moveMap: boolean
+  useBonuses: boolean
 };
 
 export enum LobbyEvent {

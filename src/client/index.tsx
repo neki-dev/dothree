@@ -9,6 +9,11 @@ import { Home } from './components/Home';
 import { Lobby } from './components/Lobby';
 
 const app = document.getElementById('app');
+
+if (!app) {
+  throw Error('Undefined App element');
+}
+
 const root = createRoot(app);
 
 root.render(

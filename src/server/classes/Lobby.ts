@@ -93,7 +93,7 @@ export class Lobby {
     const isExists = this.players.some((p) => (p.id === player.id));
 
     if (isExists) {
-      player.sendError('You are already in this lobby');
+      player.emitError('You are already in this lobby');
 
       return;
     }
@@ -101,7 +101,7 @@ export class Lobby {
     const slot = this.getFreeSlot();
 
     if (slot === null) {
-      player.sendError('This lobby is already started');
+      player.emitError('This lobby is already started');
 
       return;
     }

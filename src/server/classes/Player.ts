@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io';
 
 import CONFIG from '~root/config.json';
-import { LobbyEvent } from '~root/src/types/lobby';
+import { LobbyEvent } from '~type/lobby';
 
 export class Player {
   private readonly socket: Socket;
@@ -20,7 +20,7 @@ export class Player {
     this.socket.emit(key, data);
   }
 
-  sendError(message: string): void {
+  emitError(message: string): void {
     this.socket.emit(LobbyEvent.Error, message);
   }
 

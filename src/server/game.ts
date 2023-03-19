@@ -38,7 +38,7 @@ export function boot(io: Server): void {
     const lobby = core.findLobby(uuid);
 
     if (!lobby) {
-      player.sendError('Lobby is not found');
+      player.emitError('Lobby is not found');
 
       return;
     }

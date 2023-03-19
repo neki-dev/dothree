@@ -4,10 +4,10 @@ import React, {
 
 import { SocketContext } from '~context/SocketContext';
 import { WorldContext } from '~context/WorldContext';
-import { WorldMap } from '~root/src/types/world';
 import { WorldEntity } from '~type/entity';
 import { LobbyEvent } from '~type/lobby';
 import { PlayerInfo } from '~type/player';
+import { WorldMap } from '~type/world';
 
 import { Entity } from './Entity';
 

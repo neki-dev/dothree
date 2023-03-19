@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 
 import { SocketContext } from '~context/SocketContext';
-import { LobbyEvent } from '~root/src/types/lobby';
+import { LobbyEvent } from '~type/lobby';
 
 import { Timeleft } from './styled';
 

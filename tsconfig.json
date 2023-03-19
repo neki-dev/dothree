@@ -8,7 +8,6 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "strict": true,
-    "sourceMap": true,
     "paths": {
       "~root/*": ["./*"],
       "~const/*": ["./src/const/*"],

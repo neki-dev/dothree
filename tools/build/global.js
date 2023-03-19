@@ -20,7 +20,7 @@ module.exports = (_, { mode }) => ({
     colors: true,
     entrypoints: true,
   },
-  devtool: mode === 'development' ? 'source-map' : undefined,
+  devtool: mode === 'development' ? 'inline-source-map' : undefined,
   optimization: {
     minimize: true,
     minimizer: [

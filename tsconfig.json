@@ -11,7 +11,7 @@
     "paths": {
       "~root/*": ["./*"],
       "~const/*": ["./src/const/*"],
-      "~type/*": ["./src/types/*"],
+      "~type/*": ["./src/_types/*"],
       "~hook/*": ["./src/client/hooks/*"],
       "~context/*": ["./src/client/context/*"],
       "~class/*": ["./src/server/classes/*"],

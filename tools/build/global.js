@@ -21,7 +21,7 @@ module.exports = (_, { mode }) => ({
     entrypoints: true,
   },
   devtool: mode === 'development' ? 'inline-source-map' : undefined,
-  optimization: {
+  optimization: mode === 'production' ? {
     minimize: true,
     minimizer: [
       new TerserPlugin({
@@ -30,5 +30,5 @@ module.exports = (_, { mode }) => ({
         },
       }),
     ],
-  },
+  } : undefined,
 });

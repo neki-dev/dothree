@@ -29,6 +29,7 @@ describe('Lobby / Info', () => {
     const [player] = props.players;
 
     socket.emitSelf('updateStep', player.slot);
+
     waitFor(() => {
       expect(screen.queryByText('Step')).toBeInTheDocument();
     });
@@ -38,6 +39,7 @@ describe('Lobby / Info', () => {
     const [player] = props.players;
 
     socket.emitSelf('playerWin', player.id);
+
     waitFor(() => {
       expect(screen.queryByText('You lose')).toBeInTheDocument();
     });

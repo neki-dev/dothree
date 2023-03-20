@@ -115,7 +115,7 @@ export const Info: React.FC<Props> = ({
         </Block.Value>
       </Block>
 
-      {step !== null && (
+      {step !== undefined && (
         <Block>
           <Block.Label>Step</Block.Label>
           <Block.Value>

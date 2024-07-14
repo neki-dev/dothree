@@ -1,7 +1,7 @@
 {
   "name": "dothree",
   "description": "Logic online game similar to a mixture of tetris and tic-tac-toe",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "keywords": [
     "game",
     "logic",
@@ -19,11 +19,11 @@
     "ie > 11"
   ],
   "scripts": {
-    "lint": "eslint \"./**/*.{js,ts,tsx}\" --ignore-path .gitignore --fix",
-    "test": "jest",
     "start": "node ./app/server.js",
     "watch": "webpack --mode development --watch",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "test": "jest",
+    "lint": "eslint \"./**/*.{js,ts,tsx}\" --ignore-path .gitignore --fix"
   },
   "devDependencies": {
     "@babel/core": "7.24.8",

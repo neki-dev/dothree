@@ -1,7 +1,7 @@
 import log from 'loglevel';
 import { Namespace } from 'socket.io';
 
-import { generateUUID } from '../utils';
+import { generateUUID } from '../utils/generate-uuid';
 import CONFIG from '~root/config.json';
 import { LobbyOptions, LobbyInfo, LobbyEvent } from '~type/lobby';
 import { PlayerInfo } from '~type/player';

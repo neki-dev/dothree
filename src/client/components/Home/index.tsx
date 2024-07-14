@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import GitHubButton from 'react-github-btn';
 
 import { Button } from './Button';
@@ -12,8 +12,8 @@ import {
 export const Home: React.FC = () => {
   const [section, setSection] = useState('lobbies');
 
-  const setSectionLobbies = useCallback(() => setSection('lobbies'), []);
-  const setSectionEditor = useCallback(() => setSection('editor'), []);
+  const setSectionLobbies = () => setSection('lobbies');
+  const setSectionEditor = () => setSection('editor');
 
   return (
     <Container>

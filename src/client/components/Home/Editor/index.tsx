@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Button } from '../Button';
 import { DEFAULT_OPTIONS } from '~const/lobby';
@@ -19,24 +19,21 @@ export const Editor: React.FC<Props> = ({ onClose }) => {
 
   const socket = useContext(SocketContext);
 
-  const onChange = useCallback((name: string, value: number | boolean) => {
+  const onChange = (name: string, value: number | boolean) => {
     setOptions((currentOptions) => ({
       ...currentOptions,
       [name]: value,
     }));
-  }, []);
+  };
 
-  const createLobby = useCallback(
-    (e: React.MouseEvent) => {
-      e.preventDefault();
+  const createLobby = (e: React.MouseEvent) => {
+    e.preventDefault();
 
-      socket.emit(LobbyEvent.CreateLobby, options, (uuid: string) => {
-        window.open(`/game/${uuid}`);
-        onClose?.();
-      });
-    },
-    [options, onClose],
-  );
+    socket.emit(LobbyEvent.CreateLobby, options, (uuid: string) => {
+      window.open(`/game/${uuid}`);
+      onClose?.();
+    });
+  };
 
   return (
     <Form>

@@ -1,7 +1,6 @@
 import React, {
   useState,
   useEffect,
-  useCallback,
   useMemo,
   useRef,
   useContext,
@@ -35,9 +34,9 @@ export const World: React.FC<Props> = ({ players }) => {
     [players],
   );
 
-  const putEntity = useCallback((x: number, y: number) => {
+  const putEntity = (x: number, y: number) => {
     socket.emit(LobbyEvent.PutEntity, [x, y]);
-  }, []);
+  };
 
   useEffect(() => {
     socket.on(LobbyEvent.UpdateStep, setStep);

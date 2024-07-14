@@ -1,9 +1,10 @@
-import { randomize, probability } from '../utils';
 import { WorldEntity, EntityType, EntityBonusType } from '~type/entity';
 import { LobbyOptions } from '~type/lobby';
 import { WorldLocation, WorldMap } from '~type/world';
 
 import { Entity } from './Entity';
+import { probability } from '../utils/probability';
+import { randomize } from '../utils/randomize';
 
 const MAP_SIZE = [25, 11];
 const CHAIN_TARGET_LENGTH = 3;

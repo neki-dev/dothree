@@ -1,20 +1,16 @@
-import log from 'loglevel';
+import log from "loglevel";
 
-import { World } from './World';
-import { generateUUID } from '../utils/generate-uuid';
-import CONFIG from '~root/config.json';
-import type { LobbyOptions, LobbyInfo } from '~type/lobby';
-import { LobbyEvent } from '~type/lobby';
-import type { PlayerInfo } from '~type/player';
-import type { WorldLocation, WorldMap } from '~type/world';
+import { generateUUID } from "../utils/generate-uuid";
+import { World } from "../world";
+import type { LobbyOptions, LobbyInfo } from "~/shared/lobby/types";
+import { LobbyEvent } from "~/shared/lobby/types";
+import type { PlayerInfo } from "~/shared/player/types";
+import type { WorldLocation, WorldMap } from "~/shared/world/types";
 
-import type { Player } from './Player';
-import type { Namespace } from 'socket.io';
+import type { LobbyParameters } from "./types";
+import type { Player } from "../player";
 
-type LobbyParameters = {
-  namespace: () => Namespace
-  onDestroy?: () => void
-};
+import CONFIG from "~/../config.json";
 
 export class Lobby {
   public readonly uuid: string;
@@ -67,13 +63,13 @@ export class Lobby {
     log.info(`Lobby #${this.uuid} created`);
   }
 
-  emit(key: string, data?: any): void {
+  public emit(key: string, data?: any): void {
     const { namespace } = this.parameters;
 
     namespace().to(this.uuid).emit(key, data);
   }
 
-  onGameTick(): void {
+  public onGameTick(): void {
     this.handleStepTimeout();
 
     if (CONFIG.LOBBY_IDLE_TIMEOUT > 0) {
@@ -81,11 +77,11 @@ export class Lobby {
     }
   }
 
-  joinPlayer(player: Player): void {
+  public joinPlayer(player: Player): void {
     const isExists = this.players.some((p) => p.id === player.id);
 
     if (isExists) {
-      player.emitError('You are already in this lobby');
+      player.emitError("You are already in this lobby");
 
       return;
     }
@@ -93,7 +89,7 @@ export class Lobby {
     const slot = this.getFreeSlot();
 
     if (slot === null) {
-      player.emitError('This lobby is already started');
+      player.emitError("This lobby is already started");
 
       return;
     }
@@ -113,7 +109,7 @@ export class Lobby {
     log.info(`Player #${player.id} joined to lobby #${this.uuid}`);
   }
 
-  leavePlayer(player: Player): void {
+  public leavePlayer(player: Player): void {
     const index = this.findPlayerIndex(player);
 
     if (index === -1) {
@@ -134,7 +130,7 @@ export class Lobby {
     log.info(`Player #${player.id} leaved from lobby #${this.uuid}`);
   }
 
-  putEntity(player: Player, location: WorldLocation): void {
+  public putEntity(player: Player, location: WorldLocation): void {
     if (this.step === null || this.step !== player.slot) {
       return;
     }
@@ -155,11 +151,11 @@ export class Lobby {
     }
   }
 
-  getMap(): WorldMap {
+  public getMap(): WorldMap {
     return this.world.map;
   }
 
-  getInfo(): LobbyInfo {
+  public getInfo(): LobbyInfo {
     return {
       uuid: this.uuid,
       date: this.date,
@@ -170,11 +166,11 @@ export class Lobby {
     };
   }
 
-  isStarted(): boolean {
+  public isStarted(): boolean {
     return this.step !== null;
   }
 
-  isFulled(): boolean {
+  public isFulled(): boolean {
     return this.players.length === this.options.maxPlayers;
   }
 

@@ -1,10 +1,10 @@
-import console from 'console';
+import console from "console";
 
-import { Lobby } from './Lobby';
-import type { LobbyInfo, LobbyOptions } from '~type/lobby';
-import { LobbyEvent } from '~type/lobby';
+import { Lobby } from "../lobby";
+import type { LobbyOptions, LobbyInfo } from "~/shared/lobby/types";
+import { LobbyEvent } from "~/shared/lobby/types";
 
-import type { Namespace, Server } from 'socket.io';
+import type { Namespace, Server } from "socket.io";
 
 export class Core {
   private readonly io: Server;
@@ -16,7 +16,7 @@ export class Core {
     this.lobbies = [];
   }
 
-  initialize(): void {
+  public initialize(): void {
     setInterval(() => {
       this.lobbies.forEach((lobby) => {
         lobby.onGameTick();
@@ -24,13 +24,13 @@ export class Core {
     }, 1000);
   }
 
-  namespace(name: string): Namespace {
+  public namespace(name: string): Namespace {
     return this.io.of(name);
   }
 
-  createLobby(options: LobbyOptions): Lobby {
+  public createLobby(options: LobbyOptions): Lobby {
     const lobby = new Lobby(options, {
-      namespace: () => this.namespace('/lobby'),
+      namespace: () => this.namespace("/lobby"),
       onDestroy: () => {
         this.removeLobby(lobby);
       },
@@ -41,16 +41,16 @@ export class Core {
     return lobby;
   }
 
-  findLobby(uuid: string): Lobby | undefined {
+  public findLobby(uuid: string): Lobby | undefined {
     return this.lobbies.find((lobby) => lobby.uuid === uuid);
   }
 
-  addLobby(lobby: Lobby): void {
+  public addLobby(lobby: Lobby): void {
     this.lobbies.push(lobby);
     this.updateClientLatestLobbies();
   }
 
-  removeLobby(lobby: Lobby): void {
+  public removeLobby(lobby: Lobby): void {
     const index = this.findLobbyIndex(lobby);
 
     if (index === -1) {
@@ -63,10 +63,10 @@ export class Core {
     this.updateClientLatestLobbies();
   }
 
-  updateClientLatestLobbies(): void {
+  public updateClientLatestLobbies(): void {
     const lobbies = this.getLastLobbies();
 
-    this.namespace('/home').emit(LobbyEvent.UpdateLatestLobbies, lobbies);
+    this.namespace("/home").emit(LobbyEvent.UpdateLatestLobbies, lobbies);
   }
 
   private findLobbyIndex(lobby: Lobby): number {

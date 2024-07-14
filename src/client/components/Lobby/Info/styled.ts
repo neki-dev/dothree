@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { COLOR_PLAYER } from '../World/Entity/styled';
+import { COLOR_PLAYER } from "../World/Entity/styled";
 
 export const Container = styled.div`
-  background: #19222D;
+  background: #19222d;
   padding: 23px 35px 27px 35px;
   display: flex;
   align-items: center;
@@ -30,7 +30,7 @@ Block.Value = styled.div`
 `;
 
 export const Player: any = styled.div<{
-  slot: number
+  slot: number;
 }>`
   min-width: 32px;
   max-width: 32px;

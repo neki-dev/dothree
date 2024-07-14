@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
 
-import { Status, WaitingOverlay, Loading } from './styled';
+import { Status, WaitingOverlay, Loading } from "./styled";
 
 type Props = {
-  currentPlayers: number
-  maxPlayers?: number
+  currentPlayers: number;
+  maxPlayers?: number;
 };
 
 export const Waiting: React.FC<Props> = ({ currentPlayers, maxPlayers }) => {

@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from "react";
 
-import { Info } from './Info';
-import { Waiting } from './Waiting';
-import { World } from './World';
-import { SocketContext } from '~context/SocketContext';
-import type { LobbyOptions } from '~type/lobby';
-import { LobbyEvent } from '~type/lobby';
-import type { PlayerInfo } from '~type/player';
+import { Info } from "./Info";
+import { Waiting } from "./Waiting";
+import { World } from "./World";
+import { SocketContext } from "../../context/SocketContext";
+import type { LobbyOptions } from "~/shared/lobby/types";
+import { LobbyEvent } from "~/shared/lobby/types";
+import type { PlayerInfo } from "~/shared/player/types";
 
-import { Container, GameScreen, Error } from './styled';
+import { Container, GameScreen, Error } from "./styled";
 
 export const Lobby: React.FC = () => {
   const [error, setError] = useState<string>();

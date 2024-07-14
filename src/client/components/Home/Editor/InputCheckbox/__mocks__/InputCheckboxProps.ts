@@ -1,5 +1,5 @@
 export default {
-  label: 'Toggle me',
-  name: 'something',
+  label: "Toggle me",
+  name: "something",
   onChange: jest.fn(),
 };

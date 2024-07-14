@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css, keyframes } from "styled-components";
 
 export const AnimationPulse = keyframes`
   0%, 100% {
@@ -10,10 +10,10 @@ export const AnimationPulse = keyframes`
 `;
 
 export const Timeleft: any = styled.div<{
-  danger: boolean
+  danger: boolean;
 }>`
   font-size: 16px;
   margin-left: 10px;
-  color: ${(p) => (p.danger ? '#ffbb00' : '#5b6b7d')};
-  animation: ${(p) => (p.danger ? css`1s linear ${AnimationPulse}` : 'none')};
+  color: ${(p) => (p.danger ? "#ffbb00" : "#5b6b7d")};
+  animation: ${(p) => (p.danger ? css`1s linear ${AnimationPulse}` : "none")};
 `;

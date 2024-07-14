@@ -1,23 +1,17 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useRef,
-  useContext,
-} from 'react';
+import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
 
-import { Entity } from './Entity';
-import { SocketContext } from '~context/SocketContext';
-import { WorldContext } from '~context/WorldContext';
-import type { WorldEntity } from '~type/entity';
-import { LobbyEvent } from '~type/lobby';
-import type { PlayerInfo } from '~type/player';
-import type { WorldMap } from '~type/world';
+import { Entity } from "./Entity";
+import { SocketContext } from "~/client/context/SocketContext";
+import { WorldContext } from "~/client/context/WorldContext";
+import type { WorldEntity } from "~/shared/entity/types";
+import { LobbyEvent } from "~/shared/lobby/types";
+import type { PlayerInfo } from "~/shared/player/types";
+import type { WorldMap } from "~/shared/world/types";
 
-import { Field, Line } from './styled';
+import { Field, Line } from "./styled";
 
 type Props = {
-  players: PlayerInfo[]
+  players: PlayerInfo[];
 };
 
 export const World: React.FC<Props> = ({ players }) => {

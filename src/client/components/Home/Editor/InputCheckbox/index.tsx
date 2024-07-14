@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import { Container, Checkbox, Label } from './styled';
+import { Container, Checkbox, Label } from "./styled";
 
 type ComponentProps = {
-  label: string
-  name: string
-  tooltip?: string
-  value?: boolean
-  onChange?: (name: string, value: boolean) => void
+  label: string;
+  name: string;
+  tooltip?: string;
+  value?: boolean;
+  onChange?: (name: string, value: boolean) => void;
 };
 
 export function InputCheckbox({

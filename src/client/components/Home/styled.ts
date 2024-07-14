@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { COLOR_PLAYER } from '../Lobby/World/Entity/styled';
+import { COLOR_PLAYER } from "../Lobby/World/Entity/styled";
 
 export const Container = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ Logotype.Blocks = styled.div`
 Logotype.Block = styled.div.attrs(() => ({
   index: Math.floor(Math.random() * 5),
 }))<{
-  index: number
+  index: number;
 }>`
   width: 42px;
   height: 42px;
@@ -48,7 +48,9 @@ Logotype.Block = styled.div.attrs(() => ({
 `;
 
 Logotype.Label = styled.div`
-  font: 50px 'Bebas Neue', sans-serif;
+  font:
+    50px "Bebas Neue",
+    sans-serif;
   font-weight: 400;
   line-height: 40px;
   color: #fff;

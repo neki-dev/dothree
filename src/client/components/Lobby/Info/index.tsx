@@ -1,15 +1,12 @@
-import React, {
-  useState, useEffect, useMemo, useContext,
-} from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect, useMemo, useContext } from "react";
+import { useParams } from "react-router-dom";
 
-import { Countdown } from './Countdown';
-import { SocketContext } from '~context/SocketContext';
-import CONFIG from '~root/config.json';
-import { DEFAULT_OPTIONS } from '~root/src/const/lobby';
-import type { LobbyOptions } from '~type/lobby';
-import { LobbyEvent } from '~type/lobby';
-import type { PlayerInfo } from '~type/player';
+import { Countdown } from "./Countdown";
+import { SocketContext } from "~/client/context/SocketContext";
+import { DEFAULT_OPTIONS } from "~/shared/lobby/const";
+import type { LobbyOptions } from "~/shared/lobby/types";
+import { LobbyEvent } from "~/shared/lobby/types";
+import type { PlayerInfo } from "~/shared/player/types";
 
 import {
   Container,
@@ -18,11 +15,13 @@ import {
   RestartMessage,
   WinMessage,
   EmptySlot,
-} from './styled';
+} from "./styled";
+
+import CONFIG from "~/../config.json";
 
 type Props = {
-  players: PlayerInfo[]
-  options?: LobbyOptions
+  players: PlayerInfo[];
+  options?: LobbyOptions;
 };
 
 export const Info: React.FC<Props> = ({
@@ -75,13 +74,14 @@ export const Info: React.FC<Props> = ({
     }
 
     const titleIdle = `DOTHREE #${uuid}`;
-    const titleActive = 'Your step!';
+    const titleActive = "Your step!";
     let interval: NodeJS.Timeout;
 
     if (step === current.slot && players.length === options.maxPlayers) {
       document.title = titleActive;
       interval = setInterval(() => {
-        document.title = document.title === titleActive ? titleIdle : titleActive;
+        document.title =
+          document.title === titleActive ? titleIdle : titleActive;
       }, 1000);
     } else {
       document.title = titleIdle;
@@ -99,19 +99,21 @@ export const Info: React.FC<Props> = ({
       <Block>
         <Block.Label>Players</Block.Label>
         <Block.Value>
-          {slots.map((player, slot) => (player ? (
-            <Player
-              key={slot}
-              slot={slot}
-              data-testid={`previewPlayer${slot}`}
-            >
-              {current && current.slot === slot && (
-                <Player.SelfLabel>You</Player.SelfLabel>
-              )}
-            </Player>
-          ) : (
-            <EmptySlot key={slot} />
-          )))}
+          {slots.map((player, slot) =>
+            player ? (
+              <Player
+                key={slot}
+                slot={slot}
+                data-testid={`previewPlayer${slot}`}
+              >
+                {current && current.slot === slot && (
+                  <Player.SelfLabel>You</Player.SelfLabel>
+                )}
+              </Player>
+            ) : (
+              <EmptySlot key={slot} />
+            ),
+          )}
         </Block.Value>
       </Block>
 
@@ -134,14 +136,10 @@ export const Info: React.FC<Props> = ({
           <Block.Label />
           <Block.Value>
             <WinMessage>
-              {winner === current?.id ? 'You win' : 'You lose'}
+              {winner === current?.id ? "You win" : "You lose"}
             </WinMessage>
             <RestartMessage>
-              Restart game after
-              {' '}
-              {CONFIG.LOBBY_RESTART_TIMEOUT}
-              {' '}
-              seconds...
+              Restart game after {CONFIG.LOBBY_RESTART_TIMEOUT} seconds...
             </RestartMessage>
           </Block.Value>
         </Block>

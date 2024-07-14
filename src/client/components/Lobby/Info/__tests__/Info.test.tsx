@@ -1,12 +1,12 @@
-import { screen, waitFor } from '@testing-library/react';
-import React from 'react';
+import { screen, waitFor } from "@testing-library/react";
+import React from "react";
 
-import props from '../__mocks__/InfoProps';
-import { Info } from '../index';
+import props from "../__mocks__/InfoProps";
+import { Info } from "../index";
 
-import { render, socket } from '~test';
+import { render, socket } from "~/../../tools/test";
 
-describe('Lobby / Info', () => {
+describe("Lobby / Info", () => {
   beforeEach(() => {
     render(<Info {...props} />, {
       router: true,
@@ -14,34 +14,36 @@ describe('Lobby / Info', () => {
     });
   });
 
-  it('should display players list', () => {
+  it("should display players list", () => {
     const [player] = props.players;
 
-    expect(screen.queryByTestId(`previewPlayer${player.slot}`)).toBeInTheDocument();
-    expect(screen.queryByText('You')).toBeInTheDocument();
+    expect(
+      screen.queryByTestId(`previewPlayer${player.slot}`),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("You")).toBeInTheDocument();
   });
 
-  it('should not display current step, if lobby is not started', () => {
-    expect(screen.queryByText('Step')).not.toBeInTheDocument();
+  it("should not display current step, if lobby is not started", () => {
+    expect(screen.queryByText("Step")).not.toBeInTheDocument();
   });
 
-  it('should display current step, if lobby is started', () => {
+  it("should display current step, if lobby is started", () => {
     const [player] = props.players;
 
-    socket.emitSelf('updateStep', player.slot);
+    socket.emitSelf("updateStep", player.slot);
 
     waitFor(() => {
-      expect(screen.queryByText('Step')).toBeInTheDocument();
+      expect(screen.queryByText("Step")).toBeInTheDocument();
     });
   });
 
-  it('should display winner and loser', () => {
+  it("should display winner and loser", () => {
     const [player] = props.players;
 
-    socket.emitSelf('playerWin', player.id);
+    socket.emitSelf("playerWin", player.id);
 
     waitFor(() => {
-      expect(screen.queryByText('You lose')).toBeInTheDocument();
+      expect(screen.queryByText("You lose")).toBeInTheDocument();
     });
   });
 });

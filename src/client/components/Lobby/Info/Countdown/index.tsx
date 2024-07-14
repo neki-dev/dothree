@@ -1,16 +1,14 @@
-import dayjs from 'dayjs';
-import React, {
-  useState, useEffect, useMemo, useContext,
-} from 'react';
+import dayjs from "dayjs";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 
-import { SocketContext } from '~context/SocketContext';
-import { LobbyEvent } from '~type/lobby';
+import { SocketContext } from "~/client/context/SocketContext";
+import { LobbyEvent } from "~/shared/lobby/types";
 
-import { Timeleft } from './styled';
+import { Timeleft } from "./styled";
 
 type Props = {
-  limit: number
-  isCurrent: boolean
+  limit: number;
+  isCurrent: boolean;
 };
 
 export const Countdown: React.FC<Props> = ({ limit, isCurrent }) => {
@@ -30,7 +28,7 @@ export const Countdown: React.FC<Props> = ({ limit, isCurrent }) => {
 
   return tick > 0 ? (
     <Timeleft danger={isCurrent && tick <= Math.round(limit / 3)}>
-      {date.second(tick).format('mm:ss')}
+      {date.second(tick).format("mm:ss")}
     </Timeleft>
   ) : null;
 };

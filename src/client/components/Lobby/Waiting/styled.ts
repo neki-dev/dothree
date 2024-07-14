@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css, keyframes } from "styled-components";
 
 export const WaitingOverlay = styled.div`
   position: fixed;
@@ -29,8 +29,8 @@ export const AnimationJumping = keyframes`
 `;
 
 Loading.Block = styled.div<{
-  slot: number
-  empty: boolean
+  slot: number;
+  empty: boolean;
 }>`
   display: inline-block;
   width: 32px;

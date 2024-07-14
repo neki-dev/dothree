@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import {
-  Container, Group, Controls, Label, Value,
-} from './styled';
+import { Container, Group, Controls, Label, Value } from "./styled";
 
 type Props = {
-  label: string
-  name: string
-  defaultValue: number
-  tooltip?: string
-  min: number
-  max: number
-  step?: number
-  onChange?: (name: string, value: number) => void
+  label: string;
+  name: string;
+  defaultValue: number;
+  tooltip?: string;
+  min: number;
+  max: number;
+  step?: number;
+  onChange?: (name: string, value: number) => void;
 };
 
 export const InputRange: React.FC<Props> = ({

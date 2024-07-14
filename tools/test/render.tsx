@@ -4,7 +4,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { socket } from './socket';
-import { SocketContext } from '~context/SocketContext';
+import { SocketContext } from '~/client/context/SocketContext';
 
 import type { JSXElementConstructor, ReactElement } from 'react';
 import type { Socket } from 'socket.io-client';

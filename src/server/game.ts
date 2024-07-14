@@ -1,12 +1,13 @@
-import { Core } from './classes/Core';
-import { Player } from './classes/Player';
-import { DEFAULT_OPTIONS } from '~const/lobby';
-import CONFIG from '~root/config.json';
-import type { LobbyOptions } from '~type/lobby';
-import { LobbyEvent } from '~type/lobby';
-import type { WorldLocation } from '~type/world';
+import { Core } from "./core";
+import { Player } from "./player";
+import { DEFAULT_OPTIONS } from "~/shared/lobby/const";
+import type { LobbyOptions } from "~/shared/lobby/types";
+import { LobbyEvent } from "~/shared/lobby/types";
+import type { WorldLocation } from "~/shared/world/types";
 
-import type { Server, Socket } from 'socket.io';
+import type { Server, Socket } from "socket.io";
+
+import CONFIG from "~/../config.json";
 
 export function boot(io: Server): void {
   const core = new Core(io);
@@ -17,7 +18,7 @@ export function boot(io: Server): void {
     core.createLobby(DEFAULT_OPTIONS);
   }
 
-  core.namespace('/home').on('connection', (socket: Socket) => {
+  core.namespace("/home").on("connection", (socket: Socket) => {
     core.updateClientLatestLobbies();
 
     socket.on(
@@ -30,7 +31,7 @@ export function boot(io: Server): void {
     );
   });
 
-  core.namespace('/lobby').on('connection', (socket: Socket) => {
+  core.namespace("/lobby").on("connection", (socket: Socket) => {
     const uuid = <string>socket.handshake.query.uuid;
 
     if (!uuid) {
@@ -41,7 +42,7 @@ export function boot(io: Server): void {
     const lobby = core.findLobby(uuid);
 
     if (!lobby) {
-      player.emitError('Lobby is not found');
+      player.emitError("Lobby is not found");
 
       return;
     }
@@ -53,7 +54,7 @@ export function boot(io: Server): void {
       lobby.putEntity(player, location);
     });
 
-    socket.on('disconnect', () => {
+    socket.on("disconnect", () => {
       lobby.leavePlayer(player);
       core.updateClientLatestLobbies();
     });

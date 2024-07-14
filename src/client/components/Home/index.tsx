@@ -1,23 +1,21 @@
-import React, { useState } from 'react';
-import GitHubButton from 'react-github-btn';
+import React, { useState } from "react";
+import GitHubButton from "react-github-btn";
 
-import { Button } from './Button';
-import { Editor } from './Editor';
-import { Lobbies } from './Lobbies';
+import { Button } from "./Button";
+import { Editor } from "./Editor";
+import { Lobbies } from "./Lobbies";
 
-import {
-  Container, Logotype, Description, Footer,
-} from './styled';
+import { Container, Logotype, Description, Footer } from "./styled";
 
 export const Home: React.FC = () => {
-  const [section, setSection] = useState('lobbies');
+  const [section, setSection] = useState("lobbies");
 
-  const setSectionLobbies = () => setSection('lobbies');
-  const setSectionEditor = () => setSection('editor');
+  const setSectionLobbies = () => setSection("lobbies");
+  const setSectionEditor = () => setSection("editor");
 
   return (
     <Container>
-      <Logotype onClick={() => setSection('lobbies')}>
+      <Logotype onClick={() => setSection("lobbies")}>
         <Logotype.Blocks>
           <Logotype.Block />
           <Logotype.Block />
@@ -29,7 +27,7 @@ export const Home: React.FC = () => {
         Online logic game, which like a mix of tetris and tic-tac-toe
       </Description>
 
-      {section === 'editor' ? (
+      {section === "editor" ? (
         <Editor onClose={setSectionLobbies} />
       ) : (
         <>

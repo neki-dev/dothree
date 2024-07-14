@@ -1,5 +1,5 @@
 export default {
-  uuid: 'ABC1',
+  uuid: "ABC1",
   date: new Date(),
   players: {
     online: 0,

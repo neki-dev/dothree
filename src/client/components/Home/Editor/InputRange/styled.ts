@@ -1,27 +1,25 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 /** Images */
 
-import IconDec from './icons/dec.svg';
-import IconInc from './icons/inc.svg';
+import IconDec from "./icons/dec.svg";
+import IconInc from "./icons/inc.svg";
 
 /** Styles */
 
 export const Container = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 13px 14px;
-    border-radius: 4px;
-    &:not(:last-child) {
-        margin-bottom: 3px;
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 13px 14px;
+  border-radius: 4px;
+  &:not(:last-child) {
+    margin-bottom: 3px;
+  }
 `;
 
-export const Group = styled.div`
-
-`;
+export const Group = styled.div``;
 
 export const Controls: any = styled.div`
   display: flex;
@@ -62,10 +60,10 @@ export const Label = styled.div`
 `;
 
 export const Value = styled.div<{
-  small: boolean
+  small: boolean;
 }>`
   line-height: 11px;
-  font-size: ${({ small }) => (small ? '12px' : '16px')};
+  font-size: ${({ small }) => (small ? "12px" : "16px")};
   font-weight: 700;
   width: 32px;
   text-align: center;

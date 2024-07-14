@@ -1,42 +1,47 @@
-import { fireEvent, screen, waitFor } from '@testing-library/react';
-import React from 'react';
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import React from "react";
 
-import props from '../__mocks__/EditorProps';
-import { Editor } from '../index';
+import props from "../__mocks__/EditorProps";
+import { Editor } from "../index";
 
-import { render, socket } from '~test';
+import { render, socket } from "~/../../tools/test";
 
-describe('Home / Editor', () => {
+describe("Home / Editor", () => {
   beforeEach(() => {
     render(<Editor {...props} />, {
       socket: true,
     });
   });
 
-  it('should display inputs', () => {
+  it("should display inputs", () => {
     [
-      'maxPlayers', 'density', 'timeout', 'useBonuses',
-      'bonusing', 'moveMap', 'createLobby',
+      "maxPlayers",
+      "density",
+      "timeout",
+      "useBonuses",
+      "bonusing",
+      "moveMap",
+      "createLobby",
     ].forEach((id) => {
       expect(screen.queryByTestId(id)).toBeInTheDocument();
     });
   });
 
-  it('should not display bonuses rate, if they is not using', () => {
-    const checkbox = screen.queryByTestId('useBonuses');
+  it("should not display bonuses rate, if they is not using", () => {
+    const checkbox = screen.queryByTestId("useBonuses");
 
     if (checkbox) {
       fireEvent.change(checkbox, { target: { value: false } });
     }
 
     waitFor(() => {
-      expect(screen.queryByTestId('bonusing')).not.toBeInTheDocument();
+      expect(screen.queryByTestId("bonusing")).not.toBeInTheDocument();
     });
   });
 
-  it('should send request, if button was clicked', () => {
-    const onCreate = socket.hookEmit('createLobby');
-    const button = screen.queryByTestId('createLobby');
+  it("should send request, if button was clicked", () => {
+    const onCreate = socket.hookEmit("createLobby");
+    const button = screen.queryByTestId("createLobby");
 
     if (button) {
       fireEvent.click(button);

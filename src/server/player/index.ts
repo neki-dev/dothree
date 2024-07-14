@@ -1,7 +1,8 @@
-import CONFIG from '~root/config.json';
-import { LobbyEvent } from '~type/lobby';
+import { LobbyEvent } from "~/shared/lobby/types";
 
-import type { Socket } from 'socket.io';
+import type { Socket } from "socket.io";
+
+import CONFIG from "~/../config.json";
 
 export class Player {
   private readonly socket: Socket;
@@ -15,20 +16,20 @@ export class Player {
     this.id = CONFIG.IP_ONCE ? socket.handshake.address : socket.id;
   }
 
-  emit(key: string, data?: any): void {
+  public emit(key: string, data?: any): void {
     this.socket.emit(key, data);
   }
 
-  emitError(message: string): void {
+  public emitError(message: string): void {
     this.socket.emit(LobbyEvent.Error, message);
   }
 
-  join(uuid: string, slot: number): void {
+  public join(uuid: string, slot: number): void {
     this.slot = slot;
     this.socket.join(uuid);
   }
 
-  leave(uuid: string): void {
+  public leave(uuid: string): void {
     this.slot = null;
     this.socket.leave(uuid);
   }

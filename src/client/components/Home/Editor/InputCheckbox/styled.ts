@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ export const Container = styled.div`
 `;
 
 export const Checkbox: any = styled.input.attrs({
-  type: 'checkbox',
+  type: "checkbox",
   tabIndex: 1,
 })`
   margin-right: 10px;

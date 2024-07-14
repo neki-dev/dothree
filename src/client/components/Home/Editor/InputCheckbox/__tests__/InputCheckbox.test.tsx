@@ -1,22 +1,22 @@
-import { fireEvent, screen } from '@testing-library/react';
-import React from 'react';
+import { fireEvent, screen } from "@testing-library/react";
+import React from "react";
 
-import props from '../__mocks__/InputCheckboxProps';
-import { InputCheckbox } from '../index';
+import props from "../__mocks__/InputCheckboxProps";
+import { InputCheckbox } from "../index";
 
-import { render } from '~test';
+import { render } from "~/../../tools/test";
 
-describe('Home / Editor / InputCheckbox', () => {
+describe("Home / Editor / InputCheckbox", () => {
   beforeEach(() => {
     render(<InputCheckbox {...props} />);
   });
 
-  it('should display content', () => {
+  it("should display content", () => {
     expect(screen.queryByText(props.label)).toBeInTheDocument();
     expect(screen.queryByTestId(props.name)).toBeInTheDocument();
   });
 
-  it('should handle change event', () => {
+  it("should handle change event", () => {
     const checkbox = screen.queryByTestId(props.name);
 
     if (checkbox) {

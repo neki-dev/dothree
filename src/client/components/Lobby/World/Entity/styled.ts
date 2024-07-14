@@ -1,14 +1,14 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 /** Images */
 
-import IconBonusLaser from './icons/l.svg';
-import IconBonusReplacer from './icons/r.svg';
-import IconBonusSpawn from './icons/s.svg';
-import { EntityType } from '~type/entity';
-import type { WorldEntity } from '~type/entity';
+import IconBonusLaser from "./icons/l.svg";
+import IconBonusReplacer from "./icons/r.svg";
+import IconBonusSpawn from "./icons/s.svg";
+import type { WorldEntity } from "~/shared/entity/types";
+import { EntityType } from "~/shared/entity/types";
 
-import type { FlattenSimpleInterpolation } from 'styled-components';
+import type { FlattenSimpleInterpolation } from "styled-components";
 
 /** Colors */
 
@@ -30,7 +30,7 @@ const Pointer = styled.div`
   transition: all 0.2s ease-out;
   &:after {
     position: absolute;
-    content: '';
+    content: "";
     width: 6px;
     height: 6px;
     left: 50%;
@@ -42,8 +42,8 @@ const Pointer = styled.div`
 `;
 
 const Block: any = styled.div<{
-  entity: WorldEntity
-  allow: boolean
+  entity: WorldEntity;
+  allow: boolean;
 }>`
   position: relative;
   margin: 1px;
@@ -56,60 +56,74 @@ const Block: any = styled.div<{
   ${(p) => {
     switch (p.entity.type) {
       case EntityType.EMPTY: {
-        return css`background: rgba(255, 255, 255, 0.04);`;
+        return css`
+          background: rgba(255, 255, 255, 0.04);
+        `;
       }
       case EntityType.BLOCK: {
-        return css`background: ${COLOR_BLOCK};`;
+        return css`
+          background: ${COLOR_BLOCK};
+        `;
       }
       case EntityType.PLAYER: {
-        const slot = Number(p.entity.subtype.replace(/^slot(\d)+.*$/, '$1'));
+        const slot = Number(p.entity.subtype.replace(/^slot(\d)+.*$/, "$1"));
 
-        return css`background: ${COLOR_PLAYER[slot]};`;
+        return css`
+          background: ${COLOR_PLAYER[slot]};
+        `;
       }
       case EntityType.BONUS: {
-        const icon = (p.entity.subtype && {
-          spawn: IconBonusSpawn,
-          laser: IconBonusLaser,
-          replacer: IconBonusReplacer,
-        }[p.entity.subtype]) || 'none';
+        const icon =
+          (p.entity.subtype &&
+            {
+              spawn: IconBonusSpawn,
+              laser: IconBonusLaser,
+              replacer: IconBonusReplacer,
+            }[p.entity.subtype]) ||
+          "none";
 
         return css`
           background-image: url(${icon});
           background-size: 90%;
         `;
       }
-      default: return '';
+      default:
+        return "";
     }
   }}
-  ${(p) => p.allow && css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    &:hover {
-      cursor: pointer;
-      > ${Pointer} {
-        background-color: rgba(255, 255, 255, 0.06);
-        width: 100%;
-        height: 100%;
-        border-radius: 8%;
+  ${(p) =>
+    p.allow &&
+    css`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &:hover {
+        cursor: pointer;
+        > ${Pointer} {
+          background-color: rgba(255, 255, 255, 0.06);
+          width: 100%;
+          height: 100%;
+          border-radius: 8%;
+        }
       }
-    }
-  `};
-  ${(p) => p.entity.subtype?.includes('-win') && css`
-    &::after {
-      position: absolute;
-      content: '';
-      width: 20%;
-      height: 20%;
-      left: 50%;
-      top: 50%;
-      margin: -10% 0 0 -10%;
-      border-radius: 50%;
-      background-color: #fff;
-    }
-  `};
+    `};
+  ${(p) =>
+    p.entity.subtype?.includes("-win") &&
+    css`
+      &::after {
+        position: absolute;
+        content: "";
+        width: 20%;
+        height: 20%;
+        left: 50%;
+        top: 50%;
+        margin: -10% 0 0 -10%;
+        border-radius: 50%;
+        background-color: #fff;
+      }
+    `};
   &::before {
-    content: '';
+    content: "";
     width: 100%;
     padding-top: 100%;
     float: left;

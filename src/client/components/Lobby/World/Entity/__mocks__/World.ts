@@ -1,4 +1,4 @@
-import { typeBlock, typeEmpty } from './EntityProps';
+import { typeBlock, typeEmpty } from "./EntityProps";
 
 export default [
   [typeEmpty, typeEmpty, typeEmpty],

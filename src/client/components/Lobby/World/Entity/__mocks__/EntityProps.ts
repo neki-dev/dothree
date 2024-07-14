@@ -1,7 +1,7 @@
-import { EntityType } from '~type/entity';
+import { EntityType } from "~type/entity";
 
-export const typeBlock = { type: EntityType.BLOCK, subtype: '' };
-export const typeEmpty = { type: EntityType.EMPTY, subtype: '' };
+export const typeBlock = { type: EntityType.BLOCK, subtype: "" };
+export const typeEmpty = { type: EntityType.EMPTY, subtype: "" };
 
 export default {
   data: typeEmpty,

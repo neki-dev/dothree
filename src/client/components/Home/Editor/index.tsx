@@ -1,16 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from "react";
 
-import { InputCheckbox } from './InputCheckbox';
-import { InputRange } from './InputRange';
-import { Button } from '../Button';
-import { DEFAULT_OPTIONS } from '~const/lobby';
-import { SocketContext } from '~context/SocketContext';
-import { LobbyEvent } from '~type/lobby';
+import { InputCheckbox } from "./InputCheckbox";
+import { InputRange } from "./InputRange";
+import { Button } from "../Button";
+import { SocketContext } from "~/client/context/SocketContext";
+import { DEFAULT_OPTIONS } from "~/shared/lobby/const";
+import { LobbyEvent } from "~/shared/lobby/types";
 
-import { Form, Settings } from './styled';
+import { Form, Settings } from "./styled";
 
 type Props = {
-  onClose?: () => void
+  onClose?: () => void;
 };
 
 export const Editor: React.FC<Props> = ({ onClose }) => {

@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 /** Images */
 
-import IconPlayers from './icons/players.svg';
+import IconPlayers from "./icons/players.svg";
 
 /** Styles */
 

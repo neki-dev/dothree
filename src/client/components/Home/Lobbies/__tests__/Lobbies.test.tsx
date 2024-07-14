@@ -1,14 +1,12 @@
-import {
-  fireEvent, screen, waitFor,
-} from '@testing-library/react';
-import React from 'react';
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import React from "react";
 
-import lobby from '../__mocks__/Lobby';
-import { Lobbies } from '../index';
+import lobby from "../__mocks__/Lobby";
+import { Lobbies } from "../index";
 
-import { render, socket } from '~test';
+import { render, socket } from "~/../../tools/test";
 
-describe('Home / Lobbies', () => {
+describe("Home / Lobbies", () => {
   beforeAll(() => {
     render(<Lobbies />, {
       router: true,
@@ -16,13 +14,13 @@ describe('Home / Lobbies', () => {
     });
   });
 
-  it('should display title, only if lobbies count more zero', () => {
-    const title = 'Or select existing';
+  it("should display title, only if lobbies count more zero", () => {
+    const title = "Or select existing";
 
     waitFor(() => {
       expect(screen.queryByText(title)).not.toBeInTheDocument();
 
-      socket.emitSelf('updateLatestLobbies', [lobby]);
+      socket.emitSelf("updateLatestLobbies", [lobby]);
 
       waitFor(() => {
         expect(screen.queryByText(title)).toBeInTheDocument();
@@ -30,24 +28,24 @@ describe('Home / Lobbies', () => {
     });
   });
 
-  it('should display lobbies list', () => {
-    socket.emitSelf('updateLatestLobbies', [lobby]);
+  it("should display lobbies list", () => {
+    socket.emitSelf("updateLatestLobbies", [lobby]);
 
     waitFor(() => {
       expect(screen.queryByText(lobby.uuid)).toBeInTheDocument();
     });
   });
 
-  it('should redirect to lobby, if link was clicked', () => {
-    socket.emitSelf('updateLatestLobbies', [lobby]);
+  it("should redirect to lobby, if link was clicked", () => {
+    socket.emitSelf("updateLatestLobbies", [lobby]);
     waitFor(() => {
-      const link = screen.queryByTestId('open-lobby');
+      const link = screen.queryByTestId("open-lobby");
 
       if (link) {
         fireEvent.click(link);
       }
 
-      expect(link?.getAttribute('href')).toBe(`/game/${lobby.uuid}`);
+      expect(link?.getAttribute("href")).toBe(`/game/${lobby.uuid}`);
     });
   });
 });

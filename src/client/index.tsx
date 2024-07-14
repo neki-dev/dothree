@@ -1,16 +1,16 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { App } from './components/App';
-import { Home } from './components/Home';
-import { Lobby } from './components/Lobby';
-import { SocketProvider } from '~context/SocketContext';
+import { App } from "./components/App";
+import { Home } from "./components/Home";
+import { Lobby } from "./components/Lobby";
+import { SocketProvider } from "./context/SocketContext";
 
-const app = document.getElementById('app');
+const app = document.getElementById("app");
 
 if (!app) {
-  throw Error('Undefined App element');
+  throw Error("Undefined App element");
 }
 
 const root = createRoot(app);
@@ -21,19 +21,19 @@ root.render(
       <Routes>
         <Route
           path="/"
-          element={(
+          element={
             <SocketProvider namespace="/home">
               <Home />
             </SocketProvider>
-          )}
+          }
         />
         <Route
           path="/game/:uuid"
-          element={(
+          element={
             <SocketProvider namespace="/lobby">
               <Lobby />
             </SocketProvider>
-          )}
+          }
         />
       </Routes>
     </App>

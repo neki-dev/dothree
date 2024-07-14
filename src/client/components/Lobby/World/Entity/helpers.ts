@@ -1,5 +1,5 @@
-import { EntityType } from '~type/entity';
-import type { WorldMap } from '~type/world';
+import { EntityType } from "~/shared/entity/types";
+import type { WorldMap } from "~/shared/world/types";
 
 export function canBePutTo(world: WorldMap, x: number, y: number): boolean {
   const entity = world[y][x];

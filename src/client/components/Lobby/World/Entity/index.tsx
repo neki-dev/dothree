@@ -1,17 +1,17 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo } from "react";
 
-import { canBePutTo } from './helpers';
-import { WorldContext } from '~context/WorldContext';
-import type { WorldEntity } from '~type/entity';
+import { canBePutTo } from "./helpers";
+import { WorldContext } from "~/client/context/WorldContext";
+import type { WorldEntity } from "~/shared/entity/types";
 
-import { Block, Pointer } from './styled';
+import { Block, Pointer } from "./styled";
 
 type Props = {
-  data: WorldEntity
-  x: number
-  y: number
-  isCurrentStep: boolean
-  onPut: () => void
+  data: WorldEntity;
+  x: number;
+  y: number;
+  isCurrentStep: boolean;
+  onPut: () => void;
 };
 
 export const Entity: React.FC<Props> = ({

@@ -1,14 +1,16 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const alias = require('alias-reuse');
-const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
+const alias = require("alias-reuse");
+const path = require("path");
 
-const pathToRoot = path.resolve(__dirname, '../..');
+const pathToRoot = path.resolve(__dirname, "../..");
 
-module.exports = (_, { mode }) => ({
+module.exports = (env, preset) => ({
   resolve: {
-    extensions: ['.js', '.ts', '.tsx'],
-    alias: alias.fromFile(pathToRoot, './tsconfig.json').toWebpack(),
+    extensions: [".js", ".ts", ".tsx"],
+    alias: alias.fromFile(pathToRoot, "./tsconfig.json").toWebpack(),
+  },
+  performance: {
+    hints: false,
   },
   stats: {
     all: false,
@@ -17,17 +19,5 @@ module.exports = (_, { mode }) => ({
     warnings: true,
     timings: true,
     colors: true,
-    entrypoints: true,
   },
-  devtool: mode === 'development' ? 'inline-source-map' : undefined,
-  optimization: mode === 'production' ? {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          output: { comments: false },
-        },
-      }),
-    ],
-  } : undefined,
 });

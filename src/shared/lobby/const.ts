@@ -1,4 +1,4 @@
-import type { LobbyOptions } from '~type/lobby';
+import type { LobbyOptions } from "~/shared/lobby/types";
 
 export const DEFAULT_OPTIONS: LobbyOptions = {
   maxPlayers: 3,

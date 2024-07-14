@@ -1,23 +1,24 @@
-import express from 'express';
-import { createServer } from 'http';
-import log from 'loglevel';
-import path from 'path';
-import { Server as SocketServer } from 'socket.io';
+import express from "express";
+import { createServer } from "http";
+import log from "loglevel";
+import path from "path";
+import { Server as SocketServer } from "socket.io";
 
-import { boot } from './game';
-import CONFIG from '~root/config.json';
+import { boot } from "./game";
 
-const PUBLIC_PATH = path.join(__dirname, 'public');
+import CONFIG from "~/../config.json";
 
-log.setLevel('debug');
+const PUBLIC_PATH = path.join(__dirname, "public");
+
+log.setLevel("debug");
 
 // Configure Express application
 
 const app = express();
 
 app.use(express.static(PUBLIC_PATH));
-app.get(['/', '/game/:uuid'], (_, res) => {
-  res.sendFile(path.join(PUBLIC_PATH, 'index.html'));
+app.get(["/", "/game/:uuid"], (_, res) => {
+  res.sendFile(path.join(PUBLIC_PATH, "index.html"));
 });
 
 // Configure server

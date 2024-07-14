@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from "react";
 
-import { SocketContext } from '~context/SocketContext';
-import type { LobbyInfo } from '~type/lobby';
-import { LobbyEvent } from '~type/lobby';
+import { SocketContext } from "~/client/context/SocketContext";
+import type { LobbyInfo } from "~/shared/lobby/types";
+import { LobbyEvent } from "~/shared/lobby/types";
 
-import { Title, LobbyList, Lobby } from './styled';
+import { Title, LobbyList, Lobby } from "./styled";
 
 export const Lobbies: React.FC = () => {
   const [lobbies, setLobbies] = useState<LobbyInfo[]>([]);
@@ -32,10 +32,7 @@ export const Lobbies: React.FC = () => {
           >
             <Lobby.Name>{lobby.uuid}</Lobby.Name>
             <Lobby.OnlineWrapper>
-              <Lobby.OnlineValue>{lobby.players.online}</Lobby.OnlineValue>
-              {' '}
-              /
-              {' '}
+              <Lobby.OnlineValue>{lobby.players.online}</Lobby.OnlineValue> /{" "}
               <Lobby.OnlineValue>{lobby.players.max}</Lobby.OnlineValue>
             </Lobby.OnlineWrapper>
           </Lobby>

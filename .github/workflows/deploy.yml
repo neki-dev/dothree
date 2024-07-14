@@ -1,5 +1,7 @@
 name: deploy
-on: push
+on:
+  push:
+    branches: [ main ] 
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -24,4 +26,9 @@ jobs:
           remote_user: ${{ secrets.SSH_USER }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Restarting
-        run: pm2 restart ${{ vars.GITHUB_REPOSITORY }}
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: pm2 restart ${{ vars.GITHUB_REPOSITORY }}

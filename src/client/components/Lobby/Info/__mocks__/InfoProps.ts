@@ -1,5 +1,5 @@
 import { DEFAULT_OPTIONS } from '~const/lobby';
-import { PlayerInfo } from '~type/player';
+import type { PlayerInfo } from '~type/player';
 
 import { socket } from '~test';
 

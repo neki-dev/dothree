@@ -1,6 +1,8 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 
 import { Container } from './styled';
+
+import type { MouseEventHandler } from 'react';
 
 type Props = {
   name: string

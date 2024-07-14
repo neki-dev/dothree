@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import { SocketContext } from '~context/SocketContext';
-import { LobbyEvent, LobbyOptions } from '~type/lobby';
-import { PlayerInfo } from '~type/player';
-
 import { Info } from './Info';
 import { Waiting } from './Waiting';
 import { World } from './World';
+import { SocketContext } from '~context/SocketContext';
+import type { LobbyOptions } from '~type/lobby';
+import { LobbyEvent } from '~type/lobby';
+import type { PlayerInfo } from '~type/player';
 
 import { Container, GameScreen, Error } from './styled';
 

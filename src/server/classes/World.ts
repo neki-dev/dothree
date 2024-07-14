@@ -1,10 +1,10 @@
-import { WorldEntity, EntityType, EntityBonusType } from '~type/entity';
-import { LobbyOptions } from '~type/lobby';
-import { WorldLocation, WorldMap } from '~type/world';
-
 import { Entity } from './Entity';
 import { probability } from '../utils/probability';
 import { randomize } from '../utils/randomize';
+import type { WorldEntity } from '~type/entity';
+import { EntityType, EntityBonusType } from '~type/entity';
+import type { LobbyOptions } from '~type/lobby';
+import type { WorldLocation, WorldMap } from '~type/world';
 
 const MAP_SIZE = [25, 11];
 const CHAIN_TARGET_LENGTH = 3;

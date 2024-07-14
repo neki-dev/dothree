@@ -1,8 +1,7 @@
 const path = require('path');
 
-const tsconfig = require('../../tsconfig.json');
-
 const globalConfig = require('./global');
+const tsconfig = require('../../tsconfig.json');
 
 const ROOT = path.resolve(__dirname, '../..');
 

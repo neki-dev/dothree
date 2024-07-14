@@ -1,7 +1,7 @@
-import { Socket } from 'socket.io';
-
 import CONFIG from '~root/config.json';
 import { LobbyEvent } from '~type/lobby';
+
+import type { Socket } from 'socket.io';
 
 export class Player {
   private readonly socket: Socket;

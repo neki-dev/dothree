@@ -1,5 +1,5 @@
 import { EntityType } from '~type/entity';
-import { WorldMap } from '~type/world';
+import type { WorldMap } from '~type/world';
 
 export function canBePutTo(world: WorldMap, x: number, y: number): boolean {
   const entity = world[y][x];

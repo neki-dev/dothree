@@ -1,12 +1,11 @@
 import React, { useContext, useState } from 'react';
 
+import { InputCheckbox } from './InputCheckbox';
+import { InputRange } from './InputRange';
 import { Button } from '../Button';
 import { DEFAULT_OPTIONS } from '~const/lobby';
 import { SocketContext } from '~context/SocketContext';
 import { LobbyEvent } from '~type/lobby';
-
-import { InputCheckbox } from './InputCheckbox';
-import { InputRange } from './InputRange';
 
 import { Form, Settings } from './styled';
 

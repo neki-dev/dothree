@@ -1,8 +1,10 @@
-import React, { ReactElement, createContext } from 'react';
+import React, { createContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { Socket } from 'socket.io-client';
 
 import { useSocket } from '~hook/useSocket';
+
+import type { ReactElement } from 'react';
+import type { Socket } from 'socket.io-client';
 
 // @ts-ignore
 export const SocketContext = createContext<Socket>(null);

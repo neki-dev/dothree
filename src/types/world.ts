@@ -1,4 +1,4 @@
-import { WorldEntity } from './entity';
+import type { WorldEntity } from './entity';
 
 export type WorldLocation = [number, number];
 

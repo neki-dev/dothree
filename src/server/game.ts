@@ -1,12 +1,12 @@
-import { Server, Socket } from 'socket.io';
-
-import { DEFAULT_OPTIONS } from '~const/lobby';
-import CONFIG from '~root/config.json';
-import { LobbyEvent, LobbyOptions } from '~type/lobby';
-import { WorldLocation } from '~type/world';
-
 import { Core } from './classes/Core';
 import { Player } from './classes/Player';
+import { DEFAULT_OPTIONS } from '~const/lobby';
+import CONFIG from '~root/config.json';
+import type { LobbyOptions } from '~type/lobby';
+import { LobbyEvent } from '~type/lobby';
+import type { WorldLocation } from '~type/world';
+
+import type { Server, Socket } from 'socket.io';
 
 export function boot(io: Server): void {
   const core = new Core(io);

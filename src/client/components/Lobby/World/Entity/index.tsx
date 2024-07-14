@@ -1,9 +1,8 @@
 import React, { useContext, useMemo } from 'react';
 
-import { WorldContext } from '~context/WorldContext';
-import { WorldEntity } from '~type/entity';
-
 import { canBePutTo } from './helpers';
+import { WorldContext } from '~context/WorldContext';
+import type { WorldEntity } from '~type/entity';
 
 import { Block, Pointer } from './styled';
 

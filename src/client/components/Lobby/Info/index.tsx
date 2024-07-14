@@ -3,13 +3,13 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { Countdown } from './Countdown';
 import { SocketContext } from '~context/SocketContext';
 import CONFIG from '~root/config.json';
 import { DEFAULT_OPTIONS } from '~root/src/const/lobby';
-import { LobbyEvent, LobbyOptions } from '~type/lobby';
-import { PlayerInfo } from '~type/player';
-
-import { Countdown } from './Countdown';
+import type { LobbyOptions } from '~type/lobby';
+import { LobbyEvent } from '~type/lobby';
+import type { PlayerInfo } from '~type/player';
 
 import {
   Container,
@@ -106,7 +106,7 @@ export const Info: React.FC<Props> = ({
               data-testid={`previewPlayer${slot}`}
             >
               {current && current.slot === slot && (
-              <Player.SelfLabel>You</Player.SelfLabel>
+                <Player.SelfLabel>You</Player.SelfLabel>
               )}
             </Player>
           ) : (

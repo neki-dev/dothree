@@ -1,14 +1,15 @@
 import log from 'loglevel';
-import { Namespace } from 'socket.io';
 
+import { World } from './World';
 import { generateUUID } from '../utils/generate-uuid';
 import CONFIG from '~root/config.json';
-import { LobbyOptions, LobbyInfo, LobbyEvent } from '~type/lobby';
-import { PlayerInfo } from '~type/player';
-import { WorldLocation, WorldMap } from '~type/world';
+import type { LobbyOptions, LobbyInfo } from '~type/lobby';
+import { LobbyEvent } from '~type/lobby';
+import type { PlayerInfo } from '~type/player';
+import type { WorldLocation, WorldMap } from '~type/world';
 
-import { Player } from './Player';
-import { World } from './World';
+import type { Player } from './Player';
+import type { Namespace } from 'socket.io';
 
 type LobbyParameters = {
   namespace: () => Namespace

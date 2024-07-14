@@ -2,11 +2,10 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { SocketProvider } from '~context/SocketContext';
-
 import { App } from './components/App';
 import { Home } from './components/Home';
 import { Lobby } from './components/Lobby';
+import { SocketProvider } from '~context/SocketContext';
 
 const app = document.getElementById('app');
 

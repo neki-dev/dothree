@@ -1,13 +1,11 @@
-import { createServer } from 'http';
-import path from 'path';
-
 import express from 'express';
+import { createServer } from 'http';
 import log from 'loglevel';
+import path from 'path';
 import { Server as SocketServer } from 'socket.io';
 
-import CONFIG from '~root/config.json';
-
 import { boot } from './game';
+import CONFIG from '~root/config.json';
 
 const PUBLIC_PATH = path.join(__dirname, 'public');
 

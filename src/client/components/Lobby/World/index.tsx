@@ -6,14 +6,13 @@ import React, {
   useContext,
 } from 'react';
 
+import { Entity } from './Entity';
 import { SocketContext } from '~context/SocketContext';
 import { WorldContext } from '~context/WorldContext';
-import { WorldEntity } from '~type/entity';
+import type { WorldEntity } from '~type/entity';
 import { LobbyEvent } from '~type/lobby';
-import { PlayerInfo } from '~type/player';
-import { WorldMap } from '~type/world';
-
-import { Entity } from './Entity';
+import type { PlayerInfo } from '~type/player';
+import type { WorldMap } from '~type/world';
 
 import { Field, Line } from './styled';
 

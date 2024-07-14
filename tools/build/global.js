@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const path = require('path');
-
 const alias = require('alias-reuse');
+const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const pathToRoot = path.resolve(__dirname, '../..');

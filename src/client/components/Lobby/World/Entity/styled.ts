@@ -1,12 +1,14 @@
-import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
-
-import { EntityType, WorldEntity } from '~type/entity';
+import styled, { css } from 'styled-components';
 
 /** Images */
 
 import IconBonusLaser from './icons/l.svg';
 import IconBonusReplacer from './icons/r.svg';
 import IconBonusSpawn from './icons/s.svg';
+import { EntityType } from '~type/entity';
+import type { WorldEntity } from '~type/entity';
+
+import type { FlattenSimpleInterpolation } from 'styled-components';
 
 /** Colors */
 

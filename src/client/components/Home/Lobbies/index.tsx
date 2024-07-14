@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 import { SocketContext } from '~context/SocketContext';
-import { LobbyEvent, LobbyInfo } from '~type/lobby';
+import type { LobbyInfo } from '~type/lobby';
+import { LobbyEvent } from '~type/lobby';
 
 import { Title, LobbyList, Lobby } from './styled';
 

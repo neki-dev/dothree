@@ -1,10 +1,10 @@
 import console from 'console';
 
-import { Namespace, Server } from 'socket.io';
-
-import { LobbyEvent, LobbyInfo, LobbyOptions } from '~type/lobby';
-
 import { Lobby } from './Lobby';
+import type { LobbyInfo, LobbyOptions } from '~type/lobby';
+import { LobbyEvent } from '~type/lobby';
+
+import type { Namespace, Server } from 'socket.io';
 
 export class Core {
   private readonly io: Server;

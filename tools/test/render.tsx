@@ -1,12 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { render as defaultRender } from '@testing-library/react';
-import React, { JSXElementConstructor, ReactElement } from 'react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { Socket } from 'socket.io-client';
-
-import { SocketContext } from '~context/SocketContext';
 
 import { socket } from './socket';
+import { SocketContext } from '~context/SocketContext';
+
+import type { JSXElementConstructor, ReactElement } from 'react';
+import type { Socket } from 'socket.io-client';
 
 type RenderOptions = {
   router?: boolean

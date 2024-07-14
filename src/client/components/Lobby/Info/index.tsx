@@ -76,7 +76,7 @@ export const Info: React.FC<Props> = ({
 
     const titleIdle = `DOTHREE #${uuid}`;
     const titleActive = 'Your step!';
-    let interval: NodeJS.Timer;
+    let interval: NodeJS.Timeout;
 
     if (step === current.slot && players.length === options.maxPlayers) {
       document.title = titleActive;

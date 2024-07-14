@@ -26,9 +26,8 @@ jobs:
           remote_user: ${{ secrets.SSH_USER }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Restarting
-        uses: appleboy/ssh-action@v1.0.3
+        uses: JimCronqvist/action-ssh@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: pm2 restart ${{ vars.GITHUB_REPOSITORY }}
+          hosts: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+          command: pm2 restart ${{ vars.GITHUB_REPOSITORY }}

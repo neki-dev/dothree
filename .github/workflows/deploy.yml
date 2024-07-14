@@ -30,4 +30,4 @@ jobs:
         with:
           hosts: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
-          command: pm2 restart ${{ vars.GITHUB_REPOSITORY }}
+          command: pm2 restart ${{ secrets.PM2_NAME }}

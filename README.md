@@ -1,6 +1,5 @@
 ## ![DOTHREE](./docs/logotype.png)
-[![Testing](https://github.com/neki-dev/dothree/actions/workflows/test.yml/badge.svg)](https://github.com/neki-dev/dothree/actions/workflows/test.yml)
-[![Building](https://github.com/neki-dev/dothree/actions/workflows/build.yml/badge.svg)](https://github.com/neki-dev/dothree/actions/workflows/build.yml)
+[![Build](https://github.com/neki-dev/dothree/actions/workflows/deploy.yml/badge.svg)](https://github.com/neki-dev/dothree/actions/workflows/deploy.yml)
 
 Online logic game, which like a mix of tetris and tic-tac-toe.
 

@@ -3,11 +3,10 @@ const TerserPlugin = require("terser-webpack-plugin");
 const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
-
 const globalConfig = require("./global");
-const tsconfig = require("../../tsconfig.json");
+const tsconfig = require("../tsconfig.json");
 
-const ROOT = path.resolve(__dirname, "../..");
+const ROOT = path.resolve(__dirname, "..");
 const OUTPUT = path.join(ROOT, tsconfig.compilerOptions.outDir, "public");
 
 module.exports = (env, preset) => ({

@@ -1,6 +1,6 @@
 import { Core } from "./core";
 import { Player } from "./player";
-import { DEFAULT_OPTIONS } from "~/shared/lobby/const";
+import { LOBBY_DEFAULT_OPTIONS } from "~/shared/lobby/const";
 import type { LobbyOptions } from "~/shared/lobby/types";
 import { LobbyEvent } from "~/shared/lobby/types";
 import type { WorldLocation } from "~/shared/world/types";
@@ -15,7 +15,7 @@ export function boot(io: Server): void {
   core.initialize();
 
   if (CONFIG.MOCKED_LOBBY) {
-    core.createLobby(DEFAULT_OPTIONS);
+    core.createLobby(LOBBY_DEFAULT_OPTIONS);
   }
 
   core.namespace("/home").on("connection", (socket: Socket) => {

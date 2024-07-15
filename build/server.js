@@ -2,9 +2,9 @@ const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 
 const globalConfig = require("./global");
-const tsconfig = require("../../tsconfig.json");
+const tsconfig = require("../tsconfig.json");
 
-const ROOT = path.resolve(__dirname, "../..");
+const ROOT = path.resolve(__dirname, "..");
 
 module.exports = (env, preset) => ({
   ...globalConfig(env, preset),

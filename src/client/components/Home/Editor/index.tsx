@@ -4,7 +4,7 @@ import { InputCheckbox } from "./InputCheckbox";
 import { InputRange } from "./InputRange";
 import { Button } from "../Button";
 import { SocketContext } from "~/client/context/SocketContext";
-import { DEFAULT_OPTIONS } from "~/shared/lobby/const";
+import { LOBBY_DEFAULT_OPTIONS } from "~/shared/lobby/const";
 import { LobbyEvent } from "~/shared/lobby/types";
 
 import { Form, Settings } from "./styled";
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export const Editor: React.FC<Props> = ({ onClose }) => {
-  const [options, setOptions] = useState(DEFAULT_OPTIONS);
+  const [options, setOptions] = useState(LOBBY_DEFAULT_OPTIONS);
 
   const socket = useContext(SocketContext);
 

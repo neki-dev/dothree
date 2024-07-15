@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Countdown } from "./Countdown";
 import { SocketContext } from "~/client/context/SocketContext";
-import { DEFAULT_OPTIONS } from "~/shared/lobby/const";
+import { LOBBY_DEFAULT_OPTIONS } from "~/shared/lobby/const";
 import type { LobbyOptions } from "~/shared/lobby/types";
 import { LobbyEvent } from "~/shared/lobby/types";
 import type { PlayerInfo } from "~/shared/player/types";
@@ -26,7 +26,7 @@ type Props = {
 
 export const Info: React.FC<Props> = ({
   players,
-  options = DEFAULT_OPTIONS,
+  options = LOBBY_DEFAULT_OPTIONS,
 }) => {
   const { uuid } = useParams<{ uuid: string }>();
 

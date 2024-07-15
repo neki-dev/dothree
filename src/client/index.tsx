@@ -2,10 +2,10 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { App } from "./components/App";
-import { Home } from "./components/Home";
-import { Lobby } from "./components/Lobby";
-import { SocketProvider } from "./context/SocketContext";
+import { AppWrapper } from "./components/app-wrapper";
+import { HomePage } from "./pages/home";
+import { LobbyPage } from "./pages/lobby";
+import { SocketProvider } from "./socket/socket-provider";
 
 const app = document.getElementById("app");
 
@@ -17,13 +17,13 @@ const root = createRoot(app);
 
 root.render(
   <BrowserRouter>
-    <App>
+    <AppWrapper>
       <Routes>
         <Route
           path="/"
           element={
             <SocketProvider namespace="/home">
-              <Home />
+              <HomePage />
             </SocketProvider>
           }
         />
@@ -31,11 +31,11 @@ root.render(
           path="/game/:uuid"
           element={
             <SocketProvider namespace="/lobby">
-              <Lobby />
+              <LobbyPage />
             </SocketProvider>
           }
         />
       </Routes>
-    </App>
+    </AppWrapper>
   </BrowserRouter>,
 );

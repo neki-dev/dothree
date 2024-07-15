@@ -1,7 +1,7 @@
+const CopyPlugin = require("copy-webpack-plugin");
+const HtmlPlugin = require("html-webpack-plugin");
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
-const HtmlPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
 
 const globalConfig = require("./global");
 const tsconfig = require("../tsconfig.json");
@@ -57,13 +57,13 @@ module.exports = (env, preset) => ({
     preset.mode === "development"
       ? undefined
       : {
-          minimize: true,
-          minimizer: [
-            new TerserPlugin({
-              terserOptions: {
-                output: { comments: false },
-              },
-            }),
-          ],
-        },
+        minimize: true,
+        minimizer: [
+          new TerserPlugin({
+            terserOptions: {
+              output: { comments: false },
+            },
+          }),
+        ],
+      },
 });

@@ -2,7 +2,7 @@
 const alias = require("alias-reuse");
 const path = require("path");
 
-const pathToRoot = path.resolve(__dirname, "../..");
+const pathToRoot = path.resolve(__dirname, "..");
 
 module.exports = (env, preset) => ({
   resolve: {

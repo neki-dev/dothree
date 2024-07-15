@@ -8,10 +8,10 @@ import { Timeleft } from "./styled";
 
 type Props = {
   limit: number;
-  isCurrent: boolean;
+  current: boolean;
 };
 
-export const Countdown: React.FC<Props> = ({ limit, isCurrent }) => {
+export const Countdown: React.FC<Props> = ({ limit, current }) => {
   const [tick, setTick] = useState<number>(0);
 
   const socket = useSocketContext();
@@ -27,7 +27,7 @@ export const Countdown: React.FC<Props> = ({ limit, isCurrent }) => {
   }, []);
 
   return tick > 0 ? (
-    <Timeleft danger={isCurrent && tick <= Math.round(limit / 3)}>
+    <Timeleft danger={current && tick <= Math.round(limit / 3)}>
       {date.second(tick).format("mm:ss")}
     </Timeleft>
   ) : null;

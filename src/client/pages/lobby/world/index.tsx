@@ -42,7 +42,7 @@ export const World: React.FC<Props> = ({ players }) => {
   }, []);
 
   return world ? (
-    <Field ref={refWorld} data-testid="world">
+    <Field ref={refWorld}>
       <WorldContext.Provider value={world}>
         {world.map((line: WorldEntity[], y: number) => (
           <Line key={y}>
@@ -52,7 +52,7 @@ export const World: React.FC<Props> = ({ players }) => {
                 data={entity}
                 x={x}
                 y={y}
-                isCurrentStep={step === current?.slot}
+                active={step === current?.slot}
                 onPut={() => putEntity(x, y)}
               />
             ))}

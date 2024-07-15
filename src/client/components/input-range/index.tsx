@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Container, Group, Controls, Label, Value } from "./styled";
+import { Container, Controls, Label, Value } from "./styled";
 
 type Props = {
   label: string;
@@ -10,7 +10,7 @@ type Props = {
   min: number;
   max: number;
   step?: number;
-  onChange?: (name: string, value: number) => void;
+  onChange: (name: string, value: number) => void;
 };
 
 export const InputRange: React.FC<Props> = ({
@@ -30,26 +30,18 @@ export const InputRange: React.FC<Props> = ({
 
     if (newValue >= min && newValue <= max) {
       setValue(newValue);
-      onChange?.(name, newValue);
+      onChange(name, newValue);
     }
   };
 
   return (
-    <Container title={tooltip}>
+    <Container title={tooltip} aria-label={label}>
       <Label>{label}</Label>
-      <Group>
-        <Controls data-testid={name}>
-          <Controls.Dec
-            onClick={() => changeValue(-1)}
-            data-testid={`${name}/dec`}
-          />
-          <Value small={max >= 10}>{value}</Value>
-          <Controls.Inc
-            onClick={() => changeValue(+1)}
-            data-testid={`${name}/inc`}
-          />
-        </Controls>
-      </Group>
+      <Controls>
+        <Controls.Dec onClick={() => changeValue(-1)} />
+        <Value small={max >= 10}>{value}</Value>
+        <Controls.Inc onClick={() => changeValue(+1)} />
+      </Controls>
     </Container>
   );
 };

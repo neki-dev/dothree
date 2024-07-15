@@ -16,7 +16,7 @@ export const LobbyPage: React.FC = () => {
   const [players, setPlayers] = useState<PlayerInfo[]>([]);
 
   const socket = useSocketContext();
-  const isReady = players.length === options?.maxPlayers;
+  const ready = players.length === options?.maxPlayers;
 
   useEffect(() => {
     socket.on(LobbyEvent.Error, setError);
@@ -38,7 +38,7 @@ export const LobbyPage: React.FC = () => {
         </Error>
       ) : (
         <>
-          {!isReady && (
+          {!ready && (
             <Waiting
               currentPlayers={players.length}
               maxPlayers={options?.maxPlayers}

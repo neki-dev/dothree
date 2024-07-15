@@ -28,7 +28,6 @@ export const Lobbies: React.FC = () => {
             key={lobby.uuid}
             href={`/game/${lobby.uuid}`}
             target="_blank"
-            data-testid="open-lobby"
           >
             <Lobby.Name>{lobby.uuid}</Lobby.Name>
             <Lobby.OnlineWrapper>

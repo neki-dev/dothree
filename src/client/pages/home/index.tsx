@@ -3,19 +3,21 @@ import GitHubButton from "react-github-btn";
 
 import { Editor } from "./editor";
 import { Lobbies } from "./lobbies";
+import { HomeSection } from "./types";
 import { Button } from "~/client/components/button";
 
 import { Container, Logotype, Description, Footer } from "./styled";
 
 export const HomePage: React.FC = () => {
-  const [section, setSection] = useState("lobbies");
+  const [section, setSection] = useState(HomeSection.Lobbies);
 
-  const setSectionLobbies = () => setSection("lobbies");
-  const setSectionEditor = () => setSection("editor");
+  const openLobbies = () => setSection(HomeSection.Lobbies);
+
+  const openEditor = () => setSection(HomeSection.Editor);
 
   return (
     <Container>
-      <Logotype onClick={() => setSection("lobbies")}>
+      <Logotype onClick={() => setSection(HomeSection.Lobbies)}>
         <Logotype.Blocks>
           <Logotype.Block />
           <Logotype.Block />
@@ -27,13 +29,11 @@ export const HomePage: React.FC = () => {
         Online logic game, which like a mix of tetris and tic-tac-toe
       </Description>
 
-      {section === "editor" ? (
-        <Editor onClose={setSectionLobbies} />
+      {section === HomeSection.Editor ? (
+        <Editor onClose={openLobbies} />
       ) : (
         <>
-          <Button onClick={setSectionEditor} name="createLobby">
-            Create lobby
-          </Button>
+          <Button onClick={openEditor}>Create lobby</Button>
           <Lobbies />
         </>
       )}

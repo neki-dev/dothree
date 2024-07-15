@@ -101,11 +101,7 @@ export const InfoPanel: React.FC<Props> = ({
         <Block.Value>
           {slots.map((player, slot) =>
             player ? (
-              <Player
-                key={slot}
-                slot={slot}
-                data-testid={`previewPlayer${slot}`}
-              >
+              <Player key={slot} slot={slot}>
                 {current && current.slot === slot && (
                   <Player.SelfLabel>You</Player.SelfLabel>
                 )}
@@ -125,7 +121,7 @@ export const InfoPanel: React.FC<Props> = ({
             <Countdown
               key={step}
               limit={options.timeout}
-              isCurrent={step === current?.slot}
+              current={step === current?.slot}
             />
           </Block.Value>
         </Block>

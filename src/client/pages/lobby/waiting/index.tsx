@@ -12,7 +12,7 @@ export const Waiting: React.FC<Props> = ({ currentPlayers, maxPlayers }) => {
 
   return (
     <WaitingOverlay>
-      {maxPlayers !== undefined && (
+      {maxPlayers && (
         <>
           <Loading>
             {blocks.map((_, slot) => (
@@ -26,13 +26,9 @@ export const Waiting: React.FC<Props> = ({ currentPlayers, maxPlayers }) => {
 
           <Status>
             <Status.String>Joined</Status.String>
-            <Status.Number data-testid="waitingCurrentPlayers">
-              {currentPlayers}
-            </Status.Number>
+            <Status.Number>{currentPlayers}</Status.Number>
             <Status.String>from</Status.String>
-            <Status.Number data-testid="waitingMaxPlayers">
-              {maxPlayers}
-            </Status.Number>
+            <Status.Number>{maxPlayers}</Status.Number>
             <Status.String>players</Status.String>
           </Status>
         </>

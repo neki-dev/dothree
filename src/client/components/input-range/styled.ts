@@ -19,8 +19,6 @@ export const Container = styled.div`
   }
 `;
 
-export const Group = styled.div``;
-
 export const Controls: any = styled.div`
   display: flex;
   align-items: center;

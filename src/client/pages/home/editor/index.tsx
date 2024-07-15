@@ -25,8 +25,8 @@ export const Editor: React.FC<Props> = ({ onClose }) => {
     }));
   };
 
-  const createLobby = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const createLobby = (event: React.MouseEvent) => {
+    event.preventDefault();
 
     socket.emit(LobbyEvent.CreateLobby, options, (uuid: string) => {
       window.open(`/game/${uuid}`);
@@ -91,7 +91,7 @@ export const Editor: React.FC<Props> = ({ onClose }) => {
         />
       </Settings>
 
-      <Button onClick={createLobby} name="createLobby">
+      <Button onClick={createLobby}>
         Accept
       </Button>
     </Form>

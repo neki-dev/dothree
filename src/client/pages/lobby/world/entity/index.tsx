@@ -10,32 +10,25 @@ type Props = {
   data: WorldEntity;
   x: number;
   y: number;
-  isCurrentStep: boolean;
+  active: boolean;
   onPut: () => void;
 };
 
-export const Entity: React.FC<Props> = ({
-  data,
-  x,
-  y,
-  isCurrentStep,
-  onPut,
-}) => {
+export const Entity: React.FC<Props> = ({ data, x, y, active, onPut }) => {
   const world = useWorldContext();
 
-  const canBePut = useMemo(
-    () => isCurrentStep && isPuttable(world, x, y),
-    [world, isCurrentStep],
+  const puttable = useMemo(
+    () => active && isPuttable(world, x, y),
+    [world, active],
   );
 
   return (
     <Block
       entity={data}
-      allow={canBePut}
-      onClick={canBePut ? onPut : undefined}
-      data-testid="entity"
+      allow={puttable}
+      onClick={puttable ? onPut : undefined}
     >
-      {canBePut && <Pointer />}
+      {puttable && <Pointer />}
     </Block>
   );
 };

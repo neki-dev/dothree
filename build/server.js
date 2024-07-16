@@ -1,5 +1,4 @@
 const path = require("path");
-const nodeExternals = require("webpack-node-externals");
 
 const globalConfig = require("./global");
 const tsconfig = require("../tsconfig.json");
@@ -15,7 +14,6 @@ module.exports = (env, preset) => ({
     path: path.join(ROOT, tsconfig.compilerOptions.outDir),
     filename: "server.js",
   },
-  externals: [nodeExternals()],
   module: {
     rules: [
       {

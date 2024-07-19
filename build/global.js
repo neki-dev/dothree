@@ -2,12 +2,13 @@
 const alias = require("alias-reuse");
 const path = require("path");
 
-const pathToRoot = path.resolve(__dirname, "..");
+const root = path.resolve(__dirname, "..");
+const tsconfig = path.resolve(root, "tsconfig.json");
 
 module.exports = (env, preset) => ({
   resolve: {
     extensions: [".js", ".ts", ".tsx"],
-    alias: alias.fromFile(pathToRoot, "./tsconfig.json").toWebpack(),
+    alias: alias.reuse().from(tsconfig).for('webpack'),
   },
   performance: {
     hints: false,

@@ -8,7 +8,7 @@ const tsconfig = path.resolve(root, "tsconfig.json");
 module.exports = (env, preset) => ({
   resolve: {
     extensions: [".js", ".ts", ".tsx"],
-    alias: alias.reuse().from(tsconfig).for('webpack'),
+    alias: alias.reuse().from(tsconfig).for("webpack"),
   },
   performance: {
     hints: false,

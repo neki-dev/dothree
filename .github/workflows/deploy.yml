@@ -1,20 +1,39 @@
-name: deploy
-on:
-  push:
-    branches: [ main ] 
+name: Build and deploy
+on: push
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '20.x'
-      - name: Installing
+      - name: Install
         run: yarn install
-      - name: Building
-        run: yarn build
-      - name: Deploying
+      - name: Build server 
+        run: yarn build:server
+      - name: Build client
+        run: yarn build:client
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: distribution
+          path: dist/
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+      - name: Download
+        uses: actions/download-artifact@v2
+        with:
+          name: distribution
+          path: dist/
+      - name: Deploy
         uses: burnett01/rsync-deployments@7.0.1
         with:
           switches: -a --delete --progress
@@ -23,7 +42,7 @@ jobs:
           remote_host: ${{ secrets.SSH_HOST }}
           remote_user: ${{ secrets.SSH_USER }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Restarting
+      - name: Restart
         uses: JimCronqvist/action-ssh@master
         with:
           hosts: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}

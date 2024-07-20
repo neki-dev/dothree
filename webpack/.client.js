@@ -1,22 +1,22 @@
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlPlugin = require("html-webpack-plugin");
 const path = require("path");
-const TerserPlugin = require("terser-webpack-plugin");
+// const TerserPlugin = require("terser-webpack-plugin");
 
-const globalConfig = require("./global");
+const sharedConfig = require("./.shared");
 const tsconfig = require("../tsconfig.json");
 
 const ROOT = path.resolve(__dirname, "..");
 const OUTPUT = path.join(ROOT, tsconfig.compilerOptions.outDir, "public");
 
 module.exports = (env, preset) => ({
-  ...globalConfig(env, preset),
+  ...sharedConfig(env, preset),
   name: "Client",
   target: "web",
   entry: path.join(ROOT, "src/client/index.tsx"),
   output: {
     path: OUTPUT,
-    filename: "bundle.js",
+    filename: "bundle.[fullhash].js",
     clean: true,
   },
   module: {
@@ -27,13 +27,11 @@ module.exports = (env, preset) => ({
         use: ["babel-loader", "ts-loader"],
       },
       {
-        test: /\.(svg|png|ttf|woff|wav)$/,
+        test: /\.(svg|png|ttf|woff|woff2)$/,
         exclude: /node_modules/,
-        loader: "file-loader",
-        options: {
-          outputPath: "assets",
-          name: "[name].[ext]",
-          publicPath: "/assets",
+        type: "asset/resource",
+        generator: {
+          filename: "assets/[hash][ext]",
         },
       },
     ],
@@ -57,13 +55,13 @@ module.exports = (env, preset) => ({
     preset.mode === "development"
       ? undefined
       : {
-        minimize: true,
-        minimizer: [
-          new TerserPlugin({
-            terserOptions: {
-              output: { comments: false },
-            },
-          }),
-        ],
-      },
+          minimize: true,
+          // minimizer: [
+          //   new TerserPlugin({
+          //     terserOptions: {
+          //       output: { comments: false },
+          //     },
+          //   }),
+          // ],
+        },
 });

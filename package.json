@@ -1,11 +1,13 @@
 {
   "name": "dothree",
   "description": "Logic online game similar to a mixture of tetris and tic-tac-toe",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "keywords": [
     "game",
-    "logic",
-    "online"
+    "online",
+    "tetris",
+    "tic-tac-toe",
+    "logic"
   ],
   "author": {
     "name": "Nikita Galadiy",
@@ -19,9 +21,11 @@
     "ie > 11"
   ],
   "scripts": {
-    "start": "node ./app/server.js",
-    "watch": "webpack --mode development --watch",
-    "build": "webpack --mode production",
+    "start": "node ./dist/server.js",
+    "build:client": "webpack --config ./webpack/.client.js --mode=production",
+    "build:server": "webpack --config ./webpack/.server.js --mode=production",
+    "build": "yarn build:server && yarn build:client",
+    "watch": "webpack --config ./webpack/index.js --mode=development --watch",
     "lint": "eslint \"./**/*.{js,ts,tsx}\" --ignore-path .gitignore --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,json}\""
   },
@@ -38,9 +42,7 @@
     "babel-loader": "9.1.2",
     "eslint": "8.56.0",
     "eslint-plugin-import": "2.29.1",
-    "file-loader": "6.2.0",
     "prettier": "3.0.3",
-    "terser-webpack-plugin": "5.3.10",
     "ts-loader": "9.5.1",
     "typescript": "5.5.3",
     "webpack": "5.93.0",

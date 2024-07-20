@@ -1,12 +1,12 @@
 const path = require("path");
 
-const globalConfig = require("./global");
+const sharedConfig = require("./.shared");
 const tsconfig = require("../tsconfig.json");
 
 const ROOT = path.resolve(__dirname, "..");
 
 module.exports = (env, preset) => ({
-  ...globalConfig(env, preset),
+  ...sharedConfig(env, preset),
   name: "Server",
   target: "node",
   entry: path.join(ROOT, "src/server/index.ts"),
@@ -23,6 +23,7 @@ module.exports = (env, preset) => ({
       },
     ],
   },
+  externals: ["bufferutil", "utf-8-validate"],
   optimization: {
     minimize: false,
   },

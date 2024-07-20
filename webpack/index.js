@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
 module.exports = [
-  require('./build/server'),
-  require('./build/client'),
+  require('./.server'),
+  require('./.client'),
 ];

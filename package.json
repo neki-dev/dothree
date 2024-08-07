@@ -24,7 +24,7 @@
     "start": "node ./dist/server.js",
     "build:client": "webpack --config ./webpack/.client.js --mode=production",
     "build:server": "webpack --config ./webpack/.server.js --mode=production",
-    "build": "yarn build:server && yarn build:client",
+    "build": "yarn build:server && yarn build:client && cp ./pm2.config.js ./dist/pm2.config.js",
     "watch": "webpack --config ./webpack/index.js --mode=development --watch",
     "lint": "eslint \"./**/*.{js,ts,tsx}\" --ignore-path .gitignore --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,json}\""

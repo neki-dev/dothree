@@ -14,6 +14,8 @@ jobs:
         run: yarn build:server
       - name: Build client
         run: yarn build:client
+      - name: Copy configuration
+        run: cp ./pm2.config.js ./dist/pm2.config.js
       - name: Upload
         uses: actions/upload-artifact@v2
         with:

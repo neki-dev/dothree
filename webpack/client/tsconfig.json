@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig",
+  "include": [
+    "../../src/client/**/*.ts",
+    "../../src/shared/**/*.ts",
+    "../../src/*.d.ts"
+  ]
+}

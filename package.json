@@ -22,12 +22,11 @@
   ],
   "scripts": {
     "start": "node ./dist/server.js",
-    "build:client": "webpack --config ./webpack/.client.js --mode=production",
-    "build:server": "webpack --config ./webpack/.server.js --mode=production",
     "build": "yarn build:server && yarn build:client",
+    "build:client": "webpack --config ./webpack/client/index.js --mode=production",
+    "build:server": "webpack --config ./webpack/server/index.js --mode=production",
     "watch": "webpack --config ./webpack/index.js --mode=development --watch",
-    "lint": "eslint \"./**/*.{js,ts,tsx}\" --ignore-path .gitignore --fix",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json}\""
+    "lint": "eslint \"./**/*.{js,ts,tsx}\" --ignore-path .gitignore --fix"
   },
   "dependencies": {
     "dayjs": "1.11.5",
@@ -60,7 +59,6 @@
     "copy-webpack-plugin": "12.0.2",
     "eslint": "8.56.0",
     "eslint-plugin-import": "2.29.1",
-    "prettier": "3.0.3",
     "ts-loader": "9.5.1",
     "typescript": "5.5.3",
     "webpack": "5.93.0",

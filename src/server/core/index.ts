@@ -1,4 +1,4 @@
-import console from "console";
+import log from "loglevel";
 
 import { Lobby } from "../lobby";
 import type { LobbyOptions, LobbyInfo } from "~/shared/lobby/types";
@@ -54,8 +54,7 @@ export class Core {
     const index = this.findLobbyIndex(lobby);
 
     if (index === -1) {
-      console.warn(`Lobby #${lobby.uuid} is not found`);
-
+      log.warn(`Lobby #${lobby.uuid} is not found`);
       return;
     }
 

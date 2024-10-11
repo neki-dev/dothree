@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Countdown } from "./countdown";
 import { useSocketContext } from "~/client/socket/hooks/use-socket-context";
-import { LOBBY_DEFAULT_OPTIONS } from "~/shared/lobby/const";
+import { LOBBY_DEFAULT_OPTIONS, LOBBY_RESTART_TIMEOUT } from "~/shared/lobby/const";
 import type { LobbyOptions } from "~/shared/lobby/types";
 import { LobbyEvent } from "~/shared/lobby/types";
 import type { PlayerInfo } from "~/shared/player/types";
@@ -16,8 +16,6 @@ import {
   WinMessage,
   EmptySlot,
 } from "./styled";
-
-import CONFIG from "~/../config.json";
 
 type Props = {
   players: PlayerInfo[];
@@ -40,17 +38,15 @@ export const InfoPanel: React.FC<Props> = ({
 
     for (let i = 0; i < options.maxPlayers; i += 1) {
       const currentPlayer = players.find((player) => player.slot === i);
-
       result.push(currentPlayer ?? null);
     }
 
     return result;
   }, [players, options.maxPlayers]);
 
-  const current = useMemo(
-    () => players.find((player) => player.id === socket.id),
-    [players],
-  );
+  const current = useMemo(() => (
+    players.find((player) => player.id === socket.id)
+  ), [players]);
 
   const clearWinner = () => {
     setWinner(null);
@@ -135,7 +131,7 @@ export const InfoPanel: React.FC<Props> = ({
               {winner === current?.id ? "You win" : "You lose"}
             </WinMessage>
             <RestartMessage>
-              Restart game after {CONFIG.LOBBY_RESTART_TIMEOUT} seconds...
+              Restart game after {LOBBY_RESTART_TIMEOUT} seconds...
             </RestartMessage>
           </Block.Value>
         </Block>

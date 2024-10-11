@@ -2,6 +2,7 @@ import log from "loglevel";
 
 import { generateUUID } from "../utils/generate-uuid";
 import { World } from "../world";
+import { LOBBY_IDLE_TIMEOUT, LOBBY_RESTART_TIMEOUT } from "~/shared/lobby/const";
 import type { LobbyOptions, LobbyInfo } from "~/shared/lobby/types";
 import { LobbyEvent } from "~/shared/lobby/types";
 import type { PlayerInfo } from "~/shared/player/types";
@@ -9,8 +10,6 @@ import type { WorldLocation, WorldMap } from "~/shared/world/types";
 
 import type { LobbyParameters } from "./types";
 import type { Player } from "../player";
-
-import CONFIG from "~/../config.json";
 
 export class Lobby {
   public readonly uuid: string;
@@ -72,7 +71,7 @@ export class Lobby {
   public onGameTick(): void {
     this.handleStepTimeout();
 
-    if (CONFIG.LOBBY_IDLE_TIMEOUT > 0) {
+    if (LOBBY_IDLE_TIMEOUT > 0) {
       this.handleIdleTimeout();
     }
   }
@@ -82,7 +81,6 @@ export class Lobby {
 
     if (isExists) {
       player.emitError("You are already in this lobby");
-
       return;
     }
 
@@ -90,7 +88,6 @@ export class Lobby {
 
     if (slot === null) {
       player.emitError("This lobby is already started");
-
       return;
     }
 
@@ -114,7 +111,6 @@ export class Lobby {
 
     if (index === -1) {
       log.warn(`Player #${player.id} not found in lobby #${this.uuid}`);
-
       return;
     }
 
@@ -139,7 +135,6 @@ export class Lobby {
 
     if (result) {
       const isWinning = this.world.checkWinning(result);
-
       if (isWinning) {
         this.finish();
         this.emit(LobbyEvent.PlayerWin, player.id);
@@ -254,14 +249,14 @@ export class Lobby {
   private finish(): void {
     this.reseting = setTimeout(() => {
       this.reset();
-    }, CONFIG.LOBBY_RESTART_TIMEOUT * 1000);
+    }, LOBBY_RESTART_TIMEOUT * 1000);
     this.step = null;
   }
 
   private handleIdleTimeout(): void {
     if (this.players.length === 0) {
       this.idleTick++;
-      if (this.idleTick === CONFIG.LOBBY_IDLE_TIMEOUT) {
+      if (this.idleTick === LOBBY_IDLE_TIMEOUT) {
         this.destroy();
       }
     } else {

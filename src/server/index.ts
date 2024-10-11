@@ -6,13 +6,11 @@ import { Server as SocketServer } from "socket.io";
 
 import { boot } from "./game";
 
-import CONFIG from "~/../config.json";
-
 const PUBLIC_PATH = path.join(__dirname, "public");
 
 log.setLevel("debug");
 
-// Configure Express application
+// Configure express
 
 const app = express();
 
@@ -23,7 +21,7 @@ app.get(["/", "/game/:uuid"], (_, res) => {
 
 // Configure server
 
-const port = Number(process.env.PORT) || CONFIG.PORT;
+const port = Number(process.env.PORT) || 4800;
 const server = createServer(app);
 
 server.listen(port, () => {

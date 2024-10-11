@@ -1,7 +1,0 @@
-{
-	"IP_ONCE": false,
-	"PORT": 4801,
-	"MOCKED_LOBBY": true,
-	"LOBBY_RESTART_TIMEOUT": 5,
-	"LOBBY_IDLE_TIMEOUT": 60
-}

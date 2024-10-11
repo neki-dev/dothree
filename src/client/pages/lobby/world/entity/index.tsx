@@ -17,10 +17,9 @@ type Props = {
 export const Entity: React.FC<Props> = ({ data, x, y, active, onPut }) => {
   const world = useWorldContext();
 
-  const puttable = useMemo(
-    () => active && isPuttable(world, x, y),
-    [world, active],
-  );
+  const puttable = useMemo(() => (
+    active && isPuttable(world, x, y)
+  ), [world, active]);
 
   return (
     <Block

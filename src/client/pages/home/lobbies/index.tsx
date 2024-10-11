@@ -19,7 +19,7 @@ export const Lobbies: React.FC = () => {
     };
   }, []);
 
-  return lobbies.length > 0 ? (
+  return lobbies.length > 0 && (
     <>
       <Title>Or select existing</Title>
       <LobbyList>
@@ -38,5 +38,5 @@ export const Lobbies: React.FC = () => {
         ))}
       </LobbyList>
     </>
-  ) : null;
+  );
 };

@@ -26,9 +26,9 @@ export const Countdown: React.FC<Props> = ({ limit, current }) => {
     };
   }, []);
 
-  return tick > 0 ? (
+  return tick > 0 && (
     <Timeleft danger={current && tick <= Math.round(limit / 3)}>
       {date.second(tick).format("mm:ss")}
     </Timeleft>
-  ) : null;
+  );
 };

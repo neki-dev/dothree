@@ -2,8 +2,6 @@ import { LobbyEvent } from "~/shared/lobby/types";
 
 import type { Socket } from "socket.io";
 
-import CONFIG from "~/../config.json";
-
 export class Player {
   private readonly socket: Socket;
 
@@ -13,7 +11,7 @@ export class Player {
 
   constructor(socket: Socket) {
     this.socket = socket;
-    this.id = CONFIG.IP_ONCE ? socket.handshake.address : socket.id;
+    this.id = socket.id;
   }
 
   public emit(key: string, data?: any): void {

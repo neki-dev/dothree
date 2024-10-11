@@ -11,9 +11,13 @@ import { Container, Logotype, Description, Footer } from "./styled";
 export const HomePage: React.FC = () => {
   const [section, setSection] = useState(HomeSection.Lobbies);
 
-  const openLobbies = () => setSection(HomeSection.Lobbies);
+  const openLobbies = () => {
+    setSection(HomeSection.Lobbies);
+  };
 
-  const openEditor = () => setSection(HomeSection.Editor);
+  const openEditor = () => {
+    setSection(HomeSection.Editor);
+  };
 
   return (
     <Container>

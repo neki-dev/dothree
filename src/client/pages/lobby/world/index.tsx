@@ -22,10 +22,9 @@ export const World: React.FC<Props> = ({ players }) => {
 
   const refWorld = useRef<HTMLDivElement>(null);
 
-  const current = useMemo(
-    () => players.find((player) => player.id === socket.id),
-    [players],
-  );
+  const current = useMemo(() => (
+    players.find((player) => player.id === socket.id)
+  ), [players]);
 
   const putEntity = (x: number, y: number) => {
     socket.emit(LobbyEvent.PutEntity, [x, y]);

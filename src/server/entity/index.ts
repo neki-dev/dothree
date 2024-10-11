@@ -1,9 +1,9 @@
 import type { WorldEntity, EntityType } from "~/shared/entity/types";
 
 export class Entity implements WorldEntity {
-  public type: EntityType;
+  public readonly type: EntityType;
 
-  public subtype: string;
+  public readonly subtype: string;
 
   constructor(type: EntityType, substype: string = "") {
     this.type = type;
@@ -11,6 +11,8 @@ export class Entity implements WorldEntity {
   }
 
   public toString() {
-    return this.subtype ? [this.type, this.subtype].join("-") : this.type;
+    return this.subtype
+      ? `${this.type}-${this.subtype}`
+      : this.type;
   }
 }

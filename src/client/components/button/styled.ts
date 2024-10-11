@@ -13,7 +13,7 @@ export const Container = styled.button.attrs({
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  transition: background 0.1s ease-in;
+  transition: background-color 0.1s ease-in;
   &:hover,
   &:focus {
     cursor: pointer;

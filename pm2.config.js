@@ -11,11 +11,9 @@ module.exports = {
       /**
        * Environment
        */
-      env_production: {
+      env: {
         NODE_ENV: "production",
-      },
-      env_development: {
-        NODE_ENV: "development",
+        PORT: 4801,
       },
 
       /**

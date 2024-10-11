@@ -52,7 +52,6 @@ export class World {
 
     locations.forEach((location) => {
       const playerEntity = new Entity(EntityType.PLAYER, `slot${slot}`);
-
       this.setEntity(location, playerEntity);
     });
 
@@ -66,7 +65,6 @@ export class World {
       if (results) {
         results.forEach((result) => {
           const entity = this.getEntity(result);
-
           if (entity) {
             entity.subtype += "-win";
           }
@@ -86,14 +84,14 @@ export class World {
       case EntityBonusType.REPLACER: {
         const puttedEntities: WorldLocation[] = [];
 
-        this.eachMap((entity: WorldEntity, x: number, y: number) => {
+        this.eachMap((entity, location) => {
           if (entity.type === EntityType.PLAYER) {
             const entitySlot = Number(
               entity.subtype.replace(/^slot(\d)+.*$/, "$1"),
             );
 
             if (entitySlot !== slot) {
-              puttedEntities.push([x, y]);
+              puttedEntities.push(location);
             }
           }
         });
@@ -106,9 +104,9 @@ export class World {
       case EntityBonusType.SPAWN: {
         const emptyEntities: WorldLocation[] = [];
 
-        this.eachMap((entity: WorldEntity, x: number, y: number) => {
-          if (entity.type === EntityType.EMPTY && this.canBePlaced([x, y])) {
-            emptyEntities.push([x, y]);
+        this.eachMap((entity, location) => {
+          if (entity.type === EntityType.EMPTY && this.canBePlaced(location)) {
+            emptyEntities.push(location);
           }
         });
         if (emptyEntities.length > 0) {
@@ -122,9 +120,9 @@ export class World {
 
         Object.keys(this.map).forEach((y) => {
           const emptyEntity = new Entity(EntityType.EMPTY);
-
           this.setEntity([mainLocationX, Number(y)], emptyEntity);
         });
+
         const mainLocation: WorldLocation = [
           mainLocationX,
           this.map.length - 1,
@@ -158,7 +156,6 @@ export class World {
     }
 
     const entity = this.getEntity([x, y + 1]);
-
     if (entity) {
       return [EntityType.PLAYER, EntityType.BLOCK].includes(entity.type);
     }
@@ -172,7 +169,6 @@ export class World {
     }
 
     const [x, y] = location;
-
     this.map[y][x] = entity;
   }
 
@@ -182,16 +178,15 @@ export class World {
     }
 
     const [x, y] = location;
-
     return this.map[y][x];
   }
 
   private eachMap(
-    callback: (entity: Entity, x: number, y: number) => void,
+    callback: (entity: Entity, location: WorldLocation) => void,
   ): void {
     Object.entries(this.map).forEach(([y, line]) => {
       Object.entries(line).forEach(([x, entity]) => {
-        callback(entity, Number(x), Number(y));
+        callback(entity, [Number(x), Number(y)]);
       });
     });
   }
@@ -207,7 +202,6 @@ export class World {
 
         if (this.isLocationsMatch(from, locations)) {
           result = locations;
-
           return true;
         }
       }
@@ -255,13 +249,11 @@ export class World {
     locationB: WorldLocation,
   ): boolean {
     const entityA = this.getEntity(locationA);
-
     if (!entityA) {
       return false;
     }
 
     const entityB = this.getEntity(locationB);
-
     if (!entityB) {
       return false;
     }

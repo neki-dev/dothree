@@ -19,8 +19,8 @@ module.exports = {
       /**
        * Logs
        */
-      out_file: "./logs/stdout.log",
-      error_file: "./logs/error.log",
+      out_file: "./stdout.log",
+      error_file: "./stderr.log",
       merge_logs: true,
       log_date_format: "DD.MM.YYYY HH:mm:ss Z",
       log_type: "json",

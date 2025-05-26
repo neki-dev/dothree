@@ -90,6 +90,8 @@ export const InfoPanel: React.FC<Props> = ({
     };
   }, [step, current && current.slot, players.length]);
 
+  console.log({ step });
+
   return (
     <Container>
       <Block>
@@ -109,7 +111,7 @@ export const InfoPanel: React.FC<Props> = ({
         </Block.Value>
       </Block>
 
-      {step !== undefined && (
+      {Number.isFinite(step) && (
         <Block>
           <Block.Label>Step</Block.Label>
           <Block.Value>

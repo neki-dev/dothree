@@ -56,6 +56,7 @@ module.exports = () => ({
     new HtmlPlugin({
       minify: false,
       template: "src/client/index.html",
+      publicPath: '/',
     }),
     new CopyPlugin({
       patterns: [
